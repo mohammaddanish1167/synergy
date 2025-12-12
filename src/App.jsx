@@ -1,0 +1,61 @@
+/**
+ * Main App Component
+ * Sets up React Router with all routes
+ * Wraps pages with Layout component for consistent structure
+ */
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import Courses from './pages/Courses';
+import CourseDetail from './pages/CourseDetail';
+import UpcomingCourses from './pages/UpcomingCourses';
+import About from './pages/About';
+import Contact from './pages/Contact';
+// Removed StudyAbroad and PhDAdmission per request
+// import StudyAbroad from './pages/StudyAbroad';
+// import PhDAdmission from './pages/PhDAdmission';
+import PhD from './pages/PhD';
+import MBA from './pages/MBA';
+import DBA from './pages/DBA';
+import HonoraryPrograms from './pages/HonoraryPrograms';
+import HonoraryDoctorate from './pages/HonoraryDoctorate';
+import HonoraryProfessorship from './pages/HonoraryProfessorship';
+// import CareerCounselling from './pages/CareerCounselling';
+import NotFound from './pages/NotFound';
+import Payment from './pages/Payment';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Layout wrapper applies Navbar and Footer to all pages */}
+        <Route path="/" element={<Layout />}>
+          {/* Public Routes */}
+          <Route index element={<Home />} />
+          <Route path="courses" element={<Courses />} />
+          <Route path="courses/:id" element={<CourseDetail />} />
+          <Route path="upcoming-courses" element={<UpcomingCourses />} />
+          <Route path="pay" element={<Payment />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          {/** Removed study-abroad and phd-admission routes per request */}
+          <Route path="phd" element={<PhD />} />
+          <Route path="mba" element={<MBA />} />
+          <Route path="dba" element={<DBA />} />
+          <Route path="honorary-programs" element={<HonoraryPrograms />} />
+          <Route path="honorary-doctorate" element={<HonoraryDoctorate />} />
+          <Route path="honorary-professorship" element={<HonoraryProfessorship />} />
+          {/** Removed career-counselling route per request */}
+          
+          {/* Admin enquiries page removed per request */}
+          
+          {/* 404 - Catch all unmatched routes */}
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
