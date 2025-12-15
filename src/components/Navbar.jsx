@@ -1,6 +1,6 @@
 /**
  * Navbar Component - Qualify Learn Theme
- * Enhanced mobile navigation with dropdown support
+ * Enhanced mobile navigation with dropdown support and proper logo display
  */
 
 import { useState, useRef, useEffect } from 'react';
@@ -16,6 +16,7 @@ function Navbar() {
   const location = useLocation();
   const { scrollY } = useScroll();
   const mobileMenuRef = useRef(null);
+  const [logoError, setLogoError] = useState(false);
 
   // Track scroll position for navbar background opacity
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -81,6 +82,11 @@ function Navbar() {
     setMobileDropdownOpen(!mobileDropdownOpen);
   };
 
+  // Handle logo error
+  const handleLogoError = () => {
+    setLogoError(true);
+  };
+
   return (
     <>
       <motion.nav
@@ -95,7 +101,7 @@ function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            {/* Logo with brand palette - Company name removed */}
+            {/* Logo with proper display */}
             <Link to="/" className="flex items-center group">
               <motion.div
                 className="relative w-16 h-16 rounded-xl overflow-hidden border-2 border-blue-100 shadow-lg bg-white group-hover:shadow-xl transition-all duration-300"
@@ -103,11 +109,19 @@ function Navbar() {
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
-                <img 
-                  src={logo} 
-                  alt="Qualify Learn" 
-                  className="w-full h-full object-contain p-1"
-                />
+                {logoError ? (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
+                    <span className="text-2xl font-bold text-blue-800">QL</span>
+                  </div>
+                ) : (
+                  <img 
+                    src={logo} 
+                    alt="Qualify Learn" 
+                    className="w-full h-full object-contain p-1"
+                    onError={handleLogoError}
+                    onLoad={() => setLogoError(false)}
+                  />
+                )}
                 {/* Subtle gradient overlay on hover */}
                 <motion.div 
                   className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100"
@@ -270,12 +284,19 @@ function Navbar() {
                 <div className="p-8 border-b border-blue-100 bg-white">
                   <div className="flex flex-col items-center mb-6">
                     <Link to="/" className="mb-4" onClick={() => setIsOpen(false)}>
-                      <div className="w-24 h-24 rounded-2xl overflow-hidden border-3 border-blue-100 shadow-xl bg-white">
-                        <img 
-                          src={logo} 
-                          alt="Qualify Learn" 
-                          className="w-full h-full object-contain p-2"
-                        />
+                      <div className="w-28 h-28 rounded-2xl overflow-hidden border-3 border-blue-100 shadow-xl bg-white p-3">
+                        {logoError ? (
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+                            <span className="text-4xl font-bold text-blue-800">QL</span>
+                          </div>
+                        ) : (
+                          <img 
+                            src={logo} 
+                            alt="Qualify Learn" 
+                            className="w-full h-full object-contain"
+                            onError={handleLogoError}
+                          />
+                        )}
                       </div>
                     </Link>
                     <div className="text-center">

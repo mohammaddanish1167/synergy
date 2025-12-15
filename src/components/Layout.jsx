@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import GuidanceModal from './GuidanceModal';
@@ -14,6 +14,7 @@ import FloatingActions from './FloatingActions';
 function Layout() {
   const [openGuidance, setOpenGuidance] = useState(false);
   const [defaultCourse, setDefaultCourse] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
     const handler = (e) => {
@@ -23,6 +24,11 @@ function Layout() {
     window.addEventListener('open-guidance-modal', handler);
     return () => window.removeEventListener('open-guidance-modal', handler);
   }, []);
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [location.pathname]);
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-white via-blue-50 to-slate-100">
       {/* Navigation bar at the top */}

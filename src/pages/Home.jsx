@@ -25,7 +25,6 @@ function Home() {
       <Hero
         title="Your Path to Academic Excellence Starts Here"
         subtitle="Expert guidance for your educational journey from undergraduate to PhD programs"
-        primaryAction={{ path: '/courses', label: 'Explore Courses' }}
         secondaryAction={{ path: '/contact', label: 'Get Started' }}
         image="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800"
       />

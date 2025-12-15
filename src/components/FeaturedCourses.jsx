@@ -12,12 +12,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Play,
-  Pause
+  Pause,
+  Award,
+  GraduationCap,
+  Briefcase,
+  Book,
+  Globe
 } from 'lucide-react';
-import CourseCard from './CourseCard';
-import { courses } from '../data/courses';
 
-function FeaturedCourses() {
+function FeaturedPrograms() {
   const navigate = useNavigate();
   const scrollerRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -26,6 +29,70 @@ function FeaturedCourses() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
   const controls = useAnimation();
 
+  // Featured Programs Data
+  const featuredPrograms = [
+    {
+      id: 'honorary-doctorate',
+      title: 'Honorary Doctorate',
+      description: 'Prestigious recognition for exceptional contributions to your field. Earn global recognition for your lifetime achievements.',
+      icon: Award,
+      color: 'from-blue-600 to-indigo-700',
+      iconColor: 'text-blue-600',
+      duration: 'Lifetime Achievement',
+      students: '500+ Awarded',
+      path: '/honorary-doctorate',
+      highlights: ['Global Recognition', 'Prestigious Honor', 'Career Elevation']
+    },
+    {
+      id: 'honorary-professorship',
+      title: 'Honorary Professorship',
+      description: 'Academic distinction for outstanding contributions to education and research. Join elite academic circles.',
+      icon: GraduationCap,
+      color: 'from-purple-600 to-pink-700',
+      iconColor: 'text-purple-600',
+      duration: 'Academic Distinction',
+      students: '300+ Appointed',
+      path: '/honorary-professorship',
+      highlights: ['Academic Prestige', 'Teaching Recognition', 'Research Honor']
+    },
+    {
+      id: 'phd',
+      title: 'PhD Programs',
+      description: 'Doctoral research programs for deep specialization. Become a leading expert in your chosen field.',
+      icon: Book,
+      color: 'from-emerald-600 to-teal-700',
+      iconColor: 'text-emerald-600',
+      duration: '3-6 Years',
+      students: '2,000+ Graduates',
+      path: '/phd',
+      highlights: ['Research Excellence', 'Academic Depth', 'Expert Recognition']
+    },
+    {
+      id: 'mba',
+      title: 'MBA (Master)',
+      description: 'Executive business administration program for leadership roles. Accelerate your corporate career.',
+      icon: Briefcase,
+      color: 'from-amber-600 to-orange-700',
+      iconColor: 'text-amber-600',
+      duration: '1-2 Years',
+      students: '5,000+ Graduates',
+      path: '/mba',
+      highlights: ['Leadership Skills', 'Business Acumen', 'Career Growth']
+    },
+    {
+      id: 'dba',
+      title: 'DBA Programs',
+      description: 'Doctor of Business Administration for executive leadership. Combine academic rigor with practical business application.',
+      icon: Globe,
+      color: 'from-rose-600 to-red-700',
+      iconColor: 'text-rose-600',
+      duration: '3-4 Years',
+      students: '800+ Graduates',
+      path: '/dba',
+      highlights: ['Executive Leadership', 'Business Research', 'Strategic Impact']
+    }
+  ];
+
   // Auto-scroll animation
   useEffect(() => {
     if (!isPlaying || isHovered) return;
@@ -33,7 +100,7 @@ function FeaturedCourses() {
     const el = scrollerRef.current;
     if (!el) return;
 
-    const speed = 0.8; // Slower, smoother scroll
+    const speed = 0.8;
     let animationId;
     let lastTime = 0;
 
@@ -48,7 +115,6 @@ function FeaturedCourses() {
       lastTime = currentTime;
 
       if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 10) {
-        // Smooth reset to start
         el.scrollTo({
           left: 0,
           behavior: 'smooth'
@@ -88,8 +154,8 @@ function FeaturedCourses() {
   // Statistics
   const stats = [
     { value: '98%', label: 'Success Rate', icon: <Star className="w-5 h-5" />, color: 'from-amber-500 to-orange-500' },
-    { value: '500+', label: 'Courses', icon: <BookOpen className="w-5 h-5" />, color: 'from-blue-500 to-cyan-500' },
-    { value: '10K+', label: 'Students', icon: <Users className="w-5 h-5" />, color: 'from-purple-500 to-pink-500' },
+    { value: '5+', label: 'Premium Programs', icon: <BookOpen className="w-5 h-5" />, color: 'from-blue-500 to-cyan-500' },
+    { value: '8.6K+', label: 'Global Students', icon: <Users className="w-5 h-5" />, color: 'from-purple-500 to-pink-500' },
     { value: '25+', label: 'Years Experience', icon: <Clock className="w-5 h-5" />, color: 'from-emerald-500 to-teal-500' },
   ];
 
@@ -117,7 +183,9 @@ function FeaturedCourses() {
     }
   };
 
-  const featuredCourses = [...courses, ...courses];
+  const handleProgramClick = (path) => {
+    navigate(path);
+  };
 
   return (
     <section 
@@ -189,7 +257,7 @@ function FeaturedCourses() {
               <Sparkles className="w-5 h-5 text-blue-600" />
             </motion.div>
             <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 bg-clip-text text-transparent uppercase tracking-widest">
-              FEATURED PROGRAMS
+              PREMIUM ACADEMIC PROGRAMS
             </span>
             <div className="flex gap-1">
               {[1, 2, 3].map((star) => (
@@ -216,10 +284,10 @@ function FeaturedCourses() {
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6"
           >
             <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent">
-              Premier Academic
+              World-Class
             </span>{' '}
             <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 bg-clip-text text-transparent">
-              Programs
+              Academic Programs
             </span>
           </motion.h2>
 
@@ -227,7 +295,7 @@ function FeaturedCourses() {
             variants={itemVariants}
             className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
           >
-            Discover world-class educational programs designed to accelerate your career and transform your future.
+            Transform your career with our prestigious, globally recognized academic programs designed for leaders and innovators.
           </motion.p>
         </motion.div>
 
@@ -278,7 +346,7 @@ function FeaturedCourses() {
           ))}
         </motion.div>
 
-        {/* Courses Carousel */}
+        {/* Programs Carousel */}
         <motion.div
           variants={itemVariants}
           className="relative"
@@ -328,58 +396,105 @@ function FeaturedCourses() {
             <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-            {/* Courses Scroller */}
+            {/* Programs Scroller */}
             <div
               ref={scrollerRef}
               className="flex gap-8 overflow-x-auto pb-8 scroll-smooth no-scrollbar px-4"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
-              {featuredCourses.map((course, idx) => (
-                <motion.div
-                  key={`${course.id}-${idx}`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: idx * 0.05 }}
-                  whileHover={{ 
-                    y: -12,
-                    transition: { 
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 15
-                    }
-                  }}
-                  className="min-w-[360px] max-w-[360px] flex-none relative group/card"
-                >
-                  <div className="relative">
-                    <CourseCard course={course} index={idx} variant="light" />
-                    
-                    {/* Overlay Button */}
-                    <motion.div
+              {featuredPrograms.map((program, idx) => {
+                const Icon = program.icon;
+                return (
+                  <motion.div
+                    key={program.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: idx * 0.05 }}
+                    whileHover={{ 
+                      y: -12,
+                      transition: { 
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 15
+                      }
+                    }}
+                    className="min-w-[360px] max-w-[360px] flex-none relative group/card"
+                  >
+                    <div 
+                      className="bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-100 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer h-full"
+                      onClick={() => handleProgramClick(program.path)}
                       role="button"
                       tabIndex={0}
-                      aria-label={`View ${course.title}`}
-                      onClick={() => navigate(`/courses/${course.id}`)}
                       onKeyDown={(e) => { 
-                        if (e.key === 'Enter' || e.key === ' ') navigate(`/courses/${course.id}`); 
+                        if (e.key === 'Enter' || e.key === ' ') handleProgramClick(program.path); 
                       }}
-                      className="absolute inset-0 z-10 cursor-pointer opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"
-                      whileHover={{ scale: 1.02 }}
-                    />
-                    
-                    {/* Quick View Badge */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      whileHover={{ opacity: 1, y: 0 }}
-                      className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20"
                     >
-                      <div className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-blue-200 shadow-lg flex items-center gap-2">
-                        <span className="text-sm font-semibold text-blue-700">Quick View</span>
-                        <ArrowRight className="w-4 h-4 text-blue-600" />
+                      {/* Program Header */}
+                      <div className="relative h-48 overflow-hidden">
+                        <div className={`absolute inset-0 bg-gradient-to-r ${program.color} opacity-90`}>
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.2)_0%,transparent_50%)]" />
+                        </div>
+                        
+                        {/* Program Icon */}
+                        <div className="absolute top-6 left-6">
+                          <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                            <Icon className={`w-8 h-8 ${program.iconColor}`} />
+                          </div>
+                        </div>
+                        
+                        {/* Program Title */}
+                        <div className="absolute bottom-6 left-6 right-6">
+                          <h3 className="text-2xl font-bold text-white mb-2">{program.title}</h3>
+                          <div className="flex items-center gap-2 text-white/90">
+                            <Clock className="w-4 h-4" />
+                            <span className="text-sm font-medium">{program.duration}</span>
+                          </div>
+                        </div>
                       </div>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              ))}
+
+                      {/* Program Content */}
+                      <div className="p-6">
+                        <p className="text-slate-600 mb-4 line-clamp-2">
+                          {program.description}
+                        </p>
+                        
+                        {/* Highlights */}
+                        <div className="mb-6">
+                          <div className="text-sm font-semibold text-slate-700 mb-2">Program Highlights</div>
+                          <div className="flex flex-wrap gap-2">
+                            {program.highlights.map((highlight, i) => (
+                              <span 
+                                key={i}
+                                className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full"
+                              >
+                                {highlight}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Stats */}
+                        <div className="flex items-center justify-between border-t border-blue-100 pt-4">
+                          <div className="flex items-center gap-2">
+                            <Users className="w-4 h-4 text-slate-500" />
+                            <span className="text-sm text-slate-700 font-medium">{program.students}</span>
+                          </div>
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="inline-flex items-center gap-1 text-blue-600 font-semibold text-sm"
+                          >
+                            Explore Program
+                            <ArrowRight className="w-4 h-4" />
+                          </motion.div>
+                        </div>
+                      </div>
+
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-600/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300" />
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
 
             {/* Scroll Progress Indicator */}
@@ -416,7 +531,7 @@ function FeaturedCourses() {
           </motion.div>
         </motion.div>
 
-        {/* Testimonial Banner */}
+        {/* Call to Action Banner */}
         <motion.div
           variants={itemVariants}
           className="mt-20"
@@ -425,10 +540,10 @@ function FeaturedCourses() {
             <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
               <div>
                 <h4 className="text-2xl font-bold text-slate-900 mb-3">
-                  Join Thousands of Successful Students
+                  Begin Your Academic Journey Today
                 </h4>
                 <p className="text-lg text-slate-600 max-w-2xl">
-                  Our students have been placed in top universities and companies worldwide. Start your transformation journey today.
+                  Join thousands of successful professionals who have transformed their careers with our prestigious academic programs.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -438,7 +553,7 @@ function FeaturedCourses() {
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all"
                 >
-                  Browse Courses
+                  Browse Programs
                 </motion.button>
                 <button
                   onClick={() => navigate('/contact')}
@@ -466,4 +581,4 @@ function FeaturedCourses() {
   );
 }
 
-export default FeaturedCourses;
+export default FeaturedPrograms;

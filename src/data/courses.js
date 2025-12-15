@@ -98,3 +98,10 @@ export function getCoursesByCategory(category) {
   return courses.filter(course => course.category === category);
 }
 
+/**
+ * Get featured courses (first five)
+ */
+export function getFeaturedCourses() {
+  return courses.slice(0, 5);
+}
+

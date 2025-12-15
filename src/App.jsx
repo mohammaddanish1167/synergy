@@ -24,6 +24,10 @@ import HonoraryProfessorship from './pages/HonoraryProfessorship';
 // import CareerCounselling from './pages/CareerCounselling';
 import NotFound from './pages/NotFound';
 import Payment from './pages/Payment';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPolicy from './pages/RefundPolicy';
+import Disclaimer from './pages/Disclaimer';
+import TermsAndConditions from './pages/TermsAndConditions';
 
 function App() {
   return (
@@ -46,6 +50,10 @@ function App() {
           <Route path="honorary-programs" element={<HonoraryPrograms />} />
           <Route path="honorary-doctorate" element={<HonoraryDoctorate />} />
           <Route path="honorary-professorship" element={<HonoraryProfessorship />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="refund-policy" element={<RefundPolicy />} />
+          <Route path="disclaimer" element={<Disclaimer />} />
+          <Route path="terms-and-conditions" element={<TermsAndConditions />} />
           {/** Removed career-counselling route per request */}
           
           {/* Admin enquiries page removed per request */}
