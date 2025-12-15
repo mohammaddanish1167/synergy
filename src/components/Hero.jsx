@@ -1064,36 +1064,132 @@ function Hero({ primaryAction, secondaryAction }) {
               <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-blue-500" />
             </motion.p>
             
-            {/* Animated logo carousel */}
-            <div className="relative overflow-hidden">
-              <motion.div
-                className="flex gap-6 md:gap-12"
-                animate={{
-                  x: [0, -2000],
-                }}
-                transition={{
-                  duration: 40,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-              >
-                {[
-                  'Kennedy University', 'American Management University', 'Kennedy Baptist University', 'Central Global University', 'Euro-Asian University'
-                ].map((name, i) => (
-                  <div key={i} className="text-sm md:text-lg font-semibold text-gray-400 whitespace-nowrap opacity-40 hover:opacity-70 transition-opacity">
-                    {name}
-                  </div>
-                ))}
-                {/* Duplicate for seamless loop */}
-                {[
-                  'Kennedy University', 'American Management University', 'Kennedy Baptist University', 'Central Global University', 'Euro-Asian University'
-                ].map((name, i) => (
-                  <div key={`dup-${i}`} className="text-sm md:text-lg font-semibold text-gray-400 whitespace-nowrap opacity-40 hover:opacity-70 transition-opacity">
-                    {name}
-                  </div>
-                ))}
-              </motion.div>
+            {/* Animated logo carousel with enhanced dark theme */}
+<div className="relative overflow-hidden py-10 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-2xl border border-gray-700/50 shadow-2xl">
+  {/* Dynamic moving particles */}
+  <div className="absolute inset-0 overflow-hidden">
+    {[...Array(8)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute w-1 h-1 bg-blue-400/20 rounded-full"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+        }}
+        animate={{
+          y: [0, -20, 0],
+          x: [0, 10, 0],
+          scale: [1, 1.5, 1],
+        }}
+        transition={{
+          duration: 3 + i,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: i * 0.5,
+        }}
+      />
+    ))}
+  </div>
+
+  {/* Animated grid pattern */}
+  <div className="absolute inset-0 opacity-[0.02]">
+    <div className="h-full w-full" style={{
+      backgroundImage: `linear-gradient(90deg, transparent 95%, rgba(255,255,255,0.1) 100%),
+                       linear-gradient(0deg, transparent 95%, rgba(255,255,255,0.1) 100%)`,
+      backgroundSize: '50px 50px'
+    }} />
+  </div>
+
+  {/* Glowing edge effects */}
+  <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl blur-xl" />
+
+  <div className="relative px-8">
+    {/* Title */}
+    <div className="text-center mb-10">
+      <div className="inline-flex items-center gap-3 mb-4">
+        <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
+        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+          Partner Universities
+        </h3>
+        <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
+      </div>
+      <p className="text-gray-300 text-lg">Globally Recognized Academic Partnerships</p>
+    </div>
+
+    {/* Logos carousel */}
+    <div className="relative">
+      <motion.div
+        className="flex gap-12 md:gap-20"
+        animate={{
+          x: [0, -2000],
+        }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      >
+        {[
+          { name: 'Kennedy University', color: 'from-blue-400 to-cyan-400' },
+          { name: 'American Management University', color: 'from-emerald-400 to-green-400' },
+          { name: 'Kennedy Baptist University', color: 'from-purple-400 to-pink-400' },
+          { name: 'Central Global University', color: 'from-amber-400 to-orange-400' },
+          { name: 'Euro-Asian University', color: 'from-rose-400 to-red-400' },
+        ].map((uni, i) => (
+          <motion.div
+            key={i}
+            className="group relative"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className={`text-lg md:text-xl font-bold whitespace-nowrap px-6 py-3 rounded-xl 
+              bg-gradient-to-r ${uni.color} bg-clip-text text-transparent 
+              backdrop-blur-sm border border-gray-700/50 
+              group-hover:border-gray-600/70 group-hover:shadow-lg 
+              group-hover:shadow-blue-500/10 transition-all duration-300`}
+            >
+              {uni.name}
+              {/* Hover glow effect */}
+              <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${uni.color} opacity-0 
+                group-hover:opacity-10 blur-md transition-opacity duration-300`} />
             </div>
+          </motion.div>
+        ))}
+        {/* Duplicate for seamless loop */}
+        {[
+          { name: 'Kennedy University', color: 'from-blue-400 to-cyan-400' },
+          { name: 'American Management University', color: 'from-emerald-400 to-green-400' },
+          { name: 'Kennedy Baptist University', color: 'from-purple-400 to-pink-400' },
+          { name: 'Central Global University', color: 'from-amber-400 to-orange-400' },
+          { name: 'Euro-Asian University', color: 'from-rose-400 to-red-400' },
+        ].map((uni, i) => (
+          <motion.div
+            key={`dup-${i}`}
+            className="group relative"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className={`text-lg md:text-xl font-bold whitespace-nowrap px-6 py-3 rounded-xl 
+              bg-gradient-to-r ${uni.color} bg-clip-text text-transparent 
+              backdrop-blur-sm border border-gray-700/50 
+              group-hover:border-gray-600/70 group-hover:shadow-lg 
+              group-hover:shadow-blue-500/10 transition-all duration-300`}
+            >
+              {uni.name}
+              <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${uni.color} opacity-0 
+                group-hover:opacity-10 blur-md transition-opacity duration-300`} />
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
+
+    {/* Edge fades */}
+    <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-900 via-gray-900/90 to-transparent z-10 pointer-events-none" />
+    <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-900 via-gray-900/90 to-transparent z-10 pointer-events-none" />
+  </div>
+
+  {/* Bottom gradient */}
+  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+</div>
           </div>
         </motion.div>
       </div>

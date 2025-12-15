@@ -25,6 +25,14 @@ function Layout() {
     return () => window.removeEventListener('open-guidance-modal', handler);
   }, []);
 
+  // Auto-open guidance modal after 4.5 seconds on first load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOpenGuidance(true);
+    }, 4500);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
