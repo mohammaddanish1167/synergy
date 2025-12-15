@@ -149,15 +149,180 @@ function UniversityPartnerships() {
                 Access world-class education through our exclusive university partnerships
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:bg-gray-50 transition-colors duration-200 shadow-lg hover:shadow-xl"
-                >
-                  Explore Programs
-                </motion.button>
-              </div>
+             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+  <motion.button
+    whileHover={{ scale: 1.05, y: -2 }}
+    whileTap={{ scale: 0.98 }}
+    className="group relative px-10 py-5 
+bg-gradient-to-br from-indigo-950 via-violet-900 to-blue-950 
+text-white font-bold 
+rounded-2xl 
+overflow-hidden 
+shadow-2xl hover:shadow-indigo-950/60 
+transition-all duration-500
+"
+  >
+    {/* Animated gradient background */}
+    <motion.div
+      className="absolute inset-0"
+      animate={{
+        background: [
+          'linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%)',
+          'linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #1e40af 100%)',
+          'linear-gradient(135deg, #1d4ed8 0%, #3b82f6 50%, #1d4ed8 100%)',
+          'linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #1e40af 100%)',
+          'linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%)',
+        ]
+      }}
+      transition={{
+        duration: 4,
+        repeat: Infinity,
+        ease: "linear"
+      }}
+    />
+
+    {/* Floating book pages effect */}
+    <div className="absolute inset-0 overflow-hidden">
+      {[...Array(3)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-6 h-8 bg-white/20 rounded-sm"
+          style={{
+            left: `${15 + i * 25}%`,
+            top: '20%',
+            rotate: `${i * 15 - 15}deg`,
+          }}
+          animate={{
+            y: [0, -10, 0],
+            rotate: [
+              `${i * 15 - 15}deg`,
+              `${i * 15 - 10}deg`,
+              `${i * 15 - 15}deg`
+            ],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            delay: i * 0.3
+          }}
+        />
+      ))}
+    </div>
+
+    {/* Sparkle effect */}
+    <div className="absolute inset-0">
+      {[...Array(4)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-blue-200 rounded-full"
+          style={{
+            left: `${10 + i * 20}%`,
+            top: `${30 + i * 10}%`,
+          }}
+          animate={{
+            scale: [0, 1.5, 0],
+            opacity: [0, 1, 0],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            delay: i * 0.4,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+    </div>
+
+    {/* Button content */}
+    <div className="relative flex items-center justify-center gap-4">
+      {/* Animated book icon */}
+      <motion.div
+        className="relative"
+        animate={{
+          rotateY: [0, 10, 0, -10, 0],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        <svg 
+          className="w-7 h-7 transform group-hover:scale-110 transition-transform"
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <motion.path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 1.5 }}
+          />
+        </svg>
+      </motion.div>
+      
+      {/* Text with typing effect on hover */}
+      <div className="relative overflow-hidden">
+        <motion.span
+          className="text-xl tracking-wide"
+          initial={{ opacity: 1 }}
+          whileHover={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          Book Consultation
+        </motion.span>
+        
+        <motion.span
+          className="absolute inset-0 text-xl tracking-wide text-blue-200"
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          Schedule Now
+        </motion.span>
+      </div>
+
+      {/* Arrow icon */}
+      <motion.div
+        className="transform group-hover:translate-x-2 transition-transform duration-300"
+        animate={{
+          x: [0, 3, 0],
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </motion.div>
+    </div>
+
+    {/* Animated border */}
+    <motion.div
+      className="absolute -inset-0.5 rounded-2xl border-2 border-blue-400/30"
+      animate={{
+        borderColor: [
+          'rgba(96, 165, 250, 0.3)',
+          'rgba(59, 130, 246, 0.5)',
+          'rgba(96, 165, 250, 0.3)',
+        ]
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "linear"
+      }}
+    />
+  </motion.button>
+</div>
             </div>
           </div>
         </motion.div>
