@@ -51,7 +51,7 @@ function Layout() {
 
       {/* Main content area - Outlet renders the current route's page */}
       {/* Add padding-top to account for fixed navbar */}
-      <main className="flex-grow pt-16">
+      <main className="flex-grow pt-36">
         <Outlet />
       </main>
       

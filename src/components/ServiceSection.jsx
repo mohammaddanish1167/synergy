@@ -823,24 +823,7 @@ function PremiumServicesSection() {
         </motion.div>
       </div>
 
-      {/* Floating Action Buttons */}
-      <div className="fixed bottom-8 right-8 z-40 flex flex-col gap-4">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center shadow-blue-500/30"
-        >
-          <Sparkles className="w-6 h-6 text-white" />
-        </motion.button>
-        
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full shadow-2xl flex items-center justify-center shadow-emerald-500/30"
-        >
-          <MessageCircle className="w-6 h-6 text-white" />
-        </motion.button>
-      </div>
+
     </section>
   );
 }

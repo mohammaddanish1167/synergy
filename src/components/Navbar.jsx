@@ -1,12 +1,12 @@
 /**
  * Navbar Component - Qualify Learn Theme
- * Even Bigger logo display
+ * Clean logo display without boxes or containers
  */
 
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import logo from '../assets/logo.jpg';
+import logo from '../assets/logo.jpeg';
 import { ChevronDown, ChevronUp, Menu, X } from 'lucide-react';
 
 function Navbar() {
@@ -100,8 +100,8 @@ function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-36">
-            {/* Logo - HUGE */}
+          <div className="flex justify-between items-center h-24">
+            {/* Logo - Clean and minimal with increased size */}
             <Link to="/" className="group">
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -110,16 +110,17 @@ function Navbar() {
                 className="flex items-center"
               >
                 {logoError ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-36 h-36 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
-                      <span className="text-5xl font-bold text-white">QL</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
+                      <span className="text-xl font-bold text-white">QL</span>
                     </div>
+                    <span className="text-2xl font-bold text-blue-800 hidden sm:block">QualifyLearn</span>
                   </div>
                 ) : (
                   <img 
                     src={logo} 
                     alt="Qualify Learn" 
-                    className="h-36 w-auto transition-all duration-300 group-hover:opacity-90"
+                    className="h-16 w-auto transition-all duration-300 group-hover:opacity-90"
                     onError={handleLogoError}
                     onLoad={() => setLogoError(false)}
                   />
@@ -128,7 +129,7 @@ function Navbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
+            <div className="hidden md:flex items-center space-x-2">
               {navLinks.map((link) => (
                 <div
                   key={link.path}
@@ -232,9 +233,9 @@ function Navbar() {
               aria-label="Toggle menu"
             >
               {isOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-7 h-7" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-7 h-7" />
               )}
             </motion.button>
           </div>
@@ -265,21 +266,21 @@ function Navbar() {
               className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-gradient-to-b from-white to-blue-50 shadow-2xl z-50 md:hidden overflow-y-auto"
             >
               <div className="flex flex-col h-full">
-                {/* Mobile menu header with MASSIVE logo */}
+                {/* Mobile menu header */}
                 <div className="p-6 border-b border-blue-100 bg-white">
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-6">
                     <Link to="/" onClick={() => setIsOpen(false)}>
                       {logoError ? (
                         <div className="flex items-center gap-2">
-                          <div className="w-40 h-40 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
-                            <span className="text-6xl font-bold text-white">QL</span>
+                          <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
+                            <span className="text-xl font-bold text-white">QL</span>
                           </div>
                         </div>
                       ) : (
                         <img 
                           src={logo} 
                           alt="Qualify Learn" 
-                          className="h-40 w-auto"
+                          className="h-16 w-auto"
                           onError={handleLogoError}
                         />
                       )}
@@ -289,29 +290,29 @@ function Navbar() {
                       whileTap={{ scale: 0.9 }}
                       className="p-2 rounded-lg hover:bg-blue-50 transition-colors"
                     >
-                      <X className="w-6 h-6 text-blue-700" />
+                      <X className="w-7 h-7 text-blue-700" />
                     </motion.button>
                   </div>
                 </div>
 
                 {/* Mobile menu content */}
-                <div className="flex-1 p-5 overflow-y-auto">
-                  <nav className="space-y-1 mb-6">
+                <div className="flex-1 p-6 overflow-y-auto">
+                  <nav className="space-y-2 mb-8">
                     {navLinks.map((link) => (
-                      <div key={link.path} className="mb-1">
+                      <div key={link.path} className="mb-2">
                         {link.hasDropdown ? (
                           <>
                             <button
                               onClick={toggleMobileDropdown}
-                              className="w-full flex items-center justify-between px-4 py-4 text-left rounded-xl bg-white hover:bg-blue-50 transition-all duration-200 border border-blue-100"
+                              className="w-full flex items-center justify-between px-4 py-5 text-left rounded-xl bg-white hover:bg-blue-50 transition-all duration-200 border border-blue-100"
                             >
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-50 to-white flex items-center justify-center border border-blue-100">
-                                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-50 to-white flex items-center justify-center border border-blue-100">
+                                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                   </svg>
                                 </div>
-                                <span className={`text-base font-semibold ${
+                                <span className={`text-lg font-semibold ${
                                   mobileDropdownOpen ? 'text-blue-800' : 'text-slate-800'
                                 }`}>
                                   {link.label}
@@ -321,11 +322,11 @@ function Navbar() {
                                 animate={{ rotate: mobileDropdownOpen ? 180 : 0 }}
                                 transition={{ duration: 0.2 }}
                               >
-                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                                   {mobileDropdownOpen ? (
-                                    <ChevronUp className="w-5 h-5 text-blue-700" />
+                                    <ChevronUp className="w-6 h-6 text-blue-700" />
                                   ) : (
-                                    <ChevronDown className="w-5 h-5 text-blue-600" />
+                                    <ChevronDown className="w-6 h-6 text-blue-600" />
                                   )}
                                 </div>
                               </motion.div>
@@ -338,9 +339,9 @@ function Navbar() {
                                   animate={{ opacity: 1, height: 'auto' }}
                                   exit={{ opacity: 0, height: 0 }}
                                   transition={{ duration: 0.25 }}
-                                  className="overflow-hidden mt-1"
+                                  className="overflow-hidden mt-2"
                                 >
-                                  <div className="ml-4 pl-4 border-l-2 border-dashed border-blue-200 space-y-1 py-2">
+                                  <div className="ml-6 pl-4 border-l-2 border-dashed border-blue-200 space-y-2 py-3">
                                     {courseSubLinks.map((sub) => (
                                       <Link
                                         key={sub.path}
@@ -349,10 +350,10 @@ function Navbar() {
                                           setIsOpen(false);
                                           setMobileDropdownOpen(false);
                                         }}
-                                        className="block px-4 py-3 rounded-lg text-sm font-semibold text-slate-700 hover:text-blue-800 hover:bg-white transition-all duration-200"
+                                        className="block px-5 py-4 rounded-lg text-base font-semibold text-slate-700 hover:text-blue-800 hover:bg-white transition-all duration-200 border border-blue-100"
                                       >
                                         <span className="flex items-center gap-3">
-                                          <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></span>
+                                          <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></span>
                                           {sub.label}
                                         </span>
                                       </Link>
@@ -366,18 +367,18 @@ function Navbar() {
                           <Link
                             to={link.path}
                             onClick={() => setIsOpen(false)}
-                            className={`flex items-center gap-3 px-4 py-4 rounded-xl text-base font-semibold transition-all duration-200 ${
+                            className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
                               isActive(link.path)
                                 ? 'text-blue-800 bg-gradient-to-r from-blue-50 to-white'
                                 : 'text-slate-800 hover:text-blue-800 bg-white hover:bg-blue-50/50'
                             }`}
                           >
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
                               isActive(link.path) 
                                 ? 'bg-gradient-to-br from-blue-100 to-white' 
                                 : 'bg-blue-50'
                             }`}>
-                              <svg className={`w-5 h-5 ${isActive(link.path) ? 'text-blue-700' : 'text-blue-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className={`w-6 h-6 ${isActive(link.path) ? 'text-blue-700' : 'text-blue-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {link.path === '/' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />}
                                 {link.path === '/upcoming-courses' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />}
                                 {link.path === '/about' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />}
@@ -391,16 +392,16 @@ function Navbar() {
                     ))}
                   </nav>
 
-                  <div className="mb-6 p-5 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="mb-8 p-6 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                       </div>
                       <div>
-                        <h3 className="text-sm font-bold text-white">Ready to Start?</h3>
-                        <p className="text-xs text-blue-100">Expert guidance available</p>
+                        <h3 className="text-lg font-bold text-white">Ready to Start?</h3>
+                        <p className="text-sm text-blue-100">Expert guidance available</p>
                       </div>
                     </div>
                     <button
@@ -408,12 +409,14 @@ function Navbar() {
                         setIsOpen(false);
                         window.dispatchEvent(new CustomEvent('open-guidance-modal'));
                       }}
-                      className="w-full px-4 py-3 rounded-lg text-sm font-bold text-blue-800 bg-white hover:bg-blue-50 transition-all duration-300 flex items-center justify-center gap-2"
+                      className="w-full px-6 py-4 rounded-lg text-base font-bold text-blue-800 bg-white hover:bg-blue-50 transition-all duration-300 flex items-center justify-center gap-3"
                     >
                       <span>Get Free Guidance</span>
                       <motion.svg 
-                        className="w-4 h-4"
-                        animate={{ x: [0, 3, 0] }}
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        animate={{ x: [0, 4, 0] }}
                         transition={{ repeat: Infinity, duration: 1.5 }}
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -422,8 +425,8 @@ function Navbar() {
                   </div>
                 </div>
 
-                <div className="p-5 border-t border-blue-200 bg-white">
-                  <p className="text-xs text-slate-600 text-center">
+                <div className="p-6 border-t border-blue-200 bg-white">
+                  <p className="text-sm text-slate-600 text-center">
                     © {new Date().getFullYear()} QualifyLearn. All rights reserved.
                   </p>
                 </div>

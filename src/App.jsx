@@ -7,8 +7,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import Courses from './pages/Courses';
-import CourseDetail from './pages/CourseDetail';
+
+
 import UpcomingCourses from './pages/UpcomingCourses';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -37,8 +37,6 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* Public Routes */}
           <Route index element={<Home />} />
-          <Route path="courses" element={<Courses />} />
-          <Route path="courses/:id" element={<CourseDetail />} />
           <Route path="upcoming-courses" element={<UpcomingCourses />} />
           <Route path="pay" element={<Payment />} />
           <Route path="about" element={<About />} />

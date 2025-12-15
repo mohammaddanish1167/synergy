@@ -13,7 +13,8 @@ import {
   FiShield,
   FiClock,
   FiAward,
-  FiStar
+  FiStar,
+  FiCheck  // Add this import
 } from 'react-icons/fi';
 
 function GuidanceModal({ open, onClose, defaultCourse = '' }) {
@@ -52,6 +53,11 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
+  };
+
+  // Add this function to handle checkbox click
+  const handleConsentClick = () => {
+    setForm((f) => ({ ...f, consent: !f.consent }));
   };
 
   const handleSubmit = async (e) => {
@@ -366,15 +372,14 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                     </div>
                   </div>
 
-                  {/* Consent */}
-                  <motion.div 
-                    className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border-2 border-blue-100"
-                    whileHover={{ scale: 1.01 }}
+                  {/* Consent - FIXED VERSION */}
+                  <div 
+                    className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border-2 border-blue-100 cursor-pointer hover:border-blue-200 transition-all duration-200"
+                    onClick={handleConsentClick}
                   >
                     <div className="flex items-start gap-4">
-                      <motion.div 
-                        className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 mt-1 ${form.consent ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`}
-                        whileTap={{ scale: 0.9 }}
+                      <div 
+                        className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 mt-1 transition-all duration-200 ${form.consent ? 'bg-blue-600 border-blue-600' : 'bg-white border-gray-300'}`}
                       >
                         {form.consent && (
                           <motion.div
@@ -385,11 +390,11 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                             <FiCheck className="w-4 h-4 text-white" />
                           </motion.div>
                         )}
-                      </motion.div>
+                      </div>
                       <div>
-                        <label htmlFor="consent" className="block text-sm font-semibold text-gray-800 mb-2 cursor-pointer">
+                        <div className="text-sm font-semibold text-gray-800 mb-2">
                           Privacy & Communication Consent *
-                        </label>
+                        </div>
                         <p className="text-gray-600 text-sm">
                           I agree to receive personalized academic guidance from QualifyLearn. 
                           Your information is protected under our comprehensive Privacy Policy 
@@ -397,16 +402,17 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                         </p>
                       </div>
                     </div>
+                    {/* Hidden checkbox that actually handles form validation */}
                     <input 
-                      id="consent" 
                       type="checkbox" 
                       name="consent" 
                       checked={form.consent} 
                       onChange={handleChange} 
                       required 
-                      className="hidden"
+                      className="hidden" 
+                      id="consent-checkbox"
                     />
-                  </motion.div>
+                  </div>
 
                   {/* Submit Button */}
                   <motion.button
@@ -486,8 +492,5 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
     </AnimatePresence>
   );
 }
-
-// Need to add FiCheck import
-import { FiCheck } from 'react-icons/fi';
 
 export default GuidanceModal;
