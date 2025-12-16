@@ -18,7 +18,7 @@ function environment() {
   const mode = process.env.PAYPAL_MODE || 'sandbox';
   
   if (!clientId || !clientSecret) {
-    throw new Error('PayPal credentials not configured. Check .env file.');
+    throw new Error('PayPal credentials not configured. Set PAYPAL_CLIENT_ID and PAYPAL_SECRET in environment.');
   }
   
   // Return appropriate environment based on mode
@@ -43,13 +43,22 @@ function client() {
  */
 router.post('/create-order', async (req, res) => {
   try {
-    const { amount, currency = 'USD' } = req.body;
+    const { amount, currency = 'USD' } = req.body || {};
+    const amountNum = Number(amount);
+    const currencyCode = typeof currency === 'string' ? currency.toUpperCase() : 'USD';
     
     // Validate amount
-    if (!amount || isNaN(amount) || amount <= 0) {
+    if (!Number.isFinite(amountNum) || amountNum <= 0) {
       return res.status(400).json({
         success: false,
         message: 'Valid amount is required'
+      });
+    }
+    // Validate currency
+    if (!/^[A-Z]{3}$/.test(currencyCode)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Valid 3-letter currency code is required'
       });
     }
     
@@ -60,8 +69,8 @@ router.post('/create-order', async (req, res) => {
       intent: 'CAPTURE',
       purchase_units: [{
         amount: {
-          currency_code: currency,
-          value: amount.toString()
+          currency_code: currencyCode,
+          value: amountNum.toFixed(2)
         },
         description: 'QualifyLearn Course Enrollment'
       }],
@@ -88,7 +97,11 @@ router.post('/create-order', async (req, res) => {
     });
     
   } catch (error) {
-    console.error('PayPal create order error:', error);
+    console.error('PayPal create order error:', {
+      mode: process.env.PAYPAL_MODE || 'sandbox',
+      message: error?.message,
+      name: error?.name
+    });
     res.status(500).json({
       success: false,
       message: 'Failed to create PayPal order',
