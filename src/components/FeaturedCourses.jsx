@@ -1,345 +1,362 @@
-import { useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Sparkles, 
   ArrowRight, 
-  Star, 
-  Clock, 
-  Users,
-  Shield,
   Award,
   GraduationCap,
-  Briefcase,
   Book,
+  Briefcase,
   Globe,
-  CheckCircle,
-  Target
+  CheckCircle
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 function FeaturedPrograms() {
   const navigate = useNavigate();
-  const sectionRef = useRef(null);
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
+  const animationRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const featuredPrograms = [
     {
       id: 'honorary-doctorate',
       title: 'Honorary Doctorate',
       subtitle: 'Lifetime Achievement Recognition',
-      description: 'Global recognition for exceptional professional achievements and contributions to your industry.',
+      description: 'Global recognition for exceptional professional achievements.',
       icon: Award,
       color: '#1E40AF',
       gradient: 'from-blue-700 to-blue-900',
       duration: 'Prestigious Honor',
       students: '500+ Awarded',
       path: '/honorary-doctorate',
-      highlights: [
-        'International Recognition',
-        'Career Distinction',
-        'Leadership Acknowledgment'
-      ],
-      eligibility: 'Senior Executives',
+      highlights: ['International Recognition', 'Career Distinction'],
       level: 'Doctoral Level'
     },
     {
       id: 'honorary-professorship',
       title: 'Honorary Professorship',
       subtitle: 'Academic Distinction',
-      description: 'Distinguished academic recognition for contributions to education and research excellence.',
+      description: 'Distinguished academic recognition for education contributions.',
       icon: GraduationCap,
       color: '#7C3AED',
       gradient: 'from-purple-700 to-purple-900',
       duration: 'Academic Honor',
       students: '300+ Appointed',
       path: '/honorary-professorship',
-      highlights: [
-        'Teaching Excellence',
-        'Research Recognition',
-        'Academic Leadership'
-      ],
-      eligibility: 'Educators & Researchers',
+      highlights: ['Teaching Excellence', 'Research Recognition'],
       level: 'Professorial Level'
     },
     {
       id: 'phd',
       title: 'PhD Programs',
       subtitle: 'Research Doctorate',
-      description: 'Rigorous research programs developing expertise and contributing original knowledge to your field.',
+      description: 'Rigorous research programs developing original expertise.',
       icon: Book,
       color: '#059669',
       gradient: 'from-emerald-700 to-emerald-900',
       duration: '3-6 Years',
       students: '2,000+ Graduates',
       path: '/phd',
-      highlights: [
-        'Original Research',
-        'Academic Expertise',
-        'Global Recognition'
-      ],
-      eligibility: 'Master\'s Degree',
+      highlights: ['Original Research', 'Global Recognition'],
       level: 'Doctoral Research'
     },
     {
       id: 'mba',
-      title: 'Master of Business Administration',
+      title: 'MBA',
       subtitle: 'Executive Leadership',
-      description: 'Comprehensive business leadership program designed for senior management and executive roles.',
+      description: 'Business leadership for senior management roles.',
       icon: Briefcase,
       color: '#D97706',
       gradient: 'from-amber-700 to-amber-900',
       duration: '1-2 Years',
       students: '5,000+ Graduates',
       path: '/mba',
-      highlights: [
-        'Strategic Leadership',
-        'Business Acumen',
-        'Global Network'
-      ],
-      eligibility: 'Bachelor\'s Degree',
+      highlights: ['Strategic Leadership', 'Global Network'],
       level: 'Master\'s Level'
     },
     {
       id: 'dba',
-      title: 'Doctor of Business Administration',
+      title: 'DBA',
       subtitle: 'Executive Doctorate',
-      description: 'Advanced business research program combining academic rigor with practical business application.',
+      description: 'Advanced business research with practical application.',
       icon: Globe,
       color: '#DC2626',
       gradient: 'from-rose-700 to-rose-900',
       duration: '3-4 Years',
       students: '800+ Graduates',
       path: '/dba',
-      highlights: [
-        'Executive Research',
-        'Business Innovation',
-        'Leadership Strategy'
-      ],
-      eligibility: 'MBA or Equivalent',
+      highlights: ['Executive Research', 'Business Innovation'],
       level: 'Doctoral Executive'
     }
   ];
 
-  const stats = [
-    { 
-      value: '98%', 
-      label: 'Program Completion', 
-      icon: <Star className="w-5 h-5" />, 
-      color: 'from-amber-500 to-orange-500' 
-    },
-    { 
-      value: '8,600+', 
-      label: 'Global Alumni', 
-      icon: <Users className="w-5 h-5" />, 
-      color: 'from-blue-500 to-cyan-500' 
-    },
-    { 
-      value: '25+', 
-      label: 'Years Experience', 
-      icon: <Clock className="w-5 h-5" />, 
-      color: 'from-emerald-500 to-teal-500' 
-    },
-    { 
-      value: '100%', 
-      label: 'Accredited', 
-      icon: <Shield className="w-5 h-5" />, 
-      color: 'from-purple-500 to-pink-500' 
-    },
-  ];
+  // Duplicate cards for seamless infinite scroll
+  const duplicatedPrograms = [...featuredPrograms, ...featuredPrograms];
+
+  // Smooth infinite scroll animation
+  useEffect(() => {
+    if (!trackRef.current) return;
+
+    const track = trackRef.current;
+    const container = containerRef.current;
+    
+    let position = 0;
+    const speed = isMobile ? 0.5 : 0.3; // pixels per frame
+    const animationDuration = 16; // ms per frame (60fps)
+
+    const animate = () => {
+      position -= speed;
+      
+      // Reset position when half the track has scrolled
+      const trackWidth = track.scrollWidth / 2;
+      if (Math.abs(position) >= trackWidth) {
+        position = 0;
+      }
+      
+      track.style.transform = `translateX(${position}px)`;
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    // Start animation after a short delay
+    const startDelay = setTimeout(() => {
+      animationRef.current = requestAnimationFrame(animate);
+    }, 300);
+
+    return () => {
+      clearTimeout(startDelay);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isMobile]);
 
   const handleProgramClick = (path) => {
     navigate(path);
   };
 
   return (
-    <section ref={sectionRef} className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="h-px w-12 bg-gray-300"></div>
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-semibold text-gray-600 uppercase">
-                Academic Programs
+    <section className="py-16 bg-gradient-to-b from-white to-blue-50/30 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Beautiful Header */}
+        <div className="text-center mb-16 px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-3 mb-6 px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full border border-blue-100"
+          >
+            <Sparkles className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-semibold text-blue-700 uppercase tracking-wider">
+              Academic Excellence
+            </span>
+            <Sparkles className="w-4 h-4 text-blue-600" />
+          </motion.div>
+
+          <motion.h2 
+            className="text-5xl md:text-6xl font-bold text-gray-900 mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            Prestigious{' '}
+            <span className="relative inline-block">
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient">
+                Programs
               </span>
-              <Sparkles className="w-5 h-5 text-blue-600" />
-            </div>
-            <div className="h-px w-12 bg-gray-300"></div>
-          </div>
+              <motion.div
+                className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.5, duration: 1 }}
+              />
+            </span>
+          </motion.h2>
 
-          <h2 className="text-4xl font-light text-gray-900 mb-4">
-            Prestigious <span className="font-semibold">Academic</span> Programs
-          </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto">
-            Internationally recognized programs for professionals seeking academic distinction.
-          </p>
+          <motion.p 
+            className="text-xl text-gray-600 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            Globally recognized academic pathways with continuous innovation
+          </motion.p>
         </div>
 
-        {/* Statistics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-          {stats.map((stat, index) => (
-            <div key={index} className="bg-white border border-gray-200 rounded-xl p-5">
-              <div className="flex items-center gap-4">
-                <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color} bg-opacity-10`}>
-                  {stat.icon}
-                </div>
-                <div>
-                  <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
-                  <p className="text-sm text-gray-600">{stat.label}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Programs Grid - All 5 shown equally */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-semibold text-gray-900 mb-8">Featured Programs</h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {featuredPrograms.map((program) => {
+        {/* Infinite Scrolling Cards Container */}
+        <div 
+          ref={containerRef}
+          className="relative h-[420px] overflow-hidden"
+        >
+          {/* Animated Track */}
+          <div
+            ref={trackRef}
+            className="absolute top-0 left-0 flex gap-6 will-change-transform"
+            style={{ 
+              width: `${duplicatedPrograms.length * 100}%`,
+              padding: '0 2rem'
+            }}
+          >
+            {duplicatedPrograms.map((program, index) => {
               const Icon = program.icon;
+              const isDuplicate = index >= featuredPrograms.length;
+              
               return (
-                <div 
-                  key={program.id}
-                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-                  onClick={() => handleProgramClick(program.path)}
+                <motion.div
+                  key={`${program.id}-${index}`}
+                  className={`flex-shrink-0 w-[350px] h-full ${isDuplicate ? 'opacity-100' : ''}`}
+                  whileHover={{ 
+                    scale: 1.05,
+                    transition: { duration: 0.3 }
+                  }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  {/* Program Header */}
-                  <div className="relative h-32">
-                    <div className={`absolute inset-0 bg-gradient-to-r ${program.gradient}`}>
-                      <div className="absolute top-4 left-4">
-                        <div className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                          <Icon className="w-5 h-5 text-white" />
+                  <div 
+                    className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 h-full cursor-pointer group"
+                    onClick={() => handleProgramClick(program.path)}
+                  >
+                    {/* Header with gradient */}
+                    <div className={`relative h-36 overflow-hidden bg-gradient-to-r ${program.gradient}`}>
+                      {/* Animated shine effect */}
+                      <div className="absolute inset-0 overflow-hidden">
+                        <motion.div
+                          className="absolute top-0 left-0 right-0 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                          animate={{
+                            x: ['-100%', '200%'],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "linear",
+                            delay: index * 0.5,
+                          }}
+                        />
+                      </div>
+
+                      {/* Icon with floating animation */}
+                      <motion.div
+                        className="absolute top-6 left-6"
+                        animate={{
+                          y: [0, -10, 0],
+                          rotate: [0, 5, -5, 0],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                          <Icon className="w-6 h-6 text-white" />
                         </div>
-                      </div>
-                      <div className="absolute bottom-4 left-4">
-                        <h4 className="text-lg font-bold text-white">{program.title}</h4>
-                        <p className="text-sm text-white/90">{program.subtitle}</p>
+                      </motion.div>
+
+                      {/* Title */}
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <h3 className="text-xl font-bold text-white">{program.title}</h3>
+                        <p className="text-sm text-white/90 mt-1">{program.subtitle}</p>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Program Details */}
-                  <div className="p-4">
-                    {/* Level Badge */}
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                        {program.level}
-                      </span>
-                      <span className="text-xs text-gray-500">
-                        {program.duration}
-                      </span>
-                    </div>
+                    {/* Content */}
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-gray-100 text-gray-700">
+                          {program.level}
+                        </span>
+                        <span className="text-sm text-gray-500">{program.duration}</span>
+                      </div>
 
-                    {/* Description */}
-                    <p className="text-gray-600 text-sm mb-4">
-                      {program.description}
-                    </p>
+                      <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                        {program.description}
+                      </p>
 
-                    {/* Highlights */}
-                    <div className="mb-4">
-                      <div className="space-y-2">
+                      <div className="space-y-2 mb-6">
                         {program.highlights.map((highlight, i) => (
                           <div key={i} className="flex items-center gap-2">
-                            <CheckCircle className="w-3 h-3 text-blue-600" />
-                            <span className="text-xs text-gray-700">{highlight}</span>
+                            <motion.div
+                              animate={{ scale: [1, 1.2, 1] }}
+                              transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                            >
+                              <CheckCircle className="w-4 h-4 text-blue-600" />
+                            </motion.div>
+                            <span className="text-sm text-gray-700">{highlight}</span>
                           </div>
                         ))}
                       </div>
+
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span className="text-sm text-gray-600">{program.students}</span>
+                        <motion.div
+                          className="flex items-center gap-2 text-blue-600 font-medium group"
+                          whileHover={{ x: 5 }}
+                        >
+                          <span className="text-sm">Explore</span>
+                          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </motion.div>
+                      </div>
                     </div>
 
-                    {/* Footer */}
-                    <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                      <div className="flex items-center gap-1 text-gray-600">
-                        <Users className="w-3 h-3" />
-                        <span className="text-xs">{program.students}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-blue-600 text-sm">
-                        <span>Explore</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </div>
-                    </div>
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/0 to-blue-600/0 group-hover:via-blue-600/5 group-hover:to-blue-600/10 transition-all duration-500 pointer-events-none rounded-2xl" />
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
+
+          {/* Edge gradients for seamless effect */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
         </div>
 
-        {/* CTA */}
-        <div className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 rounded-2xl overflow-hidden">
-  {/* Animated background pattern */}
-  <div className="absolute inset-0 opacity-10">
-    <div className="absolute inset-0" style={{
-      backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-      backgroundSize: '40px 40px'
-    }} />
-  </div>
-  
-  {/* Floating particles */}
-  <div className="absolute inset-0 overflow-hidden">
-    {[...Array(8)].map((_, i) => (
-      <div
-        key={i}
-        className="absolute w-1 h-1 bg-blue-400 rounded-full animate-float"
-        style={{
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          animationDelay: `${i * 0.5}s`,
-          opacity: 0.3,
-        }}
-      />
-    ))}
-  </div>
+        {/* Progress indicator */}
+        <div className="flex justify-center mt-12">
+          <div className="relative w-64 h-1 bg-gray-200 rounded-full overflow-hidden">
+            <motion.div
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
+              animate={{
+                x: ['-100%', '100%'],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          </div>
+        </div>
 
-  {/* Shimmer effect */}
-  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent animate-shimmer" />
-
-  <div className="relative p-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">
-      Begin Your <span className="text-blue-300">Academic Journey</span>
-    </h3>
-    <p className="text-blue-200 mb-6">
-      Join our global community of professionals advancing their careers.
-    </p>
-    <div className="flex flex-col sm:flex-row gap-4">
-   
-      <button
-        onClick={() => navigate('/contact')}
-        className="px-6 py-3 bg-transparent text-white font-semibold rounded-lg border-2 border-blue-400 hover:border-blue-300 hover:bg-blue-800/30 transition-all duration-300"
-      >
-        Schedule Consultation
-      </button>
-    </div>
-  </div>
-
-  {/* Corner accents */}
-  <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-blue-400 rounded-tl-lg opacity-50" />
-  <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-blue-400 rounded-tr-lg opacity-50" />
-  <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-blue-400 rounded-bl-lg opacity-50" />
-  <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-blue-400 rounded-br-lg opacity-50" />
-
-  <style jsx>{`
-    @keyframes float {
-      0%, 100% { transform: translateY(0) translateX(0); }
-      50% { transform: translateY(-20px) translateX(10px); }
-    }
     
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-    
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
-    
-    .animate-shimmer {
-      animation: shimmer 3s infinite;
-    }
-  `}</style>
-</div>
       </div>
+
+      <style jsx>{`
+        @keyframes gradient {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        
+        .animate-gradient {
+          background-size: 200% auto;
+          animation: gradient 3s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 }

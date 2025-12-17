@@ -211,7 +211,7 @@ function Navbar() {
                 }}
                 className="relative ml-2 inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:-translate-y-0.5"
               >
-                <span>Get Guidance</span>
+                <span>Book a Consultation</span>
                 <motion.svg
                   className="w-4 h-4"
                   fill="none"

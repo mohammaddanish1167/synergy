@@ -350,7 +350,7 @@ function Hero({ primaryAction, secondaryAction }) {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
               >
-                Transform Your
+                Redefining Academic Excellence Through
                 <br />
                 <motion.span
                   className="relative inline-block mt-2"
@@ -359,7 +359,7 @@ function Hero({ primaryAction, secondaryAction }) {
                   transition={{ delay: 0.3 }}
                 >
                   <span className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
-                    Academic Journey
+                    Globally Recognized Learning Pathways
                   </span>
                   {/* Animated underline */}
                   {!isMobile && (
@@ -745,8 +745,8 @@ function Hero({ primaryAction, secondaryAction }) {
                 {/* Card Header */}
                 <div className="flex items-start justify-between mb-6 md:mb-10 relative z-10">
                   <div>
-                    <h3 className="text-lg md:text-2xl font-bold text-gray-900">Personalized Learning Path</h3>
-                    <p className="text-gray-600 text-xs md:text-sm mt-1 md:mt-2">Your customized academic roadmap</p>
+                    <h3 className="text-lg md:text-2xl font-bold text-gray-900">Redefining Academic Excellence Through</h3>
+                    <p className="text-gray-600 text-xs md:text-sm mt-1 md:mt-2">Globally Recognized Learning Pathways</p>
                   </div>
                   
                   {/* Animated Logo Orb */}
