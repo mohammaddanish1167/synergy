@@ -1,39 +1,39 @@
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
-import { Globe, Users, GraduationCap, Sparkles, Target, Zap, ArrowRight } from "lucide-react";
+import { Globe, Users, GraduationCap, Sparkles, Target, Zap, ArrowRight, Crown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const WORLD_MAP = "https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg";
 
 const routes = [
-  // USA → Australia
+  // UK → USA
   {
-    path: "M 22 38 Q 50 10 78 68",
-    from: { flag: "🇺🇸", country: "USA" },
+    path: "M 44 30 Q 40 25 30 35",
+    from: { flag: "🇬🇧", country: "UK", color: "from-red-500 to-red-700" },
+    to: { flag: "🇺🇸", country: "USA" }
+  },
+  // UK → Australia
+  {
+    path: "M 44 30 Q 60 50 78 68",
+    from: { flag: "🇬🇧", country: "UK", color: "from-red-500 to-red-700" },
     to: { flag: "🇦🇺", country: "Australia" }
   },
-  // Europe → India
+  // UK → India
   {
-    path: "M 48 34 Q 56 28 64 44",
-    from: { flag: "🇪🇺", country: "Europe" },
+    path: "M 44 30 Q 50 40 64 44",
+    from: { flag: "🇬🇧", country: "UK", color: "from-red-500 to-red-700" },
     to: { flag: "🇮🇳", country: "India" }
   },
-  // Japan → Brazil
+  // UK → Canada
   {
-    path: "M 72 36 Q 52 60 32 62",
-    from: { flag: "🇯🇵", country: "Japan" },
-    to: { flag: "🇧🇷", country: "Brazil" }
+    path: "M 44 30 Q 30 20 20 32",
+    from: { flag: "🇬🇧", country: "UK", color: "from-red-500 to-red-700" },
+    to: { flag: "🇨🇦", country: "Canada" }
   },
-  // Canada → UK
+  // Europe → UK
   {
-    path: "M 20 32 Q 40 20 44 30",
-    from: { flag: "🇨🇦", country: "Canada" },
-    to: { flag: "🇬🇧", country: "UK" }
-  },
-  // China → Germany
-  {
-    path: "M 68 38 Q 60 30 50 32",
-    from: { flag: "🇨🇳", country: "China" },
-    to: { flag: "🇩🇪", country: "Germany" }
+    path: "M 48 34 Q 46 32 44 30",
+    from: { flag: "🇪🇺", country: "Europe" },
+    to: { flag: "🇬🇧", country: "UK", color: "from-red-500 to-red-700" }
   },
 ];
 
@@ -79,10 +79,32 @@ export default function GlobalConnections() {
       className="relative py-32 overflow-hidden bg-gradient-to-b from-white via-blue-50/30 to-white"
       onMouseMove={handleMouseMove}
     >
-      {/* Background Effects */}
+      {/* Background Effects with UK Highlight */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50/60 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-cyan-50/60 via-transparent to-transparent" />
+        
+        {/* UK Spotlight Effect */}
+        <motion.div
+          className="absolute w-[300px] h-[200px] rounded-full blur-3xl opacity-30"
+          style={{
+            left: "45%",
+            top: "32%",
+            transform: "translate(-50%, -50%)",
+          }}
+          animate={{
+            background: [
+              "radial-gradient(circle, rgba(239,68,68,0.4) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(220,38,38,0.6) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(239,68,68,0.4) 0%, transparent 70%)",
+            ]
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
         
         {/* Parallax Background */}
         <motion.div
@@ -103,46 +125,60 @@ export default function GlobalConnections() {
         />
       </div>
 
-      {/* Animated Particles */}
+      {/* Animated Particles with UK-focused particles */}
       <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 30 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-gradient-to-r from-blue-400/20 to-cyan-400/20 rounded-full"
-            initial={{
-              x: Math.random() * 100 + '%',
-              y: Math.random() * 100 + '%',
-            }}
-            animate={{
-              x: [
-                Math.random() * 100 + '%',
-                Math.random() * 100 + '%',
-                Math.random() * 100 + '%',
-              ],
-              y: [
-                Math.random() * 100 + '%',
-                Math.random() * 100 + '%',
-                Math.random() * 100 + '%',
-              ],
-            }}
-            transition={{
-              duration: Math.random() * 20 + 10,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
+        {Array.from({ length: 40 }).map((_, i) => {
+          const isUKParticle = i < 12; // More particles around UK
+          const left = isUKParticle ? 45 + (Math.random() * 10 - 5) : Math.random() * 100;
+          const top = isUKParticle ? 32 + (Math.random() * 10 - 5) : Math.random() * 100;
+          
+          return (
+            <motion.div
+              key={i}
+              className={`absolute w-1 h-1 rounded-full ${
+                isUKParticle 
+                  ? 'bg-gradient-to-r from-red-400/30 to-pink-400/30' 
+                  : 'bg-gradient-to-r from-blue-400/20 to-cyan-400/20'
+              }`}
+              initial={{
+                x: left + '%',
+                y: top + '%',
+              }}
+              animate={{
+                x: isUKParticle
+                  ? [left + '%', (left + Math.random() * 6 - 3) + '%', left + '%']
+                  : [
+                      Math.random() * 100 + '%',
+                      Math.random() * 100 + '%',
+                      Math.random() * 100 + '%',
+                    ],
+                y: isUKParticle
+                  ? [top + '%', (top + Math.random() * 6 - 3) + '%', top + '%']
+                  : [
+                      Math.random() * 100 + '%',
+                      Math.random() * 100 + '%',
+                      Math.random() * 100 + '%',
+                    ],
+              }}
+              transition={{
+                duration: isUKParticle ? Math.random() * 3 + 2 : Math.random() * 20 + 10,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          );
+        })}
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-        {/* Header */}
+        {/* Header with UK Emphasis */}
         <div className="text-center mb-20">
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, type: "spring" }}
-            className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-full border border-blue-200 mb-8"
+            className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-red-50 to-blue-50 rounded-full border border-red-200/50 border-blue-200 mb-8"
           >
             <motion.div
               animate={{
@@ -154,11 +190,12 @@ export default function GlobalConnections() {
                 ease: "linear",
               }}
             >
-              <Sparkles className="w-5 h-5 text-blue-600" />
+              <Crown className="w-5 h-5 text-red-600" />
             </motion.div>
-            <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 bg-clip-text text-transparent uppercase tracking-widest">
-              GLOBAL REACH
+            <span className="text-sm font-semibold bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-clip-text text-transparent uppercase tracking-widest">
+              UK GLOBAL HUB
             </span>
+            <Sparkles className="w-5 h-5 text-blue-600" />
           </motion.div>
 
           <motion.h2
@@ -168,8 +205,8 @@ export default function GlobalConnections() {
             transition={{ duration: 0.8 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6"
           >
-            <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent">
-              Global Learning.
+            <span className="bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-clip-text text-transparent">
+              UK at the Center.
             </span>{' '}
             <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 bg-clip-text text-transparent">
               Connected Worldwide.
@@ -183,7 +220,8 @@ export default function GlobalConnections() {
             transition={{ delay: 0.2 }}
             className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
           >
-            Seamlessly connecting learners, mentors, and institutions across continents through world-class education networks.
+            The United Kingdom serves as our global education hub, connecting learners, mentors, 
+            and institutions across continents through world-class academic partnerships.
           </motion.p>
         </div>
 
@@ -191,11 +229,49 @@ export default function GlobalConnections() {
         <div className="relative w-full h-[500px] md:h-[600px] mb-20 bg-gradient-to-br from-white to-blue-50 rounded-3xl border border-blue-100 shadow-xl overflow-hidden">
           
           {/* Map Background */}
-          <img
-            src={WORLD_MAP}
-            alt="World Map"
-            className="absolute inset-0 w-full h-full object-contain opacity-90"
-          />
+          <div className="relative w-full h-full">
+            <img
+              src={WORLD_MAP}
+              alt="World Map"
+              className="absolute inset-0 w-full h-full object-contain opacity-90"
+            />
+            
+            {/* UK Region Highlight */}
+            <motion.div
+              className="absolute w-[12%] h-[16%] rounded-full border-2 border-red-500/40"
+              style={{
+                left: "44%",
+                top: "30%",
+                transform: "translate(-50%, -50%)",
+              }}
+              animate={{
+                boxShadow: [
+                  "0 0 0px rgba(239,68,68,0.3)",
+                  "0 0 60px rgba(239,68,68,0.6)",
+                  "0 0 0px rgba(239,68,68,0.3)",
+                ],
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              {/* UK Glow Effect */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-red-500/10 to-transparent"
+                animate={{
+                  opacity: [0.1, 0.3, 0.1],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </motion.div>
+          </div>
 
           {/* Interactive SVG Overlay */}
           <svg
@@ -210,35 +286,35 @@ export default function GlobalConnections() {
                 onMouseLeave={() => setHoveredRoute(null)}
                 className="cursor-pointer"
               >
-                {/* Curved Route Path */}
+                {/* Curved Route Path - Thicker for UK routes */}
                 <motion.path
                   d={route.path}
                   fill="none"
-                  stroke={hoveredRoute === index ? "#3b82f6" : "#2563eb"}
-                  strokeWidth={hoveredRoute === index ? "0.35" : "0.25"}
-                  strokeDasharray="2 2"
+                  stroke={route.from.country === 'UK' || route.to.country === 'UK' ? "#ef4444" : "#2563eb"}
+                  strokeWidth={hoveredRoute === index ? "0.4" : "0.3"}
+                  strokeDasharray={route.from.country === 'UK' || route.to.country === 'UK' ? "3 1" : "2 2"}
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
                   transition={{
-                    duration: 3,
+                    duration: route.from.country === 'UK' || route.to.country === 'UK' ? 2.5 : 3,
                     ease: "linear",
                     repeat: Infinity,
                   }}
                 />
 
-                {/* Animated Data Dot */}
+                {/* Animated Data Dot - Faster for UK routes */}
                 <motion.circle
-                  r={hoveredRoute === index ? "0.8" : "0.6"}
-                  fill={hoveredRoute === index ? "#3b82f6" : "#2563eb"}
+                  r={hoveredRoute === index ? "0.9" : "0.7"}
+                  fill={route.from.country === 'UK' || route.to.country === 'UK' ? "#ef4444" : "#2563eb"}
                   animate={{
                     offsetDistance: ["0%", "100%"],
                     opacity: [0, 1, 0],
                   }}
                   transition={{
-                    duration: hoveredRoute === index ? 2 : 3,
+                    duration: (route.from.country === 'UK' || route.to.country === 'UK') ? 1.5 : 3,
                     ease: "linear",
                     repeat: Infinity,
-                    delay: index * 0.6,
+                    delay: index * 0.4,
                   }}
                   style={{
                     offsetPath: `path("${route.path}")`,
@@ -250,6 +326,7 @@ export default function GlobalConnections() {
 
           {/* Enhanced Animated Nodes */}
           {[
+            { x: "44%", y: "30%", flag: "🇬🇧", country: "United Kingdom", color: "from-red-500 to-red-700", isUK: true },
             { x: "22%", y: "38%", flag: "🇺🇸", country: "USA", color: "from-blue-500 to-cyan-500" },
             { x: "48%", y: "34%", flag: "🇪🇺", country: "Europe", color: "from-purple-500 to-pink-500" },
             { x: "64%", y: "44%", flag: "🇮🇳", country: "India", color: "from-emerald-500 to-teal-500" },
@@ -257,12 +334,11 @@ export default function GlobalConnections() {
             { x: "78%", y: "68%", flag: "🇦🇺", country: "Australia", color: "from-amber-500 to-orange-500" },
             { x: "32%", y: "62%", flag: "🇧🇷", country: "Brazil", color: "from-green-500 to-lime-500" },
             { x: "20%", y: "32%", flag: "🇨🇦", country: "Canada", color: "from-indigo-500 to-violet-500" },
-            { x: "50%", y: "32%", flag: "🇩🇪", country: "Germany", color: "from-slate-500 to-gray-500" },
           ].map((node, index) => (
             <EnhancedNode key={index} {...node} />
           ))}
 
-          {/* Hover Info Panel */}
+          {/* Hover Info Panel with UK Emphasis */}
           <AnimatePresence>
             {hoveredRoute !== null && (
               <motion.div
@@ -272,28 +348,87 @@ export default function GlobalConnections() {
                 className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm rounded-2xl border border-blue-200 p-6 shadow-xl max-w-xs"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${routes[hoveredRoute].from.flag.includes("🇺🇸") ? "from-blue-500 to-cyan-500" : "from-purple-500 to-pink-500"} flex items-center justify-center text-lg`}>
+                  <div className={`w-10 h-10 rounded-full ${
+                    routes[hoveredRoute].from.country === 'UK' 
+                      ? 'bg-gradient-to-r from-red-500 to-red-600' 
+                      : 'bg-gradient-to-r from-blue-500 to-cyan-500'
+                  } flex items-center justify-center text-lg`}>
                     {routes[hoveredRoute].from.flag}
                   </div>
                   <ArrowRight className="w-5 h-5 text-slate-400" />
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${routes[hoveredRoute].to.flag.includes("🇦🇺") ? "from-amber-500 to-orange-500" : "from-emerald-500 to-teal-500"} flex items-center justify-center text-lg`}>
+                  <div className={`w-10 h-10 rounded-full ${
+                    routes[hoveredRoute].to.country === 'UK' 
+                      ? 'bg-gradient-to-r from-red-500 to-red-600' 
+                      : 'bg-gradient-to-r from-emerald-500 to-teal-500'
+                  } flex items-center justify-center text-lg`}>
                     {routes[hoveredRoute].to.flag}
                   </div>
+                  {(routes[hoveredRoute].from.country === 'UK' || routes[hoveredRoute].to.country === 'UK') && (
+                    <div className="ml-2 px-2 py-1 bg-red-50 rounded-full border border-red-200">
+                      <Crown className="w-3 h-3 text-red-600" />
+                    </div>
+                  )}
                 </div>
-                <h4 className="font-bold text-slate-900 mb-2">
+                <h4 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
                   {routes[hoveredRoute].from.country} → {routes[hoveredRoute].to.country}
+                  {(routes[hoveredRoute].from.country === 'UK' || routes[hoveredRoute].to.country === 'UK') && (
+                    <span className="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full">
+                      UK Network
+                    </span>
+                  )}
                 </h4>
                 <p className="text-sm text-slate-600">
-                  Active student exchange and academic collaboration between leading institutions.
+                  {routes[hoveredRoute].from.country === 'UK' || routes[hoveredRoute].to.country === 'UK'
+                    ? "Strong academic partnership with leading UK institutions and student exchange programs."
+                    : "Active student exchange and academic collaboration between leading institutions."}
                 </p>
                 <div className="mt-4 flex items-center gap-2 text-sm text-slate-500">
-                  <Zap className="w-4 h-4 text-amber-500" />
-                  <span>150+ active students</span>
+                  <Zap className={`w-4 h-4 ${
+                    routes[hoveredRoute].from.country === 'UK' || routes[hoveredRoute].to.country === 'UK'
+                      ? 'text-red-500'
+                      : 'text-amber-500'
+                  }`} />
+                  <span>{
+                    routes[hoveredRoute].from.country === 'UK' || routes[hoveredRoute].to.country === 'UK'
+                      ? '200+ active UK connections'
+                      : '150+ active students'
+                  }</span>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
+
+        {/* UK-Specific Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mb-12"
+        >
+          <div className="bg-gradient-to-r from-red-50 to-white rounded-2xl border border-red-100 p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <Crown className="w-8 h-8 text-red-600" />
+              <h3 className="text-2xl font-bold text-slate-900">UK Education Hub</h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { value: "45%", label: "UK-Based Students", color: "from-red-500 to-pink-500" },
+                { value: "80+", label: "UK Universities", color: "from-blue-500 to-cyan-500" },
+                { value: "£15M+", label: "UK Scholarships", color: "from-emerald-500 to-teal-500" },
+                { value: "5K+", label: "UK Alumni Network", color: "from-purple-500 to-violet-500" },
+              ].map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className={`text-3xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-slate-600">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
         {/* Enhanced Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
@@ -355,7 +490,7 @@ export default function GlobalConnections() {
           ))}
         </div>
 
-        {/* Global Network CTA */}
+        {/* Global Network CTA with UK Focus */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -363,14 +498,18 @@ export default function GlobalConnections() {
           transition={{ delay: 0.4 }}
           className="relative overflow-hidden rounded-3xl"
         >
-          <div className="relative bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 p-12">
+          <div className="relative bg-gradient-to-r from-blue-50 to-red-50 border border-blue-200 p-12">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
               <div className="text-left">
-                <h3 className="text-3xl font-bold text-slate-900 mb-4">
-                  Join Our Global Learning Community
-                </h3>
+                <div className="flex items-center gap-3 mb-4">
+                  <Crown className="w-6 h-6 text-red-600" />
+                  <h3 className="text-3xl font-bold text-slate-900">
+                    Join Our UK Global Hub
+                  </h3>
+                </div>
                 <p className="text-lg text-slate-600 max-w-2xl">
-                  Connect with students, mentors, and institutions worldwide. Access global opportunities and build international networks.
+                  Connect with the UK's top universities and institutions. Access premium UK education 
+                  opportunities and build international networks through our London-based hub.
                 </p>
               </div>
               
@@ -378,10 +517,10 @@ export default function GlobalConnections() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 flex items-center gap-2"
+                  className="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-red-500/30 transition-all duration-300 flex items-center gap-2"
                 >
-                  <Globe className="w-5 h-5" />
-                  Explore Global Programs
+                  <Crown className="w-5 h-5" />
+                  UK Programs
                   <ArrowRight className="w-4 h-4" />
                 </motion.button>
                 
@@ -397,8 +536,8 @@ export default function GlobalConnections() {
   );
 }
 
-/* ---- Enhanced Node Component ---- */
-function EnhancedNode({ x, y, flag, country, color }) {
+/* ---- Enhanced Node Component with UK Emphasis ---- */
+function EnhancedNode({ x, y, flag, country, color, isUK = false }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -410,19 +549,33 @@ function EnhancedNode({ x, y, flag, country, color }) {
     >
       {/* Node Container */}
       <motion.div
-        className={`relative w-14 h-14 rounded-full bg-gradient-to-r ${color} flex items-center justify-center text-xl shadow-xl`}
+        className={`relative w-14 h-14 rounded-full bg-gradient-to-r ${color} flex items-center justify-center text-xl shadow-xl ${
+          isUK ? 'ring-2 ring-red-400 ring-offset-2 ring-offset-white' : ''
+        }`}
         animate={{
-          scale: isHovered ? [1, 1.3, 1.2] : [1, 1.2, 1],
+          scale: isHovered ? [1, 1.4, 1.3] : [1, 1.2, 1],
           boxShadow: isHovered 
             ? [
-                "0 0 0px rgba(37,99,235,0.6)",
-                "0 0 30px rgba(37,99,235,0.9)",
-                "0 0 15px rgba(37,99,235,0.8)",
+                isUK 
+                  ? "0 0 0px rgba(239,68,68,0.8)"
+                  : "0 0 0px rgba(37,99,235,0.6)",
+                isUK 
+                  ? "0 0 40px rgba(239,68,68,1)"
+                  : "0 0 30px rgba(37,99,235,0.9)",
+                isUK 
+                  ? "0 0 20px rgba(239,68,68,0.9)"
+                  : "0 0 15px rgba(37,99,235,0.8)",
               ]
             : [
-                "0 0 0px rgba(37,99,235,0.6)",
-                "0 0 20px rgba(37,99,235,0.8)",
-                "0 0 0px rgba(37,99,235,0.6)",
+                isUK 
+                  ? "0 0 0px rgba(239,68,68,0.8)"
+                  : "0 0 0px rgba(37,99,235,0.6)",
+                isUK 
+                  ? "0 0 25px rgba(239,68,68,0.9)"
+                  : "0 0 20px rgba(37,99,235,0.8)",
+                isUK 
+                  ? "0 0 0px rgba(239,68,68,0.8)"
+                  : "0 0 0px rgba(37,99,235,0.6)",
               ],
         }}
         transition={{
@@ -432,33 +585,53 @@ function EnhancedNode({ x, y, flag, country, color }) {
         }}
       >
         {flag}
+        {isUK && (
+          <div className="absolute -top-1 -right-1 w-4 h-4">
+            <Crown className="w-4 h-4 text-yellow-400" />
+          </div>
+        )}
         
         {/* Pulse Ring Effect */}
         <motion.div
           className="absolute inset-0 rounded-full border-2 border-current opacity-0"
           animate={{
-            scale: [1, 1.8],
+            scale: [1, isUK ? 2.2 : 1.8],
             opacity: [0.5, 0],
           }}
           transition={{
-            duration: 2,
+            duration: isUK ? 1.5 : 2,
             repeat: Infinity,
             ease: "easeOut",
           }}
         />
       </motion.div>
 
-      {/* Country Label */}
+      {/* Country Label with UK Emphasis */}
       <AnimatePresence>
         {isHovered && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 text-sm font-semibold text-slate-900 shadow-lg border border-blue-100"
+            className={`absolute top-full mt-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
+              isUK 
+                ? 'bg-gradient-to-r from-red-50 to-white' 
+                : 'bg-white/90 backdrop-blur-sm'
+            } rounded-lg px-3 py-1.5 text-sm font-semibold ${
+              isUK ? 'text-red-900' : 'text-slate-900'
+            } shadow-lg border ${
+              isUK ? 'border-red-100' : 'border-blue-100'
+            }`}
           >
-            {country}
-            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-white/90" />
+            <div className="flex items-center gap-2">
+              {country}
+              {isUK && <Crown className="w-3 h-3 text-red-600" />}
+            </div>
+            <div className={`absolute -top-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 ${
+              isUK 
+                ? 'border-l-transparent border-r-transparent border-b-red-50' 
+                : 'border-l-transparent border-r-transparent border-b-white/90'
+            }`} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -128,7 +128,7 @@ function WhyChooseUs() {
           </motion.p>
         </motion.div>
 
-        {/* Ratings Section - Clean and Minimal */}
+        {/* Ratings Section - Highlight Trustpilot like the image */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -160,32 +160,66 @@ function WhyChooseUs() {
               </div>
             </motion.div>
 
-            {/* TrustPilot Rating */}
+            {/* TrustPilot Rating - HIGHLIGHTED like the image */}
             <motion.div
-              whileHover={{ y: -8 }}
-              className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm rounded-2xl border border-gray-800 p-8 text-center group"
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="relative bg-gradient-to-br from-emerald-900/30 via-black/50 to-emerald-900/20 backdrop-blur-sm rounded-2xl border-2 border-emerald-700/50 p-8 text-center group shadow-2xl shadow-emerald-900/30"
             >
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-900/30 to-emerald-700/30 flex items-center justify-center border border-emerald-800/30 group-hover:border-emerald-700/50 transition-colors">
-                  <div className="text-3xl font-bold text-white">4.8</div>
+              {/* Highlight badge */}
+              <motion.div 
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                className="absolute -top-3 left-1/2 transform -translate-x-1/2"
+              >
+                <div className="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg">
+                  MOST TRUSTED
                 </div>
-                <div className="text-left">
-                  <div className="text-sm text-gray-400">Trustpilot</div>
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-emerald-400 fill-emerald-400" />
-                    ))}
-                  </div>
+              </motion.div>
+
+              <div className="flex flex-col items-center justify-center mb-4">
+                {/* Trustpilot Logo Placeholder */}
+                <div className="mb-4 text-emerald-300 font-bold text-lg tracking-wider">
+                  ★ Trustpilot
                 </div>
+                
+                {/* Stars like the image */}
+                <div className="flex items-center justify-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                    >
+                      <Star className="w-8 h-8 text-emerald-400 fill-emerald-400 mx-0.5" />
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {/* Rating number - large like image */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-800/50 to-emerald-600/50 flex items-center justify-center border-2 border-emerald-600/50 mb-4 shadow-inner shadow-emerald-900/50"
+                >
+                  <div className="text-4xl font-bold text-white">4.8</div>
+                </motion.div>
               </div>
-              <div className="text-lg font-semibold text-white mb-2">91+ reviews</div>
+              
+              <div className="text-xl font-bold text-white mb-2">Excellent</div>
+              <div className="text-lg font-semibold text-emerald-300 mb-4">91+ reviews</div>
+              
               <a 
                 href="https://www.trustpilot.com/review/qualifylearn.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-emerald-400 group-hover:text-emerald-300 transition-colors inline-flex items-center gap-1"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-700/30 hover:bg-emerald-600/40 text-emerald-300 hover:text-white rounded-xl transition-all group/cta border border-emerald-600/30 hover:border-emerald-500/50"
               >
-                See all our reviews <span className="group-hover:translate-x-1 transition-transform">→</span>
+                <span>See all our reviews</span>
+                <span className="group-hover/cta:translate-x-1 transition-transform">→</span>
               </a>
             </motion.div>
 
