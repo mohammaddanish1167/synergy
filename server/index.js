@@ -55,4 +55,3 @@ app.listen(PORT, () => {
   console.log(`🚀 QualifyLearn backend server running on http://localhost:${PORT}`);
   console.log(`📝 Enquiries will be stored in: ${dataDir}/enquiries.json`);
 });
-
