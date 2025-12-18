@@ -16,6 +16,7 @@ import ServicesSection from '../components/ServiceSection';
 import WorldMapConnections from '../components/WorldMapConnections';
 import WhyChooseUs from '../components/WhyChooseUs.jsx';
 import FeaturedCourses from '../components/FeaturedCourses';
+import ApplicationProcess from '../components/ApplicationProcess.jsx';
 
 function Home() {
 
@@ -41,8 +42,9 @@ function Home() {
 
 
       <HiringPartners />
+      <ApplicationProcess/>
 
-      <ServicesSection/>
+      
 
 
 

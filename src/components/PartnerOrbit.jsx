@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { Building2, Sparkles } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 
-// Import logos
+// Logos
 import KennedyUniLogo from '../assets/kennedy-university-logo.jpg';
 import AMULogo from '../assets/amu-logo.jpg';
 import KennedyBaptistLogo from '../assets/baptlist.png';
@@ -9,146 +9,123 @@ import CentralGlobalLogo from '../assets/central-global-university-logo.webp';
 import EuroAsianLogo from '../assets/euro-asian-university-logo.png';
 
 const partners = [
-  { 
+  {
     id: 1,
-    name: 'Kennedy University', 
+    name: 'Kennedy University',
     logo: KennedyUniLogo,
-    color: 'from-blue-600 to-blue-800',
+    link: 'https://www.kennedy.edu',
   },
-  { 
+  {
     id: 2,
-    name: 'American Management University', 
+    name: 'American Management University',
     logo: AMULogo,
-    color: 'from-purple-600 to-purple-800',
+    link: 'https://amuonline.org',
   },
-  { 
+  {
     id: 3,
-    name: 'Kennedy Baptist University', 
+    name: 'Kennedy Baptist University',
     logo: KennedyBaptistLogo,
-    color: 'from-emerald-600 to-emerald-800',
+    link: '', // broken / optional
   },
-  { 
+  {
     id: 4,
-    name: 'Central Global University', 
+    name: 'Central Global University',
     logo: CentralGlobalLogo,
-    color: 'from-amber-600 to-amber-800',
+    link: '', // broken / optional
   },
-  { 
+  {
     id: 5,
-    name: 'Euro-Asian University', 
+    name: 'Euro-Asian University',
     logo: EuroAsianLogo,
-    color: 'from-rose-600 to-rose-800',
+    link: 'https://euroasianuniversity.edu',
   },
 ];
 
 function UniversityPartnerships() {
-  return (
-    <section className="relative bg-white py-20 md:py-32 overflow-hidden">
-      {/* Simple background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white" />
+  const handleOpenLink = (link) => {
+    if (!link) return;
+    window.open(link, '_blank', 'noopener,noreferrer');
+  };
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Simple Header */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-3 mb-6"
-          >
-            <div className="h-px w-8 bg-blue-500"></div>
-            <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-semibold tracking-wider text-blue-600 uppercase">
-                University Partners
-              </span>
-              <Building2 className="w-4 h-4 text-blue-600" />
-            </div>
-            <div className="h-px w-8 bg-blue-500"></div>
-          </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4"
-          >
+  return (
+    <section className="relative bg-white py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white" />
+
+      <div className="relative max-w-7xl mx-auto px-6">
+
+        {/* HEADER */}
+        <div className="text-center mb-20">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="h-px w-10 bg-blue-600" />
+            <Building2 className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-semibold tracking-widest text-blue-600 uppercase">
+              University Partners
+            </span>
+            <Building2 className="w-4 h-4 text-blue-600" />
+            <div className="h-px w-10 bg-blue-600" />
+          </div>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">
             Our{' '}
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Academic
-            </span>{' '}
-            Partners
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-gray-600 max-w-2xl mx-auto"
-          >
-            Exclusive collaborations with prestigious institutions worldwide
-          </motion.p>
+              Academic Partners
+            </span>
+          </h2>
+
+          <p className="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+            Trusted academic collaborations with globally recognized universities.
+          </p>
         </div>
 
-        {/* Clean Logos Grid - NO BOXES, JUST LOGOS */}
-        <div className="mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-            {partners.map((partner, index) => (
-              <motion.div
-                key={partner.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                whileHover={{ scale: 1.05 }}
-                className="flex flex-col items-center p-4"
+        {/* LOGOS + NAMES */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
+          {partners.map((partner, index) => (
+            <motion.div
+              key={partner.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+              onClick={() => handleOpenLink(partner.link)}
+              className={`group flex flex-col items-center text-center 
+                ${partner.link ? 'cursor-pointer' : 'cursor-default'}`}
+            >
+              {/* FLOATING LOGO */}
+              <motion.img
+                src={partner.logo}
+                alt={`${partner.name} logo`}
+                className="h-28 md:h-32 object-contain mb-6 
+                           transition-all duration-300 
+                           group-hover:drop-shadow-xl"
+                animate={{ y: [0, -8, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: index * 0.3,
+                }}
+              />
+
+              {/* UNIVERSITY NAME */}
+              <h3
+                className={`text-xl md:text-2xl font-semibold 
+                  transition-colors duration-300
+                  ${partner.link ? 'group-hover:text-blue-600 text-gray-900' : 'text-gray-700'}`}
               >
-                {/* PURE LOGO - NO BOX, NO BACKGROUND */}
-                <div className="relative w-full h-48 md:h-56 mb-6 flex items-center justify-center">
-                  {/* Subtle floating animation */}
-                  <motion.div
-                    animate={{
-                      y: [0, -8, 0],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: index * 0.2,
-                    }}
-                    className="relative w-full h-full flex items-center justify-center"
-                  >
-                    {/* Logo with smooth shadow */}
-                    <img 
-                      src={partner.logo} 
-                      alt={`${partner.name} logo`}
-                      className="w-full h-full object-contain max-h-40 md:max-h-48 filter drop-shadow-lg"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.parentElement.innerHTML = `
-                          <div class="w-full h-full flex items-center justify-center">
-                            <div class="text-center">
-                              <div class="text-5xl font-bold bg-gradient-to-r ${partner.color} bg-clip-text text-transparent mb-2">
-                                ${partner.name.split(' ').map(w => w[0]).join('')}
-                              </div>
-                            </div>
-                          </div>
-                        `;
-                      }}
-                    />
-                  </motion.div>
-                </div>
-                
-                {/* University Name */}
-                <div className="text-center">
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    {partner.name}
-                  </h3>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                {partner.name}
+              </h3>
+
+              {/* UNDERLINE ANIMATION */}
+              {partner.link && (
+                <span className="mt-2 h-[2px] w-0 bg-blue-600 
+                                 transition-all duration-300 
+                                 group-hover:w-16" />
+              )}
+            </motion.div>
+          ))}
         </div>
 
-       
       </div>
     </section>
   );

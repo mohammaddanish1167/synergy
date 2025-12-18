@@ -1,377 +1,161 @@
-/**
- * CorporateConnectionDark Component
- * Full-screen dark immersive experience with random company flow
- */
+import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState, useRef } from 'react';
+/* ================= LOGOS ================= */
+const companyLogos = {
+  microsoft: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",
+  google: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+  apple: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+  amazon: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+  meta: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
+  netflix: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
+  tesla: "https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg",
+  nvidia: "https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg",
+  intel: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg",
+  samsung: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg",
+  oracle: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+  cisco: "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg",
+  adobe: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Adobe_Systems_logo.svg",
+  ibm: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+  uber: "https://upload.wikimedia.org/wikipedia/commons/6/66/Uber_logo_2018.svg",
+  spotify: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg",
+  airbnb: "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",
+  twitter: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg",
+  linkedin: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
+  paypal: "https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg",
+  stripe: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Stripe_Logo%2C_revised_2016.svg",
+  walmart: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Walmart_logo.svg",
+  flipkart: "https://upload.wikimedia.org/wikipedia/commons/1/1e/Flipkart_logo.svg",
+  infosys: "https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg",
+  tcs: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Tata_Consultancy_Services_Logo.svg",
+  wipro: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg",
+  accenture: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg",
+  deloitte: "https://upload.wikimedia.org/wikipedia/commons/9/9c/Deloitte_Logo.svg",
+  ey: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Ernst_%26_Young_Logo.svg",
+  kpmg: "https://upload.wikimedia.org/wikipedia/commons/8/8d/KPMG_logo.svg",
+  goldman: "https://upload.wikimedia.org/wikipedia/commons/6/61/Goldman_Sachs.svg",
+  jpmorgan: "https://upload.wikimedia.org/wikipedia/commons/3/30/JPMorgan_Chase_%282018%29.svg",
+  mckinsey: "https://upload.wikimedia.org/wikipedia/commons/7/77/McKinsey_%26_Company_logo.svg",
+};
 
-// Professional company database
-const companies = [
-  'GOOGLE', 'MICROSOFT', 'APPLE', 'AMAZON', 'META',
-  'GOLDMAN SACHS', 'JPMORGAN', 'MORGAN STANLEY',
-  'MCKINSEY & COMPANY', 'BAIN & COMPANY', 'BOSTON CONSULTING GROUP',
-  'TATA CONSULTANCY SERVICES', 'INFOSYS', 'WIPRO', 'HCL TECHNOLOGIES',
-  'SAMSUNG ELECTRONICS', 'SONY CORPORATION', 'BOEING', 'LOCKHEED MARTIN',
-  'TESLA', 'TOYOTA MOTOR', 'BMW GROUP', 'FORD MOTOR',
-  'WALMART', 'NIKE', 'PROCTER & GAMBLE', 'UNILEVER',
-  'PFIZER', 'JOHNSON & JOHNSON', 'MERCK & CO',
-  'DELOITTE', 'PRICEWATERHOUSECOOPERS', 'ERNST & YOUNG', 'KPMG',
-  'ACCENTURE', 'CAPGEMINI', 'COGNIZANT TECHNOLOGY',
-  'IBM', 'INTEL', 'CISCO SYSTEMS', 'ORACLE',
-  'SALESFORCE', 'ADOBE SYSTEMS', 'NETFLIX',
-  'UBER TECHNOLOGIES', 'AIRBNB', 'SPOTIFY',
-  'SPACEX', 'PAYPAL', 'STRIPE', 'TWITTER'
+/* ================= ROWS (ADD MORE ANYTIME) ================= */
+const row1Companies = [
+  { name: "Microsoft", logo: companyLogos.microsoft },
+  { name: "Google", logo: companyLogos.google },
+  { name: "Apple", logo: companyLogos.apple },
+  { name: "Amazon", logo: companyLogos.amazon },
+  { name: "Meta", logo: companyLogos.meta },
+  { name: "Netflix", logo: companyLogos.netflix },
+  { name: "Tesla", logo: companyLogos.tesla },
+  { name: "NVIDIA", logo: companyLogos.nvidia },
+  { name: "Intel", logo: companyLogos.intel },
+  { name: "Samsung", logo: companyLogos.samsung },
+  { name: "Oracle", logo: companyLogos.oracle },
+  { name: "Cisco", logo: companyLogos.cisco },
 ];
 
-function HiringPartners() {
-  const [activeCompanies, setActiveCompanies] = useState([]);
-  const [currentCycle, setCurrentCycle] = useState(0);
-  const containerRef = useRef(null);
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+const row2Companies = [
+  { name: "Adobe", logo: companyLogos.adobe },
+  { name: "IBM", logo: companyLogos.ibm },
+  { name: "Uber", logo: companyLogos.uber },
+  { name: "Spotify", logo: companyLogos.spotify },
+  { name: "Airbnb", logo: companyLogos.airbnb },
+  { name: "Twitter", logo: companyLogos.twitter },
+  { name: "LinkedIn", logo: companyLogos.linkedin },
+  { name: "PayPal", logo: companyLogos.paypal },
+  { name: "Stripe", logo: companyLogos.stripe },
+  { name: "Walmart", logo: companyLogos.walmart },
+  { name: "Flipkart", logo: companyLogos.flipkart },
+];
 
-  // Random number of companies per cycle
-  const getRandomCompanyCount = () => Math.floor(Math.random() * 6) + 4; // 4-9 companies
-  const cycleDuration = 1800 + Math.random() * 1200; // 1.8-3 seconds
+const row3Companies = [
+  { name: "Infosys", logo: companyLogos.infosys },
+  { name: "TCS", logo: companyLogos.tcs },
+  { name: "Wipro", logo: companyLogos.wipro },
+  { name: "Accenture", logo: companyLogos.accenture },
+  { name: "Deloitte", logo: companyLogos.deloitte },
+  { name: "EY", logo: companyLogos.ey },
+  { name: "KPMG", logo: companyLogos.kpmg },
+  { name: "Goldman Sachs", logo: companyLogos.goldman },
+  { name: "JPMorgan", logo: companyLogos.jpmorgan },
+  { name: "McKinsey", logo: companyLogos.mckinsey },
+];
 
-  useEffect(() => {
-    const updateSize = () => {
-      if (containerRef.current) {
-        const { width, height } = containerRef.current.getBoundingClientRect();
-        setContainerSize({ width, height });
-      }
-    };
+/* ================= COMPONENT ================= */
+export default function HiringPartners() {
+  const row1Ref = useRef(null);
+  const row2Ref = useRef(null);
+  const row3Ref = useRef(null);
+  const [ready, setReady] = useState(false);
 
-    updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-
-  const generateRandomPositions = (count) => {
-    const positions = [];
-    
-    for (let i = 0; i < count; i++) {
-      // Random positions anywhere on screen
-      const x = Math.random() * containerSize.width;
-      const y = Math.random() * containerSize.height;
-      
-      positions.push({
-        x,
-        y,
-        rotation: -15 + Math.random() * 30,
-        scale: 0.8 + Math.random() * 0.4,
-        opacity: 0.7 + Math.random() * 0.3,
-        delay: Math.random() * 0.5
-      });
-    }
-    
-    return positions;
-  };
-
-  const startRandomCycle = () => {
-    setCurrentCycle(prev => prev + 1);
-    
-    const companyCount = getRandomCompanyCount();
-    const shuffled = [...companies].sort(() => Math.random() - 0.5);
-    const selected = shuffled.slice(0, companyCount);
-    const positions = generateRandomPositions(companyCount);
-    
-    const newActiveCompanies = selected.map((company, index) => ({
-      id: `${company}-${Date.now()}-${Math.random()}`,
-      name: company,
-      ...positions[index],
-      size: 12 + Math.random() * 4 // Random font size
-    }));
-
-    setActiveCompanies(newActiveCompanies);
-  };
+  useEffect(() => setReady(true), []);
 
   useEffect(() => {
-    if (containerSize.width === 0) return;
+    if (!ready) return;
 
-    const interval = setInterval(startRandomCycle, cycleDuration);
-    return () => clearInterval(interval);
-  }, [containerSize]);
+    const rows = [
+      { ref: row1Ref, speed: 40, dir: -1 },
+      { ref: row2Ref, speed: 40, dir: 1 },
+      { ref: row3Ref, speed: 40, dir: -1 },
+    ];
 
-  useEffect(() => {
-    if (containerSize.width > 0) {
-      startRandomCycle();
-    }
-  }, [containerSize]);
+    const cleanups = rows.map(({ ref, speed, dir }) => {
+      let raf, last = performance.now(), x = 0;
+
+      const animate = (now) => {
+        if (!ref.current) return;
+        const dt = now - last;
+        last = now;
+
+        x += (speed * dt / 1000) * dir;
+        const loop = ref.current.scrollWidth / 2;
+
+        if (dir === -1 && x <= -loop) x = 0;
+        if (dir === 1 && x >= 0) x = -loop;
+
+        ref.current.style.transform = `translateX(${x}px)`;
+        raf = requestAnimationFrame(animate);
+      };
+
+      raf = requestAnimationFrame(animate);
+      return () => cancelAnimationFrame(raf);
+    });
+
+    return () => cleanups.forEach(fn => fn());
+  }, [ready]);
+
+  const Marquee = ({ companies, refProp }) => (
+    <div className="relative overflow-hidden py-4">
+      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-950 to-transparent z-10" />
+      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-950 to-transparent z-10" />
+
+      <div ref={refProp} className="flex will-change-transform">
+        {[...companies, ...companies].map((c, i) => (
+          <div key={i} className="flex-shrink-0 px-6">
+            <div className="w-36 h-20 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl hover:scale-105 transition">
+              <img src={c.logo} alt={c.name} className="max-h-10 opacity-70 hover:opacity-100" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden">
-      {/* Deep Dark Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(30,41,59,0.3)_0%,transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(15,23,42,0.4)_0%,transparent_50%)]" />
-        
-        {/* Particle Field */}
-        {Array.from({ length: 50 }).map((_, i) => (
-          <motion.div
-            key={`particle-${i}`}
-            className="absolute w-[1px] h-[1px] bg-gray-600/30 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0.1, 0.8, 0.1],
-              scale: [1, 1.5, 1]
-            }}
-            transition={{
-              duration: 2 + Math.random() * 3,
-              repeat: Infinity,
-              delay: i * 0.1,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Main Container - Full Screen */}
-      <div 
-        ref={containerRef}
-        className="absolute inset-0 w-full h-full"
-      >
-        {/* Central Hub - Glowing Text */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative">
-            {/* Glowing Orb Behind Text */}
-            <motion.div
-              className="absolute -inset-32 rounded-full"
-              animate={{
-                background: [
-                  'radial-gradient(circle, rgba(59,130,246,0.1) 0%, rgba(59,130,246,0) 70%)',
-                  'radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(59,130,246,0) 70%)',
-                  'radial-gradient(circle, rgba(59,130,246,0.1) 0%, rgba(59,130,246,0) 70%)'
-                ]
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            
-            {/* Main Text */}
-            <motion.div
-              animate={{
-                textShadow: [
-                  '0 0 20px rgba(59,130,246,0.3)',
-                  '0 0 40px rgba(59,130,246,0.6)',
-                  '0 0 20px rgba(59,130,246,0.3)'
-                ],
-                scale: [1, 1.02, 1]
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white text-center tracking-tight leading-none"
-            >
-              <div className="mb-2">HIRING</div>
-              <div>PARTNERS</div>
-            </motion.div>
-
-            {/* Subtitle */}
-            <motion.p
-              className="text-gray-400 text-lg sm:text-xl text-center mt-8 font-medium"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              {companies.length}+ Global Corporations
-            </motion.p>
-          </div>
+    <section className="bg-gray-950 py-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <motion.h2 className="text-4xl md:text-5xl font-bold text-white">
+            Trusted by Top Companies Worldwide
+          </motion.h2>
         </div>
 
-        {/* Random Company Names - Appear Anywhere */}
-        <AnimatePresence>
-          {activeCompanies.map((company) => (
-            <motion.div
-              key={company.id}
-              className="absolute pointer-events-none"
-              style={{
-                left: company.x,
-                top: company.y,
-                transform: `translate(-50%, -50%) rotate(${company.rotation}deg)`,
-                fontSize: `${company.size}px`
-              }}
-              initial={{ 
-                opacity: 0,
-                scale: 0,
-                filter: 'blur(10px)'
-              }}
-              animate={{ 
-                opacity: company.opacity,
-                scale: company.scale,
-                filter: 'blur(0px)'
-              }}
-              exit={{ 
-                opacity: 0,
-                scale: 0.5,
-                filter: 'blur(10px)',
-                rotate: company.rotation + 45
-              }}
-              transition={{
-                opacity: { duration: 0.8, ease: "easeOut" },
-                scale: { duration: 0.8, ease: "backOut" },
-                filter: { duration: 0.8, ease: "easeOut" },
-                rotate: { duration: 0.6, ease: "easeIn" }
-              }}
-            >
-              {/* Company Name with Glow */}
-              <div className="relative">
-                {/* Glow Effect */}
-                <motion.div
-                  className="absolute -inset-3 rounded-lg"
-                  animate={{
-                    background: [
-                      `radial-gradient(circle, rgba(59,130,246,${0.1 * company.opacity}) 0%, transparent 70%)`,
-                      `radial-gradient(circle, rgba(59,130,246,${0.2 * company.opacity}) 0%, transparent 70%)`,
-                      `radial-gradient(circle, rgba(59,130,246,${0.1 * company.opacity}) 0%, transparent 70%)`
-                    ]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-                
-                {/* Text Container */}
-                <motion.div
-                  className="relative px-4 py-2.5 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-md rounded-lg border border-gray-800/50 shadow-xl"
-                  animate={{
-                    y: [0, -2, 0],
-                    boxShadow: [
-                      '0 10px 30px rgba(0,0,0,0.5)',
-                      '0 15px 40px rgba(59,130,246,0.3)',
-                      '0 10px 30px rgba(0,0,0,0.5)'
-                    ]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <div className="font-bold text-white tracking-tight whitespace-nowrap">
-                    {company.name}
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-
-        {/* Cycle Counter - Minimal */}
-        <motion.div
-          className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.7 }}
-          transition={{ delay: 1 }}
-        >
-          <div className="flex items-center gap-2 px-4 py-2 bg-black/20 backdrop-blur-sm rounded-full">
-            <motion.div
-              className="w-1.5 h-1.5 bg-blue-500 rounded-full"
-              animate={{
-                scale: [1, 1.5, 1]
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            <span className="text-xs text-gray-400 font-medium">
-              CYCLE {currentCycle}
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Subtle Connection Lines (Random) */}
-        {activeCompanies.length > 1 && (
-          <svg className="absolute inset-0 w-full h-full pointer-events-none">
-            <defs>
-              <linearGradient id="darkLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
-                <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            
-            {activeCompanies.slice(0, 3).map((company, index) => {
-              // Randomly connect some companies to center
-              if (Math.random() > 0.5) {
-                return (
-                  <motion.line
-                    key={`center-line-${company.id}`}
-                    x1="50%"
-                    y1="50%"
-                    x2={`${(company.x / containerSize.width) * 100}%`}
-                    y2={`${(company.y / containerSize.height) * 100}%`}
-                    stroke="url(#darkLineGradient)"
-                    strokeWidth="0.3"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ 
-                      pathLength: 1, 
-                      opacity: 0.15 
-                    }}
-                    exit={{ pathLength: 0, opacity: 0 }}
-                    transition={{ 
-                      pathLength: { duration: 1.5, ease: "easeOut" },
-                      opacity: { duration: 0.8 }
-                    }}
-                  />
-                );
-              }
-              return null;
-            })}
-          </svg>
-        )}
-
-        {/* Floating Animated Elements */}
-        {Array.from({ length: 12 }).map((_, i) => (
-          <motion.div
-            key={`floater-${i}`}
-            className="absolute w-[2px] h-[2px] bg-blue-400/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -40, 0],
-              x: [0, 20, 0],
-              opacity: [0.1, 0.6, 0.1]
-            }}
-            transition={{
-              duration: 4 + Math.random() * 3,
-              repeat: Infinity,
-              delay: i * 0.3,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Header Badge - Minimal */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 0.8, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="absolute top-8 left-1/2 transform -translate-x-1/2"
-      >
-        <div className="px-4 py-1.5 bg-black/10 backdrop-blur-sm rounded-full border border-gray-800/50">
-          <span className="text-xs text-gray-500 uppercase tracking-widest font-medium">
-            Corporate Network
-          </span>
+        <div className="space-y-10">
+          <Marquee companies={row1Companies} refProp={row1Ref} />
+          <Marquee companies={row2Companies} refProp={row2Ref} />
+          <Marquee companies={row3Companies} refProp={row3Ref} />
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
-
-export default HiringPartners;

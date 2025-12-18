@@ -193,7 +193,7 @@ export default function GlobalConnections() {
               <Crown className="w-5 h-5 text-red-600" />
             </motion.div>
             <span className="text-sm font-semibold bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-clip-text text-transparent uppercase tracking-widest">
-              UK GLOBAL HUB
+              GLOBAL HUB
             </span>
             <Sparkles className="w-5 h-5 text-blue-600" />
           </motion.div>
@@ -206,7 +206,7 @@ export default function GlobalConnections() {
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6"
           >
             <span className="bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-clip-text text-transparent">
-              UK at the Center.
+              
             </span>{' '}
             <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 bg-clip-text text-transparent">
               Connected Worldwide.
@@ -220,7 +220,7 @@ export default function GlobalConnections() {
             transition={{ delay: 0.2 }}
             className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
           >
-            The United Kingdom serves as our global education hub, connecting learners, mentors, 
+            we serves as our global education hub, connecting learners, mentors, 
             and institutions across continents through world-class academic partnerships.
           </motion.p>
         </div>
@@ -373,7 +373,7 @@ export default function GlobalConnections() {
                   {routes[hoveredRoute].from.country} → {routes[hoveredRoute].to.country}
                   {(routes[hoveredRoute].from.country === 'UK' || routes[hoveredRoute].to.country === 'UK') && (
                     <span className="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full">
-                      UK Network
+                       Network
                     </span>
                   )}
                 </h4>
@@ -407,27 +407,7 @@ export default function GlobalConnections() {
           transition={{ delay: 0.3 }}
           className="mb-12"
         >
-          <div className="bg-gradient-to-r from-red-50 to-white rounded-2xl border border-red-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Crown className="w-8 h-8 text-red-600" />
-              <h3 className="text-2xl font-bold text-slate-900">UK Education Hub</h3>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { value: "45%", label: "UK-Based Students", color: "from-red-500 to-pink-500" },
-                { value: "80+", label: "UK Universities", color: "from-blue-500 to-cyan-500" },
-                { value: "£15M+", label: "UK Scholarships", color: "from-emerald-500 to-teal-500" },
-                { value: "5K+", label: "UK Alumni Network", color: "from-purple-500 to-violet-500" },
-              ].map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className={`text-3xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-slate-600">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          
         </motion.div>
 
         {/* Enhanced Stats Grid */}
@@ -489,48 +469,6 @@ export default function GlobalConnections() {
             </motion.div>
           ))}
         </div>
-
-        {/* Global Network CTA with UK Focus */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="relative overflow-hidden rounded-3xl"
-        >
-          <div className="relative bg-gradient-to-r from-blue-50 to-red-50 border border-blue-200 p-12">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-              <div className="text-left">
-                <div className="flex items-center gap-3 mb-4">
-                  <Crown className="w-6 h-6 text-red-600" />
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    Join Our UK Global Hub
-                  </h3>
-                </div>
-                <p className="text-lg text-slate-600 max-w-2xl">
-                  Connect with the UK's top universities and institutions. Access premium UK education 
-                  opportunities and build international networks through our London-based hub.
-                </p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-red-500/30 transition-all duration-300 flex items-center gap-2"
-                >
-                  <Crown className="w-5 h-5" />
-                  UK Programs
-                  <ArrowRight className="w-4 h-4" />
-                </motion.button>
-                
-                <button className="px-8 py-3 border-2 border-blue-200 text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-all duration-300">
-                  View Network Map
-                </button>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
