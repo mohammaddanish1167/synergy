@@ -67,10 +67,10 @@ export default function GlobalConnections() {
   };
 
   const stats = [
-    { value: "60+", label: "Countries Connected", icon: <Globe className="w-8 h-8" />, color: "from-blue-500 to-cyan-500" },
-    { value: "25K+", label: "Active Learners", icon: <Users className="w-8 h-8" />, color: "from-purple-500 to-pink-500" },
+    { value: "150+", label: "Countries Connected", icon: <Globe className="w-8 h-8" />, color: "from-blue-500 to-cyan-500" },
+    { value: "2.5K+", label: "Active Learners", icon: <Users className="w-8 h-8" />, color: "from-purple-500 to-pink-500" },
     { value: "300+", label: "Global Universities", icon: <GraduationCap className="w-8 h-8" />, color: "from-emerald-500 to-teal-500" },
-    { value: "50+", label: "Corporate Partners", icon: <Target className="w-8 h-8" />, color: "from-amber-500 to-orange-500" },
+    { value: "100+", label: "Corporate Partners", icon: <Target className="w-8 h-8" />, color: "from-amber-500 to-orange-500" },
   ];
 
   return (

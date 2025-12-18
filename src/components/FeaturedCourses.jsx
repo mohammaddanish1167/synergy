@@ -19,7 +19,6 @@ function FeaturedPrograms() {
   const trackRef = useRef(null);
   const animationRef = useRef(null);
 
-  // ✅ NEW refs for mouse scrolling
   const isUserScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef(null);
 
@@ -102,7 +101,6 @@ function FeaturedPrograms() {
 
   const duplicatedPrograms = [...featuredPrograms, ...featuredPrograms];
 
-  // ✅ Auto scroll + Mouse wheel scroll
   useEffect(() => {
     if (!trackRef.current || !containerRef.current) return;
 
@@ -110,7 +108,9 @@ function FeaturedPrograms() {
     const container = containerRef.current;
 
     let position = 0;
-    const speed = isMobile ? 0.5 : 0.3;
+
+    // 🚀 Slightly faster than before
+    const speed = isMobile ? 1.6 : 1.1;
 
     const animate = () => {
       if (!isUserScrollingRef.current) {
@@ -133,7 +133,8 @@ function FeaturedPrograms() {
       e.preventDefault();
       isUserScrollingRef.current = true;
 
-      position -= e.deltaY * 0.8;
+      // 🚀 Faster wheel response
+      position -= e.deltaY * 1.5;
       track.style.transform = `translateX(${position}px)`;
 
       clearTimeout(scrollTimeoutRef.current);

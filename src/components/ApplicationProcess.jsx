@@ -356,37 +356,7 @@ function ApplicationProcess() {
           />
         </motion.div>
 
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="text-center mt-16"
-        >
-          <div className="inline-grid grid-cols-1 md:grid-cols-3 gap-8 px-8 py-6 bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg border border-gray-100">
-            {[
-              { value: '92%', label: 'Application Success Rate', icon: UserCheck },
-              { value: '7 Days', label: 'Average Processing Time', icon: Clock },
-              { value: '4.9/5.0', label: 'Student Satisfaction', icon: Sparkles }
-            ].map((stat, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 + idx * 0.1 }}
-                className="text-center"
-              >
-                <div className="flex items-center justify-center gap-3 mb-2">
-                  <stat.icon className="w-5 h-5 text-blue-500" />
-                  <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
-                </div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        
       </div>
     </section>
   );

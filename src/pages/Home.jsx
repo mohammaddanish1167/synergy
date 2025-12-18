@@ -11,8 +11,6 @@ import PartnerOrbit from '../components/PartnerOrbit';
 import HiringPartners from '../components/HiringPartners';
 import { testimonials } from '../data/testimonials';
 import { faqs } from '../data/faqs';
-
-import ServicesSection from '../components/ServiceSection';
 import WorldMapConnections from '../components/WorldMapConnections';
 import WhyChooseUs from '../components/WhyChooseUs.jsx';
 import FeaturedCourses from '../components/FeaturedCourses';
