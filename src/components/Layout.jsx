@@ -37,6 +37,7 @@ function Layout() {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [location.pathname]);
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-white via-blue-50 to-slate-100">
       {/* Navigation bar at the top */}
@@ -50,8 +51,8 @@ function Layout() {
       />
 
       {/* Main content area - Outlet renders the current route's page */}
-      {/* Add padding-top to account for fixed navbar */}
-      <main className="flex-grow pt-36">
+      {/* Fixed: Changed from pt-36 to pt-24 to match navbar height (h-24) */}
+      <main className="flex-grow pt-24">
         <Outlet />
       </main>
       
@@ -64,4 +65,3 @@ function Layout() {
 }
 
 export default Layout;
-

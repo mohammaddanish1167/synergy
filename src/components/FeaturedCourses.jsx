@@ -108,17 +108,33 @@ function FeaturedPrograms() {
     const container = containerRef.current;
 
     let position = 0;
-
-    // 🚀 Slightly faster than before
     const speed = isMobile ? 1.6 : 1.1;
+    
+    // Get the width of one set of programs
+    const singleSetWidth = track.scrollWidth / 2;
+    const cardWidth = 350; // width of each card
+    const gap = 24; // gap between cards
+    const singleCardWidth = cardWidth + gap;
 
     const animate = () => {
       if (!isUserScrollingRef.current) {
         position -= speed;
 
-        const loopWidth = track.scrollWidth / 2;
-        if (Math.abs(position) >= loopWidth) {
-          position = 0;
+        // When we've scrolled exactly one full set, reset seamlessly
+        if (Math.abs(position) >= singleSetWidth) {
+          // Instead of jumping back to 0, we subtract one set width
+          // This creates a seamless infinite loop
+          position += singleSetWidth;
+          
+          // Apply the reset without transition for instant reposition
+          track.style.transition = 'none';
+          track.style.transform = `translateX(${position}px)`;
+          
+          // Force a reflow to apply the immediate transform
+          void track.offsetHeight;
+          
+          // Remove the no-transition rule for smooth animation to continue
+          track.style.transition = '';
         }
 
         track.style.transform = `translateX(${position}px)`;
@@ -131,22 +147,38 @@ function FeaturedPrograms() {
 
     const handleWheel = (e) => {
       e.preventDefault();
-      isUserScrollingRef.current = true;
+      
+      if (!isUserScrollingRef.current) {
+        isUserScrollingRef.current = true;
+      }
 
-      // 🚀 Faster wheel response
-      position -= e.deltaY * 1.5;
-      track.style.transform = `translateX(${position}px)`;
+      const delta = e.deltaY || e.detail || e.wheelDelta * -1;
+      position -= delta * 0.5; // Reduced multiplier for smoother wheel control
+      
+      // Handle loop during user scrolling
+      const absPosition = Math.abs(position);
+      if (absPosition >= singleSetWidth) {
+        position += singleSetWidth;
+        track.style.transition = 'none';
+        track.style.transform = `translateX(${position}px)`;
+        void track.offsetHeight;
+        track.style.transition = '';
+      } else {
+        track.style.transform = `translateX(${position}px)`;
+      }
 
       clearTimeout(scrollTimeoutRef.current);
       scrollTimeoutRef.current = setTimeout(() => {
         isUserScrollingRef.current = false;
-      }, 600);
+      }, 800); // Slightly longer timeout for smoother experience
     };
 
     container.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
-      cancelAnimationFrame(animationRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
       container.removeEventListener('wheel', handleWheel);
       clearTimeout(scrollTimeoutRef.current);
     };
@@ -185,12 +217,15 @@ function FeaturedPrograms() {
         {/* Infinite Scroll */}
         <div
           ref={containerRef}
-          className="relative h-[420px] overflow-hidden overscroll-x-contain"
+          className="relative h-[420px] overflow-hidden overscroll-x-contain cursor-grab active:cursor-grabbing"
         >
           <div
             ref={trackRef}
             className="absolute top-0 left-0 flex gap-6 will-change-transform"
-            style={{ width: `${duplicatedPrograms.length * 100}%`, padding: '0 2rem' }}
+            style={{ 
+              width: `${duplicatedPrograms.length * 350 + (duplicatedPrograms.length - 1) * 24}px`,
+              padding: '0 2rem'
+            }}
           >
             {duplicatedPrograms.map((program, index) => {
               const Icon = program.icon;
@@ -199,13 +234,14 @@ function FeaturedPrograms() {
                   key={`${program.id}-${index}`}
                   className="flex-shrink-0 w-[350px]"
                   whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <div
                     onClick={() => navigate(program.path)}
-                    className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all border cursor-pointer h-full"
+                    className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border cursor-pointer h-full overflow-hidden"
                   >
                     <div className={`h-36 bg-gradient-to-r ${program.gradient} relative`}>
-                      <div className="absolute top-6 left-6 w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                      <div className="absolute top-6 left-6 w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
                         <Icon className="text-white w-6 h-6" />
                       </div>
                       <div className="absolute bottom-6 left-6 right-6">
@@ -222,7 +258,7 @@ function FeaturedPrograms() {
                       <div className="space-y-2 mb-6">
                         {program.highlights.map((h, i) => (
                           <div key={i} className="flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-blue-600" />
+                            <CheckCircle className="w-4 h-4 text-blue-600 flex-shrink-0" />
                             <span className="text-sm">{h}</span>
                           </div>
                         ))}
@@ -230,8 +266,9 @@ function FeaturedPrograms() {
 
                       <div className="flex justify-between items-center border-t pt-4">
                         <span className="text-sm text-gray-500">{program.students}</span>
-                        <div className="flex items-center gap-2 text-blue-600 font-medium">
-                          Explore <ArrowRight className="w-4 h-4" />
+                        <div className="flex items-center gap-2 text-blue-600 font-medium group">
+                          <span>Explore</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </div>
@@ -241,8 +278,9 @@ function FeaturedPrograms() {
             })}
           </div>
 
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+          {/* Gradient overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white to-transparent pointer-events-none z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white to-transparent pointer-events-none z-10" />
         </div>
       </div>
 
@@ -251,10 +289,16 @@ function FeaturedPrograms() {
           background-size: 200% auto;
           animation: gradient 3s ease infinite;
         }
+        
         @keyframes gradient {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
+        }
+        
+        /* Smooth scrolling experience */
+        .overscroll-x-contain {
+          overscroll-behavior-x: contain;
         }
       `}</style>
     </section>
