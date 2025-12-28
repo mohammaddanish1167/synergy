@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import logo from '../assets/logo.jpeg';
-import { ChevronDown, ChevronUp, Menu, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, Menu, X, GraduationCap } from 'lucide-react';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,11 +55,9 @@ function Navbar() {
   const navLinks = [
     { path: '/', label: 'Home' },
     { 
-      path: '/courses', 
-      label: 'Courses',
-      hasDropdown: true
+      path: '/upcoming-courses', 
+      label: 'Upcoming Courses' 
     },
-    { path: '/upcoming-courses', label: 'Upcoming Courses' },
     { path: '/about', label: 'About' },
     { path: '/contact', label: 'Contact' }
   ];
@@ -134,75 +132,81 @@ function Navbar() {
                 <div
                   key={link.path}
                   className="relative px-2"
-                  onMouseEnter={() => link.hasDropdown && setShowCoursesMenu(true)}
-                  onMouseLeave={() => link.hasDropdown && setShowCoursesMenu(false)}
                 >
                   <Link
-                    to={link.hasDropdown ? '#' : link.path}
-                    onClick={(e) => {
-                      if (link.hasDropdown) {
-                        e.preventDefault();
-                        setShowCoursesMenu(!showCoursesMenu);
-                      }
-                    }}
+                    to={link.path}
                     className={`flex items-center gap-1 text-sm font-semibold transition-colors px-4 py-2.5 rounded-lg ${
-                      isActive(link.path) || (link.hasDropdown && showCoursesMenu)
+                      isActive(link.path)
                         ? 'text-blue-800 bg-blue-50'
                         : 'text-slate-700 hover:text-blue-700 hover:bg-blue-50/50'
                     }`}
                   >
                     {link.label}
-                    {link.hasDropdown && (
-                      <ChevronDown 
-                        className={`w-4 h-4 transition-transform duration-200 ${showCoursesMenu ? 'rotate-180' : ''}`} 
-                      />
-                    )}
                   </Link>
-                  {isActive(link.path) && !link.hasDropdown && (
+                  {isActive(link.path) && (
                     <motion.div
                       layoutId="active-underline"
                       className="absolute left-4 right-4 -bottom-1 h-0.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full"
                       transition={{ duration: 0.3, ease: 'easeOut' }}
                     />
                   )}
-
-                  {/* Courses hover dropdown */}
-                  {link.hasDropdown && (
-                    <AnimatePresence>
-                      {showCoursesMenu && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 8 }}
-                          transition={{ duration: 0.15 }}
-                          className="absolute top-full left-0 mt-2 w-72 bg-white border border-blue-100 rounded-xl shadow-2xl overflow-hidden z-50 backdrop-blur-sm"
-                          onMouseEnter={() => setShowCoursesMenu(true)}
-                          onMouseLeave={() => setShowCoursesMenu(false)}
-                        >
-                          <div className="p-2">
-                            <div className="px-3 py-2 mb-1 border-b border-blue-100">
-                              <p className="text-xs font-semibold text-blue-800 uppercase tracking-wider">Our Programs</p>
-                            </div>
-                            {courseSubLinks.map((sub) => (
-                              <Link
-                                key={sub.path}
-                                to={sub.path}
-                                className="block px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-white hover:text-blue-800 transition-all duration-200 rounded-lg mx-1"
-                                onClick={() => setShowCoursesMenu(false)}
-                              >
-                                <span className="flex items-center gap-3">
-                                  <span className="w-2 h-2 rounded-full bg-blue-300"></span>
-                                  {sub.label}
-                                </span>
-                              </Link>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  )}
                 </div>
               ))}
+              
+              {/* Our Programs Dropdown - Now a Button */}
+              <div
+                className="relative px-2"
+                onMouseEnter={() => setShowCoursesMenu(true)}
+                onMouseLeave={() => setShowCoursesMenu(false)}
+              >
+                <button
+                  className={`flex items-center gap-2 text-sm font-semibold transition-all duration-300 px-5 py-3 rounded-xl ${
+                    showCoursesMenu
+                      ? 'text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg'
+                      : 'text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-md hover:shadow-lg'
+                  }`}
+                >
+                  <GraduationCap className="w-4 h-4" />
+                  <span>Our Programs</span>
+                  <ChevronDown 
+                    className={`w-4 h-4 transition-transform duration-200 ${showCoursesMenu ? 'rotate-180' : ''}`} 
+                  />
+                </button>
+
+                {/* Courses hover dropdown */}
+                <AnimatePresence>
+                  {showCoursesMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute top-full left-0 mt-2 w-72 bg-white border border-blue-100 rounded-xl shadow-2xl overflow-hidden z-50 backdrop-blur-sm"
+                      onMouseEnter={() => setShowCoursesMenu(true)}
+                      onMouseLeave={() => setShowCoursesMenu(false)}
+                    >
+                      <div className="p-2">
+                        <div className="px-3 py-2 mb-1 border-b border-blue-100">
+                          <p className="text-xs font-semibold text-blue-800 uppercase tracking-wider">All Programs</p>
+                        </div>
+                        {courseSubLinks.map((sub) => (
+                          <Link
+                            key={sub.path}
+                            to={sub.path}
+                            className="block px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-white hover:text-blue-800 transition-all duration-200 rounded-lg mx-1"
+                            onClick={() => setShowCoursesMenu(false)}
+                          >
+                            <span className="flex items-center gap-3">
+                              <span className="w-2 h-2 rounded-full bg-blue-300"></span>
+                              {sub.label}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               
               {/* CTA */}
               <button
@@ -300,96 +304,93 @@ function Navbar() {
                   <nav className="space-y-2 mb-8">
                     {navLinks.map((link) => (
                       <div key={link.path} className="mb-2">
-                        {link.hasDropdown ? (
-                          <>
-                            <button
-                              onClick={toggleMobileDropdown}
-                              className="w-full flex items-center justify-between px-4 py-5 text-left rounded-xl bg-white hover:bg-blue-50 transition-all duration-200 border border-blue-100"
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-50 to-white flex items-center justify-center border border-blue-100">
-                                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                  </svg>
-                                </div>
-                                <span className={`text-lg font-semibold ${
-                                  mobileDropdownOpen ? 'text-blue-800' : 'text-slate-800'
-                                }`}>
-                                  {link.label}
-                                </span>
-                              </div>
-                              <motion.div
-                                animate={{ rotate: mobileDropdownOpen ? 180 : 0 }}
-                                transition={{ duration: 0.2 }}
-                              >
-                                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                  {mobileDropdownOpen ? (
-                                    <ChevronUp className="w-6 h-6 text-blue-700" />
-                                  ) : (
-                                    <ChevronDown className="w-6 h-6 text-blue-600" />
-                                  )}
-                                </div>
-                              </motion.div>
-                            </button>
-
-                            <AnimatePresence>
-                              {mobileDropdownOpen && (
-                                <motion.div
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: 'auto' }}
-                                  exit={{ opacity: 0, height: 0 }}
-                                  transition={{ duration: 0.25 }}
-                                  className="overflow-hidden mt-2"
-                                >
-                                  <div className="ml-6 pl-4 border-l-2 border-dashed border-blue-200 space-y-2 py-3">
-                                    {courseSubLinks.map((sub) => (
-                                      <Link
-                                        key={sub.path}
-                                        to={sub.path}
-                                        onClick={() => {
-                                          setIsOpen(false);
-                                          setMobileDropdownOpen(false);
-                                        }}
-                                        className="block px-5 py-4 rounded-lg text-base font-semibold text-slate-700 hover:text-blue-800 hover:bg-white transition-all duration-200 border border-blue-100"
-                                      >
-                                        <span className="flex items-center gap-3">
-                                          <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></span>
-                                          {sub.label}
-                                        </span>
-                                      </Link>
-                                    ))}
-                                  </div>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </>
-                        ) : (
-                          <Link
-                            to={link.path}
-                            onClick={() => setIsOpen(false)}
-                            className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
-                              isActive(link.path)
-                                ? 'text-blue-800 bg-gradient-to-r from-blue-50 to-white'
-                                : 'text-slate-800 hover:text-blue-800 bg-white hover:bg-blue-50/50'
-                            }`}
-                          >
-                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                              isActive(link.path) 
-                                ? 'bg-gradient-to-br from-blue-100 to-white' 
-                                : 'bg-blue-50'
-                            }`}>
-                              <svg className={`w-6 h-6 ${isActive(link.path) ? 'text-blue-700' : 'text-blue-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                {link.path === '/' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />}
-                                {link.path === '/upcoming-courses' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />}
-                                {link.path === '/about' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />}
-                                {link.path === '/contact' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />}
-                              </svg>
-                            </div>
-                            {link.label}
-                          </Link>
-                        )}
+                        <Link
+                          to={link.path}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
+                            isActive(link.path)
+                              ? 'text-blue-800 bg-gradient-to-r from-blue-50 to-white'
+                              : 'text-slate-800 hover:text-blue-800 bg-white hover:bg-blue-50/50'
+                          }`}
+                        >
+                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                            isActive(link.path) 
+                              ? 'bg-gradient-to-br from-blue-100 to-white' 
+                              : 'bg-blue-50'
+                          }`}>
+                            <svg className={`w-6 h-6 ${isActive(link.path) ? 'text-blue-700' : 'text-blue-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              {link.path === '/' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />}
+                              {link.path === '/upcoming-courses' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />}
+                              {link.path === '/about' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />}
+                              {link.path === '/contact' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />}
+                            </svg>
+                          </div>
+                          {link.label}
+                        </Link>
                       </div>
                     ))}
+                    
+                    {/* Mobile Our Programs Button */}
+                    <div className="mb-2">
+                      <button
+                        onClick={toggleMobileDropdown}
+                        className="w-full flex items-center justify-between px-4 py-5 text-left rounded-xl transition-all duration-200 border border-blue-100 bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center">
+                            <GraduationCap className="w-6 h-6 text-white" />
+                          </div>
+                          <span className={`text-lg font-bold ${
+                            mobileDropdownOpen ? 'text-white' : 'text-white'
+                          }`}>
+                            Our Programs
+                          </span>
+                        </div>
+                        <motion.div
+                          animate={{ rotate: mobileDropdownOpen ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                            {mobileDropdownOpen ? (
+                              <ChevronUp className="w-6 h-6 text-white" />
+                            ) : (
+                              <ChevronDown className="w-6 h-6 text-white" />
+                            )}
+                          </div>
+                        </motion.div>
+                      </button>
+
+                      <AnimatePresence>
+                        {mobileDropdownOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="overflow-hidden mt-2"
+                          >
+                            <div className="ml-6 pl-4 border-l-2 border-dashed border-blue-200 space-y-2 py-3">
+                              {courseSubLinks.map((sub) => (
+                                <Link
+                                  key={sub.path}
+                                  to={sub.path}
+                                  onClick={() => {
+                                    setIsOpen(false);
+                                    setMobileDropdownOpen(false);
+                                  }}
+                                  className="block px-5 py-4 rounded-lg text-base font-semibold text-slate-700 hover:text-blue-800 hover:bg-white transition-all duration-200 border border-blue-100"
+                                >
+                                  <span className="flex items-center gap-3">
+                                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></span>
+                                    {sub.label}
+                                  </span>
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   </nav>
 
                   <div className="mb-8 p-6 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl">

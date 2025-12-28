@@ -240,6 +240,7 @@ function FeaturedPrograms() {
                     onClick={() => navigate(program.path)}
                     className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border cursor-pointer h-full overflow-hidden"
                   >
+                    {/* Top colored section - keep white text here */}
                     <div className={`h-36 bg-gradient-to-r ${program.gradient} relative`}>
                       <div className="absolute top-6 left-6 w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
                         <Icon className="text-white w-6 h-6" />
@@ -250,8 +251,9 @@ function FeaturedPrograms() {
                       </div>
                     </div>
 
+                    {/* Bottom content section - changed to black text */}
                     <div className="p-6">
-                      <p className="text-gray-600 text-sm mb-4">
+                      <p className="text-gray-800 text-sm mb-4">
                         {program.description}
                       </p>
 
@@ -259,16 +261,16 @@ function FeaturedPrograms() {
                         {program.highlights.map((h, i) => (
                           <div key={i} className="flex items-center gap-2">
                             <CheckCircle className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                            <span className="text-sm">{h}</span>
+                            <span className="text-sm text-gray-800">{h}</span>
                           </div>
                         ))}
                       </div>
 
                       <div className="flex justify-between items-center border-t pt-4">
-                        <span className="text-sm text-gray-500">{program.students}</span>
+                        <span className="text-sm text-gray-700 font-medium">{program.students}</span>
                         <div className="flex items-center gap-2 text-blue-600 font-medium group">
-                          <span>Explore</span>
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          <span className="text-gray-800">Explore</span>
+                          <ArrowRight className="w-4 h-4 text-gray-800 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </div>
