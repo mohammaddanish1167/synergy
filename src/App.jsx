@@ -45,7 +45,7 @@ function App() {
           <Route path="phd" element={<PhD />} />
           <Route path="mba" element={<MBA />} />
           <Route path="dba" element={<DBA />} />
-          <Route path="honorary-programs" element={<HonoraryPrograms />} />
+          
           <Route path="honorary-doctorate" element={<HonoraryDoctorate />} />
           <Route path="honorary-professorship" element={<HonoraryProfessorship />} />
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
