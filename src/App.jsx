@@ -18,7 +18,7 @@ import Contact from './pages/Contact';
 import PhD from './pages/PhD';
 import MBA from './pages/MBA';
 import DBA from './pages/DBA';
-import HonoraryPrograms from './pages/HonoraryPrograms';
+
 import HonoraryDoctorate from './pages/HonoraryDoctorate';
 import HonoraryProfessorship from './pages/HonoraryProfessorship';
 // import CareerCounselling from './pages/CareerCounselling';
