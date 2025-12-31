@@ -1,12 +1,11 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import ContactForm from '../components/ContactForm';
-import { FiMail, FiPhone, FiMapPin, FiGlobe, FiChevronRight, FiClock, FiShield, FiUsers } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiGlobe, FiClock, FiShield, FiUsers } from 'react-icons/fi';
 import { FaLinkedin, FaTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 const ContactPage = () => {
   const [activeLocation, setActiveLocation] = useState('UK');
-  const [hoveredCard, setHoveredCard] = useState(null);
 
   // Office locations data
   const locations = [
@@ -29,16 +28,6 @@ const ContactPage = () => {
       address: '30 N Gould St Ste R Sheridan WY 82801 USA',
       timezone: 'MST',
       formFields: ['name', 'email', 'mobile', 'message']
-    },
-    {
-      id: 'IN',
-      name: 'INDIA',
-      company: 'QUALIFYLEARN EDU PVT LTD',
-      emails: ['support@qualifylearn.com', 'info@qualifylearn.com'],
-      phone: '+91-888-293-7078',
-      address: 'B5, Block B, Yamuna Vihar, Shahdhara, Delhi, 110053',
-      timezone: 'IST',
-      formFields: ['name', 'email', 'mobile', 'message']
     }
   ];
 
@@ -49,93 +38,123 @@ const ContactPage = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.15, duration: 0.5 }}
       whileHover={{ scale: 1.02 }}
-      onMouseEnter={() => setHoveredCard(location.id)}
-      onMouseLeave={() => setHoveredCard(null)}
       onClick={() => setActiveLocation(location.id)}
-      className={`relative bg-gray-900/50 backdrop-blur-sm rounded-xl border ${
+      className={`relative bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-xl border transition-all duration-300 ${
         activeLocation === location.id 
-          ? 'border-blue-500 shadow-lg shadow-blue-500/10' 
-          : 'border-gray-800 hover:border-gray-700'
-      } p-6 cursor-pointer transition-all duration-300`}
+          ? 'border-blue-500/50 shadow-2xl shadow-blue-500/20' 
+          : 'border-gray-700/50 hover:border-gray-600'
+      } p-6 cursor-pointer overflow-hidden group`}
     >
+      {/* Gradient Background Glow */}
+      <div className={`absolute inset-0 bg-gradient-to-br transition-opacity duration-500 ${
+        activeLocation === location.id 
+          ? 'opacity-30 from-blue-900/20 via-transparent to-purple-900/20' 
+          : 'opacity-0 group-hover:opacity-10 from-gray-700/20 to-gray-900/20'
+      }`} />
+
       {/* Selection Indicator */}
       {activeLocation === location.id && (
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30"
+        >
           <FiGlobe className="w-3 h-3 text-white" />
-        </div>
+        </motion.div>
       )}
 
-      <div className="space-y-5">
+      <div className="relative z-10 space-y-5">
         {/* Location Header */}
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-              activeLocation === location.id ? 'bg-blue-600/20' : 'bg-gray-800'
-            }`}>
-              <FiMapPin className={`w-5 h-5 ${
+          <div className="flex items-center gap-3 mb-3">
+            <motion.div
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.5 }}
+              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                activeLocation === location.id 
+                  ? 'bg-gradient-to-br from-blue-600/30 to-blue-800/30 shadow-lg shadow-blue-500/20' 
+                  : 'bg-gradient-to-br from-gray-800/50 to-gray-900/50'
+              }`}
+            >
+              <FiMapPin className={`w-6 h-6 transition-colors duration-300 ${
                 activeLocation === location.id ? 'text-blue-400' : 'text-gray-400'
               }`} />
-            </div>
+            </motion.div>
             <div>
               <h3 className="text-lg font-bold text-white">{location.name}</h3>
-              <p className="text-sm text-blue-400">{location.company}</p>
+              <p className="text-sm text-blue-400/80 font-medium">{location.company}</p>
             </div>
           </div>
         </div>
 
         {/* Contact Details */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {/* Email */}
-          <div className="flex items-start">
-            <FiMail className="w-4 h-4 text-gray-400 mt-1 mr-3 flex-shrink-0" />
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-900/50">
+              <FiMail className="w-4 h-4 text-blue-400" />
+            </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Email</p>
+              <p className="text-xs text-gray-400 mb-1">Email</p>
               {location.emails.map((email, idx) => (
-                <p key={idx} className="text-sm text-gray-300 hover:text-blue-400 transition-colors">
+                <motion.p
+                  key={idx}
+                  whileHover={{ x: 2 }}
+                  className="text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
+                >
                   {email}
-                </p>
+                </motion.p>
               ))}
             </div>
           </div>
 
           {/* Phone */}
-          <div className="flex items-start">
-            <FiPhone className="w-4 h-4 text-gray-400 mt-1 mr-3 flex-shrink-0" />
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-900/50">
+              <FiPhone className="w-4 h-4 text-blue-400" />
+            </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Phone</p>
-              <p className="text-sm text-gray-300 hover:text-blue-400 transition-colors">
+              <p className="text-xs text-gray-400 mb-1">Phone</p>
+              <motion.p
+                whileHover={{ x: 2 }}
+                className="text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
+              >
                 {location.phone}
-              </p>
+              </motion.p>
             </div>
           </div>
 
           {/* Address */}
-          <div className="flex items-start">
-            <FiMapPin className="w-4 h-4 text-gray-400 mt-1 mr-3 flex-shrink-0" />
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-900/50">
+              <FiMapPin className="w-4 h-4 text-blue-400" />
+            </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Address</p>
-              <p className="text-sm text-gray-300">{location.address}</p>
+              <p className="text-xs text-gray-400 mb-1">Address</p>
+              <p className="text-sm text-gray-300 leading-relaxed">{location.address}</p>
             </div>
           </div>
 
           {/* Timezone */}
-          <div className="flex items-center pt-2 border-t border-gray-800">
-            <FiClock className="w-4 h-4 text-gray-400 mr-2" />
-            <span className="text-xs text-gray-500">{location.timezone} Timezone</span>
+          <div className="flex items-center gap-2 pt-3 border-t border-gray-800/50">
+            <FiClock className="w-4 h-4 text-blue-400/70" />
+            <span className="text-xs text-gray-400">{location.timezone} Timezone</span>
           </div>
         </div>
 
         {/* Select Button */}
         <div className="pt-3">
-          <button
-            className={`w-full py-2 text-sm font-medium rounded-lg transition-colors ${
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className={`w-full py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ${
               activeLocation === location.id
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30'
+                : 'bg-gradient-to-br from-gray-800 to-gray-900 text-gray-300 hover:text-white hover:shadow-lg'
             }`}
           >
-            {activeLocation === location.id ? 'Selected' : 'Select Location'}
-          </button>
+            {activeLocation === location.id ? '✓ Selected Location' : 'Select Location'}
+          </motion.button>
         </div>
       </div>
     </motion.div>
@@ -145,6 +164,31 @@ const ContactPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-4">
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(8)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-blue-900/10 to-purple-900/10 blur-3xl"
+              style={{
+                left: `${20 + i * 10}%`,
+                top: `${30 + i * 5}%`,
+              }}
+              animate={{
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 10 + i * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.5,
+              }}
+            />
+          ))}
+        </div>
+
         <div className="relative max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -157,11 +201,11 @@ const ContactPage = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 backdrop-blur-sm 
-                       rounded-full border border-gray-700 mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-900/20 to-purple-900/20 backdrop-blur-sm 
+                       rounded-full border border-blue-700/30 mb-6"
             >
               <FiGlobe className="w-4 h-4 text-blue-400" />
-              <span className="text-blue-400 text-sm font-medium">GLOBAL REACH</span>
+              <span className="text-blue-400 text-sm font-medium tracking-wide">GLOBAL REACH</span>
             </motion.div>
             
             {/* Main Heading */}
@@ -171,7 +215,7 @@ const ContactPage = () => {
               transition={{ delay: 0.3 }}
               className="text-5xl md:text-6xl font-bold text-white mb-6"
             >
-              Contact <span className="text-blue-400">Us</span>
+              Contact <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Us</span>
             </motion.h1>
             
             <motion.p
@@ -180,7 +224,7 @@ const ContactPage = () => {
               transition={{ delay: 0.4 }}
               className="text-xl text-gray-300 max-w-3xl mx-auto"
             >
-              Get In Touch With Our <span className="text-white font-semibold">Global Team</span> of Education Consultants
+              Connect With Our <span className="text-white font-semibold">Global Team</span> of Education Specialists
             </motion.p>
           </motion.div>
 
@@ -202,10 +246,11 @@ const ContactPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-gray-900/40 backdrop-blur-sm rounded-xl p-4 border border-gray-800"
+                whileHover={{ y: -5 }}
+                className="bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-sm rounded-xl p-4 border border-gray-800/50 shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-600/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600/20 to-blue-800/20 flex items-center justify-center shadow-lg shadow-blue-500/10">
                     <stat.icon className="w-5 h-5 text-blue-400" />
                   </div>
                   <div>
@@ -225,11 +270,24 @@ const ContactPage = () => {
           {/* Contact Cards */}
           <div className="lg:col-span-2">
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-white mb-2">Our Global Offices</h2>
-              <p className="text-gray-400">Select a location to contact our team</p>
+              <motion.h2 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-3xl font-bold text-white mb-3"
+              >
+                Our Global Offices
+              </motion.h2>
+              <motion.p 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-gray-400 text-lg"
+              >
+                Select a location to connect with our regional team
+              </motion.p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {locations.map((location, index) => (
                 <ContactCard key={location.id} location={location} index={index} />
               ))}
@@ -240,10 +298,13 @@ const ContactPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="mt-8 bg-gray-900/40 backdrop-blur-sm rounded-xl border border-gray-800 p-6"
+              whileHover={{ scale: 1.01 }}
+              className="mt-8 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-xl"
             >
-              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <FiClock className="w-5 h-5 text-blue-400" />
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600/30 to-blue-800/30 flex items-center justify-center">
+                  <FiClock className="w-5 h-5 text-blue-400" />
+                </div>
                 Business Hours
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -253,10 +314,14 @@ const ContactPage = () => {
                   { day: 'Sunday', time: 'Closed' },
                   { day: 'Emergency', time: '24/7 via Email' }
                 ].map((schedule, idx) => (
-                  <div key={idx} className="p-3 rounded-lg bg-gray-800/50">
-                    <p className="text-sm text-gray-400">{schedule.day}</p>
-                    <p className="text-white font-medium">{schedule.time}</p>
-                  </div>
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.03 }}
+                    className="p-4 rounded-xl bg-gradient-to-br from-gray-800/30 to-gray-900/30 border border-gray-700/50"
+                  >
+                    <p className="text-sm text-gray-400 mb-1">{schedule.day}</p>
+                    <p className="text-white font-semibold">{schedule.time}</p>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -268,65 +333,78 @@ const ContactPage = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
+              whileHover={{ scale: 1.01 }}
               className="sticky top-8"
             >
-              <div className="bg-gray-900/40 backdrop-blur-sm rounded-2xl border border-gray-800 p-6">
+              <div className="bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-2xl">
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-white mb-2">
+                  <h2 className="text-2xl font-bold text-white mb-3">
                     Send Message to {locations.find(l => l.id === activeLocation)?.name}
                   </h2>
-                  <p className="text-gray-400 text-sm">
-                    Our team responds within 2 hours during business days
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Our dedicated team responds within 2 hours during business days
                   </p>
                 </div>
 
+                {/* The ContactForm component already has all the requested fields */}
                 <ContactForm
                   location={activeLocation}
-                  fields={locations.find(l => l.id === activeLocation)?.formFields || ['name', 'email', 'mobile', 'message']}
-                  buttonText="Send Message"
+                  fields={['name', 'email', 'phone', 'country', 'course', 'message', 'consent']}
+                  buttonText="Submit Application for Expert Guidance"
                 />
 
                 {/* Quick Response Guarantee */}
-                <div className="mt-8 p-4 bg-blue-600/10 border border-blue-500/30 rounded-xl">
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="mt-8 p-5 bg-gradient-to-r from-blue-900/20 to-cyan-900/10 rounded-xl border border-blue-500/30"
+                >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
-                      <FiClock className="w-4 h-4 text-blue-400" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-600/30 to-cyan-600/30 rounded-xl flex items-center justify-center">
+                      <FiClock className="w-5 h-5 text-blue-400" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-white">Quick Response Guarantee</p>
-                      <p className="text-xs text-blue-300">We reply within 2 hours</p>
+                      <p className="text-sm font-semibold text-white">Quick Response Guarantee</p>
+                      <p className="text-xs text-blue-300/80">We reply within 2 hours</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
 
               {/* Social Links */}
-              <div className="mt-6 bg-gray-900/40 backdrop-blur-sm rounded-xl border border-gray-800 p-6">
-                <h3 className="text-lg font-bold text-white mb-4">Connect With Us</h3>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                whileHover={{ scale: 1.01 }}
+                className="mt-6 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-xl border border-gray-800/50 p-6 shadow-xl"
+              >
+                <h3 className="text-lg font-bold text-white mb-5">Connect With Us</h3>
                 <div className="flex justify-center gap-4">
                   {[
-                    { icon: FaLinkedin, color: 'bg-blue-700 hover:bg-blue-600', label: 'LinkedIn' },
-                    { icon: FaTwitter, color: 'bg-sky-700 hover:bg-sky-600', label: 'Twitter' },
-                    { icon: FaInstagram, color: 'bg-pink-700 hover:bg-pink-600', label: 'Instagram' },
-                    { icon: FaWhatsapp, color: 'bg-green-700 hover:bg-green-600', label: 'WhatsApp' }
+                    { icon: FaLinkedin, color: 'from-blue-700 to-blue-800', label: 'LinkedIn' },
+                    { icon: FaTwitter, color: 'from-sky-700 to-sky-800', label: 'Twitter' },
+                    { icon: FaInstagram, color: 'from-pink-700 to-pink-800', label: 'Instagram' },
+                    { icon: FaWhatsapp, color: 'from-green-700 to-green-800', label: 'WhatsApp' }
                   ].map((social, idx) => (
                     <motion.a
                       key={social.label}
                       href="#"
-                      whileHover={{ y: -3 }}
+                      whileHover={{ y: -4, scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      className={`${social.color} w-10 h-10 rounded-lg flex items-center justify-center 
-                               text-white transition-colors`}
+                      className={`bg-gradient-to-br ${social.color} w-12 h-12 rounded-xl flex items-center justify-center 
+                               text-white shadow-lg hover:shadow-xl transition-all duration-300`}
                       aria-label={social.label}
                     >
-                      <social.icon className="w-5 h-5" />
+                      <social.icon className="w-6 h-6" />
                     </motion.a>
                   ))}
                 </div>
-                <p className="text-center text-gray-500 text-sm mt-4">
+                <p className="text-center text-gray-400 text-sm mt-5">
                   Follow us for updates and announcements
                 </p>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
@@ -340,7 +418,7 @@ const ContactPage = () => {
         >
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">Frequently Asked Questions</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
               Quick answers to common questions about contacting us
             </p>
           </div>
@@ -369,21 +447,19 @@ const ContactPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 + idx * 0.1 }}
-                className="bg-gray-900/40 backdrop-blur-sm rounded-xl border border-gray-800 p-6"
+                whileHover={{ y: -5 }}
+                className="bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-xl border border-gray-800/50 p-6 shadow-lg hover:shadow-xl transition-all duration-300"
               >
-                <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-3">
+                  <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full" />
                   {faq.question}
                 </h3>
-                <p className="text-gray-400">{faq.answer}</p>
+                <p className="text-gray-400 leading-relaxed">{faq.answer}</p>
               </motion.div>
             ))}
           </div>
         </motion.div>
       </div>
-
-      {/* Footer */}
-      
     </div>
   );
 };

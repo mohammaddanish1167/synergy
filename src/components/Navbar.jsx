@@ -1,6 +1,7 @@
 /**
  * Navbar Component - Qualify Learn Theme
  * Clean logo display without boxes or containers
+ * Updated: Our Programs button moved before Home
  */
 
 import { useState, useRef, useEffect } from 'react';
@@ -184,28 +185,7 @@ function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-2">
-              {/* Home Link */}
-              <div className="relative px-2">
-                <Link
-                  to="/"
-                  className={`flex items-center gap-1 text-sm font-semibold transition-colors px-4 py-2.5 rounded-lg ${
-                    isActive('/')
-                      ? 'text-blue-800 bg-blue-50'
-                      : 'text-slate-700 hover:text-blue-700 hover:bg-blue-50/50'
-                  }`}
-                >
-                  Home
-                </Link>
-                {isActive('/') && (
-                  <motion.div
-                    layoutId="active-underline"
-                    className="absolute left-4 right-4 -bottom-1 h-0.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full"
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                  />
-                )}
-              </div>
-              
-              {/* Our Programs Dropdown - Enhanced Creative Design */}
+              {/* Our Programs Dropdown - Moved to first position - Enhanced Creative Design */}
               <div
                 className="relative px-2"
                 onMouseEnter={() => setShowCoursesMenu(true)}
@@ -311,13 +291,13 @@ function Navbar() {
                                       <div className="absolute inset-0 bg-white/20 rounded-lg"></div>
                                     </div>
                                     
-                                    {/* Content */}
-                                    <div className="flex-1 min-w-0">
-                                      <div className="flex items-center justify-between mb-1.5">
-                                        <h4 className="font-bold text-blue-900 text-sm truncate group-hover:text-blue-700">
+                                    {/* Content - Fixed full program name display */}
+                                    <div className="flex-1">
+                                      <div className="flex items-start justify-between mb-1.5">
+                                        <h4 className="font-bold text-blue-900 text-sm group-hover:text-blue-700 pr-2">
                                           {program.label}
                                         </h4>
-                                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${program.color} text-white`}>
+                                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${program.color} text-white flex-shrink-0`}>
                                           {program.badge}
                                         </span>
                                       </div>
@@ -339,13 +319,31 @@ function Navbar() {
                             </motion.div>
                           ))}
                         </div>
-
-                        {/* Footer CTA */}
-                        
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
+              </div>
+
+              {/* Home Link - Moved after Our Programs */}
+              <div className="relative px-2">
+                <Link
+                  to="/"
+                  className={`flex items-center gap-1 text-sm font-semibold transition-colors px-4 py-2.5 rounded-lg ${
+                    isActive('/')
+                      ? 'text-blue-800 bg-blue-50'
+                      : 'text-slate-700 hover:text-blue-700 hover:bg-blue-50/50'
+                  }`}
+                >
+                  Home
+                </Link>
+                {isActive('/') && (
+                  <motion.div
+                    layoutId="active-underline"
+                    className="absolute left-4 right-4 -bottom-1 h-0.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full"
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                  />
+                )}
               </div>
               
               {/* Other navigation links */}
@@ -483,27 +481,7 @@ function Navbar() {
                 {/* Mobile menu content */}
                 <div className="flex-1 p-6 overflow-y-auto">
                   <nav className="space-y-2 mb-8">
-                    {/* Home Link */}
-                    <div className="mb-2">
-                      <Link
-                        to="/"
-                        onClick={() => setIsOpen(false)}
-                        className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
-                          isActive('/')
-                            ? 'text-blue-800 bg-gradient-to-r from-blue-50/50 to-white'
-                            : 'text-slate-800 hover:text-blue-800 bg-white/80 hover:bg-blue-50/30'
-                        }`}
-                      >
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-100 to-white shadow-sm`}>
-                          <svg className={`w-6 h-6 text-blue-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                          </svg>
-                        </div>
-                        Home
-                      </Link>
-                    </div>
-                    
-                    {/* Enhanced Mobile Our Programs Button */}
+                    {/* Enhanced Mobile Our Programs Button - Moved to top */}
                     <div className="mb-2">
                       <motion.button
                         whileTap={{ scale: 0.98 }}
@@ -567,13 +545,13 @@ function Navbar() {
                                         {getIcon(program.icon)}
                                       </div>
                                       
-                                      {/* Content */}
-                                      <div className="flex-1 min-w-0">
-                                        <div className="flex items-center justify-between mb-1">
-                                          <h4 className="font-bold text-blue-900 text-base group-hover:text-blue-700 truncate">
+                                      {/* Content - Fixed full program name display */}
+                                      <div className="flex-1">
+                                        <div className="flex items-start justify-between mb-1">
+                                          <h4 className="font-bold text-blue-900 text-base group-hover:text-blue-700 pr-2">
                                             {program.label}
                                           </h4>
-                                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${program.color} text-white`}>
+                                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${program.color} text-white flex-shrink-0`}>
                                             {program.badge}
                                           </span>
                                         </div>
@@ -594,14 +572,36 @@ function Navbar() {
                                   </Link>
                                 </motion.div>
                               ))}
-                              
-                              {/* View All Link */}
-                             
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
+
+                    {/* Home Link - Moved after Our Programs in mobile */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 }}
+                      className="mb-2"
+                    >
+                      <Link
+                        to="/"
+                        onClick={() => setIsOpen(false)}
+                        className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
+                          isActive('/')
+                            ? 'text-blue-800 bg-gradient-to-r from-blue-50/50 to-white'
+                            : 'text-slate-800 hover:text-blue-800 bg-white/80 hover:bg-blue-50/30'
+                        }`}
+                      >
+                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-100 to-white shadow-sm`}>
+                          <svg className={`w-6 h-6 text-blue-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                          </svg>
+                        </div>
+                        Home
+                      </Link>
+                    </motion.div>
                     
                     {/* Other mobile navigation links */}
                     {navLinks.slice(1).map((link, index) => (
@@ -609,7 +609,7 @@ function Navbar() {
                         key={link.path}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 + (index * 0.05) }}
+                        transition={{ delay: 0.15 + (index * 0.05) }}
                         className="mb-2"
                       >
                         <Link
