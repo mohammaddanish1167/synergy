@@ -6,19 +6,19 @@
  */
 
 export const testimonials = [
-  {
-    id: 'tp-1',
-    name: 'Bafana Peter Malinga',
-    location: 'ZA', // South Africa
-    reviewsCount: '1 review',
-    date: 'October 12, 2025',
-    course: 'PhD Program',
-    image: '', // Will use initials "BP"
-    text: 'My phd journey with qualify learn was remarkably smooth, well structured and efficient. The team provided clear guidance and timely support at every stage. I highly recommend qualify learn for professionals who are looking to make academic journey smoother.',
-    rating: 5,
-    source: 'Trustpilot',
-    useful: true
-  },
+{
+  id: 'tp-1',
+  name: 'Bafana Peter Malinga',
+  location: 'ZA', // South Africa
+  reviewsCount: '1 review',
+  date: 'October 12, 2025',
+  course: 'PhD Program',
+  image: 'https://ui-avatars.com/api/?name=BP&background=0f172a&color=60a5fa&bold=true', // Add avatar URL
+  text: 'My phd journey with qualify learn was remarkably smooth...',
+  rating: 5,
+  source: 'Trustpilot',
+  useful: true
+},
 
   {
     id: 'tp-6',

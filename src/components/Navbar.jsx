@@ -7,7 +7,21 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import logo from '../assets/logo.jpeg';
-import { ChevronDown, ChevronUp, Menu, X, GraduationCap } from 'lucide-react';
+import { 
+  ChevronDown, 
+  ChevronUp, 
+  Menu, 
+  X, 
+  GraduationCap, 
+  Award, 
+  UserCircle, 
+  BookOpen, 
+  Briefcase, 
+  TrendingUp,
+  Star,
+  Sparkles,
+  Zap
+} from 'lucide-react';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +31,7 @@ function Navbar() {
   const { scrollY } = useScroll();
   const mobileMenuRef = useRef(null);
   const [logoError, setLogoError] = useState(false);
+  const [hoveredProgram, setHoveredProgram] = useState(null);
 
   // Track scroll position for navbar background opacity
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -63,11 +78,46 @@ function Navbar() {
   ];
 
   const courseSubLinks = [
-    { path: '/honorary-doctorate', label: 'Honorary Doctorate' },
-    { path: '/honorary-professorship', label: 'Honorary Professorship' },
-    { path: '/phd', label: 'PhD' },
-    { path: '/mba', label: 'MBA (Master)' },
-    { path: '/dba', label: 'DBA' },
+    { 
+      path: '/honorary-doctorate', 
+      label: 'Honorary Doctorate',
+      icon: Award,
+      color: 'from-purple-500 to-indigo-600',
+      badge: 'Prestige',
+      description: 'Recognize lifetime achievements'
+    },
+    { 
+      path: '/honorary-professorship', 
+      label: 'Honorary Professorship',
+      icon: UserCircle,
+      color: 'from-blue-500 to-cyan-600',
+      badge: 'Excellence',
+      description: 'Academic recognition'
+    },
+    { 
+      path: '/phd', 
+      label: 'PhD Program',
+      icon: BookOpen,
+      color: 'from-emerald-500 to-green-600',
+      badge: 'Research',
+      description: 'Doctoral research degrees'
+    },
+    { 
+      path: '/mba', 
+      label: 'MBA (Master)',
+      icon: Briefcase,
+      color: 'from-amber-500 to-orange-600',
+      badge: 'Leadership',
+      description: 'Business administration'
+    },
+    { 
+      path: '/dba', 
+      label: 'DBA Program',
+      icon: TrendingUp,
+      color: 'from-rose-500 to-pink-600',
+      badge: 'Executive',
+      description: 'Doctor of Business Admin'
+    },
   ];
 
   const [showCoursesMenu, setShowCoursesMenu] = useState(false);
@@ -83,6 +133,12 @@ function Navbar() {
   // Handle logo error
   const handleLogoError = () => {
     setLogoError(true);
+  };
+
+  // Get program icon component
+  const getIcon = (iconComponent) => {
+    const Icon = iconComponent;
+    return <Icon className="w-5 h-5" />;
   };
 
   return (
@@ -128,7 +184,172 @@ function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-2">
-              {navLinks.map((link) => (
+              {/* Home Link */}
+              <div className="relative px-2">
+                <Link
+                  to="/"
+                  className={`flex items-center gap-1 text-sm font-semibold transition-colors px-4 py-2.5 rounded-lg ${
+                    isActive('/')
+                      ? 'text-blue-800 bg-blue-50'
+                      : 'text-slate-700 hover:text-blue-700 hover:bg-blue-50/50'
+                  }`}
+                >
+                  Home
+                </Link>
+                {isActive('/') && (
+                  <motion.div
+                    layoutId="active-underline"
+                    className="absolute left-4 right-4 -bottom-1 h-0.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full"
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                  />
+                )}
+              </div>
+              
+              {/* Our Programs Dropdown - Enhanced Creative Design */}
+              <div
+                className="relative px-2"
+                onMouseEnter={() => setShowCoursesMenu(true)}
+                onMouseLeave={() => setShowCoursesMenu(false)}
+              >
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`flex items-center gap-2 text-sm font-semibold transition-all duration-300 px-5 py-3 rounded-xl shadow-lg ${
+                    showCoursesMenu
+                      ? 'text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 shadow-xl'
+                      : 'text-white bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600 shadow-lg hover:shadow-xl hover:from-blue-600 hover:via-blue-500 hover:to-blue-700'
+                  }`}
+                >
+                  <div className="relative">
+                    <GraduationCap className="w-5 h-5" />
+                    <motion.div
+                      animate={{ rotate: showCoursesMenu ? 360 : 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="absolute -top-1 -right-1"
+                    >
+                      <Sparkles className="w-3 h-3 text-yellow-300" />
+                    </motion.div>
+                  </div>
+                  <span>Our Programs</span>
+                  <motion.div
+                    animate={{ rotate: showCoursesMenu ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </motion.div>
+                </motion.button>
+
+                {/* Enhanced Creative Dropdown Menu */}
+                <AnimatePresence>
+                  {showCoursesMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 mt-3 w-[500px] bg-gradient-to-br from-white via-blue-50/30 to-white border border-blue-100/50 rounded-2xl shadow-2xl overflow-hidden z-50 backdrop-blur-xl"
+                      onMouseEnter={() => setShowCoursesMenu(true)}
+                      onMouseLeave={() => setShowCoursesMenu(false)}
+                    >
+                      {/* Decorative background elements */}
+                      <div className="absolute inset-0 overflow-hidden">
+                        <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-200/20 rounded-full blur-3xl"></div>
+                        <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-indigo-200/20 rounded-full blur-3xl"></div>
+                      </div>
+                      
+                      <div className="relative z-10 p-5">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
+                              <Zap className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                              <h3 className="text-lg font-bold text-blue-900">Academic Programs</h3>
+                              <p className="text-sm text-blue-600/70">Transform your career with recognized qualifications</p>
+                            </div>
+                          </div>
+                          <div className="px-3 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full">
+                            <span className="text-xs font-semibold text-blue-700 flex items-center gap-1">
+                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                              5 Programs
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent mb-4"></div>
+
+                        {/* Programs Grid */}
+                        <div className="grid grid-cols-2 gap-3">
+                          {courseSubLinks.map((program, index) => (
+                            <motion.div
+                              key={program.path}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.05 }}
+                              onMouseEnter={() => setHoveredProgram(program.path)}
+                              onMouseLeave={() => setHoveredProgram(null)}
+                            >
+                              <Link
+                                to={program.path}
+                                className="block group"
+                                onClick={() => setShowCoursesMenu(false)}
+                              >
+                                <motion.div
+                                  whileHover={{ scale: 1.02, y: -2 }}
+                                  className={`p-4 rounded-xl border border-blue-100/50 transition-all duration-300 ${
+                                    hoveredProgram === program.path
+                                      ? 'bg-white shadow-lg border-blue-200'
+                                      : 'bg-white/80 hover:bg-white'
+                                  }`}
+                                >
+                                  <div className="flex items-start gap-3">
+                                    {/* Icon with gradient background */}
+                                    <div className={`p-2.5 rounded-lg bg-gradient-to-br ${program.color} relative flex-shrink-0`}>
+                                      {getIcon(program.icon)}
+                                      <div className="absolute inset-0 bg-white/20 rounded-lg"></div>
+                                    </div>
+                                    
+                                    {/* Content */}
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex items-center justify-between mb-1.5">
+                                        <h4 className="font-bold text-blue-900 text-sm truncate group-hover:text-blue-700">
+                                          {program.label}
+                                        </h4>
+                                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${program.color} text-white`}>
+                                          {program.badge}
+                                        </span>
+                                      </div>
+                                      <p className="text-xs text-blue-600/70 line-clamp-2">
+                                        {program.description}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Animated underline on hover */}
+                                  <motion.div
+                                    className="h-0.5 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full mt-3"
+                                    initial={{ scaleX: 0 }}
+                                    animate={{ scaleX: hoveredProgram === program.path ? 1 : 0 }}
+                                    transition={{ duration: 0.2 }}
+                                  />
+                                </motion.div>
+                              </Link>
+                            </motion.div>
+                          ))}
+                        </div>
+
+                        {/* Footer CTA */}
+                        
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+              
+              {/* Other navigation links */}
+              {navLinks.slice(1).map((link) => (
                 <div
                   key={link.path}
                   className="relative px-2"
@@ -153,71 +374,31 @@ function Navbar() {
                 </div>
               ))}
               
-              {/* Our Programs Dropdown - Now a Button */}
-              <div
-                className="relative px-2"
-                onMouseEnter={() => setShowCoursesMenu(true)}
-                onMouseLeave={() => setShowCoursesMenu(false)}
-              >
-                <button
-                  className={`flex items-center gap-2 text-sm font-semibold transition-all duration-300 px-5 py-3 rounded-xl ${
-                    showCoursesMenu
-                      ? 'text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg'
-                      : 'text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-md hover:shadow-lg'
-                  }`}
-                >
-                  <GraduationCap className="w-4 h-4" />
-                  <span>Our Programs</span>
-                  <ChevronDown 
-                    className={`w-4 h-4 transition-transform duration-200 ${showCoursesMenu ? 'rotate-180' : ''}`} 
-                  />
-                </button>
-
-                {/* Courses hover dropdown */}
-                <AnimatePresence>
-                  {showCoursesMenu && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute top-full left-0 mt-2 w-72 bg-white border border-blue-100 rounded-xl shadow-2xl overflow-hidden z-50 backdrop-blur-sm"
-                      onMouseEnter={() => setShowCoursesMenu(true)}
-                      onMouseLeave={() => setShowCoursesMenu(false)}
-                    >
-                      <div className="p-2">
-                        <div className="px-3 py-2 mb-1 border-b border-blue-100">
-                          <p className="text-xs font-semibold text-blue-800 uppercase tracking-wider">All Programs</p>
-                        </div>
-                        {courseSubLinks.map((sub) => (
-                          <Link
-                            key={sub.path}
-                            to={sub.path}
-                            className="block px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-white hover:text-blue-800 transition-all duration-200 rounded-lg mx-1"
-                            onClick={() => setShowCoursesMenu(false)}
-                          >
-                            <span className="flex items-center gap-3">
-                              <span className="w-2 h-2 rounded-full bg-blue-300"></span>
-                              {sub.label}
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-              
               {/* CTA */}
-              <button
+              <motion.button
+                whileHover={{ scale: 1.03, y: -1 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('open-guidance-modal'));
                 }}
-                className="relative ml-2 inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:-translate-y-0.5"
+                className="relative ml-2 inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
-                <span>Book a Consultation</span>
+                {/* Animated background effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800"
+                  animate={{
+                    background: [
+                      'linear-gradient(to right, #2563eb, #3b82f6, #2563eb)',
+                      'linear-gradient(to right, #1d4ed8, #2563eb, #1d4ed8)',
+                      'linear-gradient(to right, #2563eb, #3b82f6, #2563eb)',
+                    ]
+                  }}
+                  transition={{ repeat: Infinity, duration: 3 }}
+                />
+                
+                <span className="relative z-10">Book a Consultation</span>
                 <motion.svg
-                  className="w-4 h-4"
+                  className="w-4 h-4 relative z-10"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -226,7 +407,7 @@ function Navbar() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </motion.svg>
-              </button>
+              </motion.button>
             </div>
 
             {/* Mobile menu button */}
@@ -267,11 +448,11 @@ function Navbar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-gradient-to-b from-white to-blue-50 shadow-2xl z-50 md:hidden overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-gradient-to-b from-white via-blue-50/20 to-white shadow-2xl z-50 md:hidden overflow-y-auto"
             >
               <div className="flex flex-col h-full">
                 {/* Mobile menu header */}
-                <div className="p-6 border-b border-blue-100 bg-white">
+                <div className="p-6 border-b border-blue-100 bg-gradient-to-r from-white to-blue-50/30">
                   <div className="flex items-center justify-between mb-6">
                     <Link to="/" onClick={() => setIsOpen(false)}>
                       {logoError ? (
@@ -302,63 +483,58 @@ function Navbar() {
                 {/* Mobile menu content */}
                 <div className="flex-1 p-6 overflow-y-auto">
                   <nav className="space-y-2 mb-8">
-                    {navLinks.map((link) => (
-                      <div key={link.path} className="mb-2">
-                        <Link
-                          to={link.path}
-                          onClick={() => setIsOpen(false)}
-                          className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
-                            isActive(link.path)
-                              ? 'text-blue-800 bg-gradient-to-r from-blue-50 to-white'
-                              : 'text-slate-800 hover:text-blue-800 bg-white hover:bg-blue-50/50'
-                          }`}
-                        >
-                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                            isActive(link.path) 
-                              ? 'bg-gradient-to-br from-blue-100 to-white' 
-                              : 'bg-blue-50'
-                          }`}>
-                            <svg className={`w-6 h-6 ${isActive(link.path) ? 'text-blue-700' : 'text-blue-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              {link.path === '/' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />}
-                              {link.path === '/upcoming-courses' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />}
-                              {link.path === '/about' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />}
-                              {link.path === '/contact' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />}
-                            </svg>
-                          </div>
-                          {link.label}
-                        </Link>
-                      </div>
-                    ))}
-                    
-                    {/* Mobile Our Programs Button */}
+                    {/* Home Link */}
                     <div className="mb-2">
-                      <button
+                      <Link
+                        to="/"
+                        onClick={() => setIsOpen(false)}
+                        className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
+                          isActive('/')
+                            ? 'text-blue-800 bg-gradient-to-r from-blue-50/50 to-white'
+                            : 'text-slate-800 hover:text-blue-800 bg-white/80 hover:bg-blue-50/30'
+                        }`}
+                      >
+                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-100 to-white shadow-sm`}>
+                          <svg className={`w-6 h-6 text-blue-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                          </svg>
+                        </div>
+                        Home
+                      </Link>
+                    </div>
+                    
+                    {/* Enhanced Mobile Our Programs Button */}
+                    <div className="mb-2">
+                      <motion.button
+                        whileTap={{ scale: 0.98 }}
                         onClick={toggleMobileDropdown}
-                        className="w-full flex items-center justify-between px-4 py-5 text-left rounded-xl transition-all duration-200 border border-blue-100 bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700"
+                        className="w-full flex items-center justify-between px-4 py-5 text-left rounded-xl transition-all duration-200 bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600 text-white hover:from-blue-600 hover:via-blue-500 hover:to-blue-700 shadow-lg"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center">
-                            <GraduationCap className="w-6 h-6 text-white" />
+                          <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                            <div className="relative">
+                              <GraduationCap className="w-6 h-6 text-white" />
+                              <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-yellow-300" />
+                            </div>
                           </div>
-                          <span className={`text-lg font-bold ${
-                            mobileDropdownOpen ? 'text-white' : 'text-white'
-                          }`}>
-                            Our Programs
-                          </span>
+                          <div className="text-left">
+                            <span className="text-lg font-bold block">Our Programs</span>
+                            <span className="text-sm text-blue-100/80 font-medium block mt-0.5">5 premium programs</span>
+                          </div>
                         </div>
                         <motion.div
                           animate={{ rotate: mobileDropdownOpen ? 180 : 0 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
                             {mobileDropdownOpen ? (
-                              <ChevronUp className="w-6 h-6 text-white" />
+                              <ChevronUp className="w-5 h-5 text-white" />
                             ) : (
-                              <ChevronDown className="w-6 h-6 text-white" />
+                              <ChevronDown className="w-5 h-5 text-white" />
                             )}
                           </div>
                         </motion.div>
-                      </button>
+                      </motion.button>
 
                       <AnimatePresence>
                         {mobileDropdownOpen && (
@@ -367,52 +543,122 @@ function Navbar() {
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.25 }}
-                            className="overflow-hidden mt-2"
+                            className="overflow-hidden mt-3"
                           >
-                            <div className="ml-6 pl-4 border-l-2 border-dashed border-blue-200 space-y-2 py-3">
-                              {courseSubLinks.map((sub) => (
-                                <Link
-                                  key={sub.path}
-                                  to={sub.path}
-                                  onClick={() => {
-                                    setIsOpen(false);
-                                    setMobileDropdownOpen(false);
-                                  }}
-                                  className="block px-5 py-4 rounded-lg text-base font-semibold text-slate-700 hover:text-blue-800 hover:bg-white transition-all duration-200 border border-blue-100"
+                            <div className="space-y-3">
+                              {courseSubLinks.map((program, index) => (
+                                <motion.div
+                                  key={program.path}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: index * 0.05 }}
                                 >
-                                  <span className="flex items-center gap-3">
-                                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></span>
-                                    {sub.label}
-                                  </span>
-                                </Link>
+                                  <Link
+                                    to={program.path}
+                                    onClick={() => {
+                                      setIsOpen(false);
+                                      setMobileDropdownOpen(false);
+                                    }}
+                                    className="block group"
+                                  >
+                                    <div className="flex items-center gap-3 p-4 rounded-xl border border-blue-100 bg-white/80 hover:bg-white transition-all duration-300 hover:shadow-md">
+                                      {/* Icon */}
+                                      <div className={`p-2.5 rounded-lg bg-gradient-to-br ${program.color} flex-shrink-0`}>
+                                        {getIcon(program.icon)}
+                                      </div>
+                                      
+                                      {/* Content */}
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-center justify-between mb-1">
+                                          <h4 className="font-bold text-blue-900 text-base group-hover:text-blue-700 truncate">
+                                            {program.label}
+                                          </h4>
+                                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${program.color} text-white`}>
+                                            {program.badge}
+                                          </span>
+                                        </div>
+                                        <p className="text-xs text-blue-600/70 line-clamp-1">
+                                          {program.description}
+                                        </p>
+                                      </div>
+                                      
+                                      {/* Arrow */}
+                                      <motion.div
+                                        className="text-blue-400"
+                                        animate={{ x: [0, 2, 0] }}
+                                        transition={{ repeat: Infinity, duration: 1.5 }}
+                                      >
+                                        <ChevronDown className="w-4 h-4 rotate-90" />
+                                      </motion.div>
+                                    </div>
+                                  </Link>
+                                </motion.div>
                               ))}
+                              
+                              {/* View All Link */}
+                             
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
+                    
+                    {/* Other mobile navigation links */}
+                    {navLinks.slice(1).map((link, index) => (
+                      <motion.div 
+                        key={link.path}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 + (index * 0.05) }}
+                        className="mb-2"
+                      >
+                        <Link
+                          to={link.path}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
+                            isActive(link.path)
+                              ? 'text-blue-800 bg-gradient-to-r from-blue-50/50 to-white'
+                              : 'text-slate-800 hover:text-blue-800 bg-white/80 hover:bg-blue-50/30'
+                          }`}
+                        >
+                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-100 to-white shadow-sm`}>
+                            <svg className={`w-6 h-6 text-blue-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              {link.path === '/upcoming-courses' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />}
+                              {link.path === '/about' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />}
+                              {link.path === '/contact' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />}
+                            </svg>
+                          </div>
+                          {link.label}
+                        </Link>
+                      </motion.div>
+                    ))}
                   </nav>
 
-                  <div className="mb-8 p-6 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl">
+                  {/* Enhanced CTA Section */}
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="mb-8 p-6 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 rounded-2xl shadow-xl"
+                  >
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
+                      <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-white">Ready to Start?</h3>
-                        <p className="text-sm text-blue-100">Expert guidance available</p>
+                        <h3 className="text-lg font-bold text-white">Ready to Transform?</h3>
+                        <p className="text-sm text-blue-100">Expert guidance available 24/7</p>
                       </div>
                     </div>
-                    <button
+                    <motion.button
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => {
                         setIsOpen(false);
                         window.dispatchEvent(new CustomEvent('open-guidance-modal'));
                       }}
-                      className="w-full px-6 py-4 rounded-lg text-base font-bold text-blue-800 bg-white hover:bg-blue-50 transition-all duration-300 flex items-center justify-center gap-3"
+                      className="w-full px-6 py-4 rounded-xl text-base font-bold text-blue-800 bg-gradient-to-r from-white to-blue-50 hover:from-blue-50 hover:to-white transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
                     >
-                      <span>Get Free Guidance</span>
+                      <span>Get Free Consultation</span>
                       <motion.svg 
                         className="w-5 h-5"
                         fill="none"
@@ -422,11 +668,12 @@ function Navbar() {
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                       </motion.svg>
-                    </button>
-                  </div>
+                    </motion.button>
+                  </motion.div>
                 </div>
 
-                <div className="p-6 border-t border-blue-200 bg-white">
+                {/* Footer */}
+                <div className="p-6 border-t border-blue-200/50 bg-gradient-to-r from-white to-blue-50/30">
                   <p className="text-sm text-slate-600 text-center">
                     © {new Date().getFullYear()} QualifyLearn. All rights reserved.
                   </p>

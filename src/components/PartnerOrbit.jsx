@@ -410,7 +410,7 @@ export default function UniversityPartnerships() {
                     }}
                   >
                     <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100 text-blue-600 font-medium shadow-sm hover:shadow-md transition-shadow">
-                      Visit Website
+                      know More
                       <ExternalLink className="w-4 h-4" />
                     </span>
                   </motion.div>
@@ -473,33 +473,7 @@ export default function UniversityPartnerships() {
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white to-transparent pointer-events-none z-10" />
         </div>
 
-        {/* University Links Information */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-8 mb-12"
-        >
-          <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-            <Globe className="w-6 h-6 text-blue-600" />
-            All University Websites Verified
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {partners.map((partner) => (
-              <motion.a
-                key={partner.id}
-                href={partner.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ x: 5 }}
-                className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all"
-              >
-                <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${partner.color}`} />
-                <span className="font-medium text-gray-900">{partner.name}</span>
-                <ExternalLink className="w-4 h-4 text-gray-400 ml-auto" />
-              </motion.a>
-            ))}
-          </div>
-        </motion.div>
+       
 
         {/* Quick Links Footer */}
         <motion.div

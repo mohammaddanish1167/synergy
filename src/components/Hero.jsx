@@ -165,9 +165,9 @@ export default function Hero() {
 
             <div className="grid grid-cols-2 gap-6">
               {[
-                { icon: Users, value: "50K+", label: "Global Learners" },
+                { icon: Users, value: "5K+", label: "Global Learners" },
                 { icon: Award, value: "100+", label: "Accreditations" },
-                { icon: BookOpen, value: "700+", label: "Programs" },
+                { icon: BookOpen, value: "10+", label: "Programs" },
                 { icon: Sparkles, value: "98%", label: "Satisfaction" },
               ].map((item, i) => {
                 const Icon = item.icon;
