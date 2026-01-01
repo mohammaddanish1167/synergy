@@ -23,6 +23,7 @@ import HonoraryDoctorate from './pages/HonoraryDoctorate';
 import HonoraryProfessorship from './pages/HonoraryProfessorship';
 // import CareerCounselling from './pages/CareerCounselling';
 import NotFound from './pages/NotFound';
+import Enroll from './pages/Enroll';
 import Payment from './pages/Payment';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import RefundPolicy from './pages/RefundPolicy';
@@ -38,6 +39,7 @@ function App() {
           {/* Public Routes */}
           <Route index element={<Home />} />
           <Route path="upcoming-courses" element={<UpcomingCourses />} />
+          <Route path="enroll" element={<Enroll />} />
           <Route path="pay" element={<Payment />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />

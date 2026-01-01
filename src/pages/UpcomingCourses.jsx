@@ -91,10 +91,8 @@ function UpcomingCourses() {
     duration: '12 month program',
     startDate: 'Dec 8, 2024',
     endDate: 'Dec 8, 2025',
-    price: 99,
-    originalPrice: 199,
-    discount: '50%',
-    payLink: `/pay?course=${encodeURIComponent(c.title)}&id=${c.id}&month=December&date=8&price=99`,
+    suggestedPrice: 99,
+    payLink: `/enroll?course=${encodeURIComponent(c.title)}&id=${c.id}&month=December&date=8&suggestedPrice=99`,
   }));
 
   const janCourses = baseCourses.map(c => ({
@@ -103,10 +101,8 @@ function UpcomingCourses() {
     duration: '12 month program',
     startDate: 'Jan 8, 2025',
     endDate: 'Jan 8, 2026',
-    price: 99,
-    originalPrice: 199,
-    discount: '50%',
-    payLink: `/pay?course=${encodeURIComponent(c.title)}&id=${c.id}&month=January&date=8&price=99`,
+    suggestedPrice: 99,
+    payLink: `/enroll?course=${encodeURIComponent(c.title)}&id=${c.id}&month=January&date=8&suggestedPrice=99`,
   }));
 
   return (
@@ -280,19 +276,8 @@ function UpcomingCourses() {
                       </div>
                     </div>
 
-                    {/* Price & Action */}
-                    <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-                      <div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-2xl font-bold text-slate-900">${item.price}</span>
-                          <span className="text-sm text-slate-500 line-through">${item.originalPrice}</span>
-                          <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
-                            {item.discount} OFF
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-500 mt-1">One-time payment</p>
-                      </div>
-                      
+                    {/* Action */}
+                    <div className="flex items-center justify-end pt-6 border-t border-slate-100">
                       <div className="flex items-center gap-3">
                         <Link
                           to={item.link}
@@ -419,19 +404,8 @@ function UpcomingCourses() {
                       </div>
                     </div>
 
-                    {/* Price & Action */}
-                    <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-                      <div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-2xl font-bold text-slate-900">${item.price}</span>
-                          <span className="text-sm text-slate-500 line-through">${item.originalPrice}</span>
-                          <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
-                            {item.discount} OFF
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-500 mt-1">One-time payment • Early bird price</p>
-                      </div>
-                      
+                    {/* Action */}
+                    <div className="flex items-center justify-end pt-6 border-t border-slate-100">
                       <div className="flex items-center gap-3">
                         <Link
                           to={item.link}
