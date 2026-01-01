@@ -1,167 +1,76 @@
-/**
- * PayPal Routes
- * Handles PayPal order creation and capture for counselling payments
- */
-
 import express from 'express';
-import * as paypal from '@paypal/checkout-server-sdk';
+import paypal from '@paypal/checkout-server-sdk';
 
 const router = express.Router();
 
 /**
- * Configure PayPal SDK environment
- * Uses sandbox mode by default (set via PAYPAL_MODE env var)
+ * PayPal Environment
  */
-function environment() {
+function paypalClient() {
   const clientId = process.env.PAYPAL_CLIENT_ID;
   const clientSecret = process.env.PAYPAL_SECRET;
-  const mode = process.env.PAYPAL_MODE || 'sandbox';
-  
+
   if (!clientId || !clientSecret) {
-    throw new Error('PayPal credentials not configured. Set PAYPAL_CLIENT_ID and PAYPAL_SECRET in environment.');
+    throw new Error('PayPal credentials missing');
   }
-  
-  // Return appropriate environment based on mode
-  if (mode === 'live') {
-    return new paypal.core.LiveEnvironment(clientId, clientSecret);
-  } else {
-    return new paypal.core.SandboxEnvironment(clientId, clientSecret);
-  }
+
+  const environment =
+    process.env.PAYPAL_MODE === 'live'
+      ? new paypal.core.LiveEnvironment(clientId, clientSecret)
+      : new paypal.core.SandboxEnvironment(clientId, clientSecret);
+
+  return new paypal.core.PayPalHttpClient(environment);
 }
 
 /**
- * Create PayPal client instance
- */
-function client() {
-  return new paypal.core.PayPalHttpClient(environment());
-}
-
-/**
- * POST /api/paypal/create-order
- * Creates a PayPal order for counselling payment
- * Returns order ID to frontend for PayPal JS SDK
+ * Create Order
  */
 router.post('/create-order', async (req, res) => {
   try {
-    const { amount, currency = 'USD' } = req.body || {};
-    const amountNum = Number(amount);
-    const currencyCode = typeof currency === 'string' ? currency.toUpperCase() : 'USD';
-    
-    // Validate amount
-    if (!Number.isFinite(amountNum) || amountNum <= 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Valid amount is required'
-      });
-    }
-    // Validate currency
-    if (!/^[A-Z]{3}$/.test(currencyCode)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Valid 3-letter currency code is required'
-      });
-    }
-    
-    // Create PayPal order request
+    const { amount } = req.body;
+
     const request = new paypal.orders.OrdersCreateRequest();
     request.prefer('return=representation');
     request.requestBody({
       intent: 'CAPTURE',
-      purchase_units: [{
-        amount: {
-          currency_code: currencyCode,
-          value: amountNum.toFixed(2)
-        },
-        description: 'QualifyLearn Course Enrollment'
-      }],
-      application_context: {
-        brand_name: 'QualifyLearn',
-        landing_page: 'NO_PREFERENCE',
-        user_action: 'PAY_NOW',
-        return_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/pay?status=success`,
-        cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/pay?status=cancelled`
-      }
+      purchase_units: [
+        {
+          amount: {
+            currency_code: 'USD',
+            value: amount || '10.00'
+          }
+        }
+      ]
     });
-    
-    // Execute request
-    const order = await client().execute(request);
-    
-    // Extract approval link for redirect flow
-    const approveLink = (order.result.links || []).find(l => l.rel === 'approve')?.href;
 
-    // Return order ID and approval URL to frontend
-    res.json({
-      success: true,
-      orderId: order.result.id,
-      approveUrl: approveLink || null
-    });
-    
+    const client = paypalClient();
+    const order = await client.execute(request);
+
+    res.json({ id: order.result.id });
   } catch (error) {
-    console.error('PayPal create order error:', {
-      mode: process.env.PAYPAL_MODE || 'sandbox',
-      message: error?.message,
-      name: error?.name
-    });
-    res.status(500).json({
-      success: false,
-      message: 'Failed to create PayPal order',
-      error: error.message
-    });
+    console.error('PayPal create order error:', error);
+    res.status(500).json({ error: 'PayPal order creation failed' });
   }
 });
 
 /**
- * POST /api/paypal/capture-order
- * Captures a PayPal order after user approves payment
- * This completes the payment transaction
+ * Capture Order
  */
 router.post('/capture-order', async (req, res) => {
   try {
-    const { orderId } = req.body;
-    
-    if (!orderId) {
-      return res.status(400).json({
-        success: false,
-        message: 'Order ID is required'
-      });
-    }
-    
-    // Create capture request
-    const request = new paypal.orders.OrdersCaptureRequest(orderId);
+    const { orderID } = req.body;
+
+    const request = new paypal.orders.OrdersCaptureRequest(orderID);
     request.requestBody({});
-    
-    // Execute capture
-    const capture = await client().execute(request);
-    
-    // Check if capture was successful
-    if (capture.result.status === 'COMPLETED') {
-      res.json({
-        success: true,
-        message: 'Payment captured successfully',
-        order: {
-          id: capture.result.id,
-          status: capture.result.status,
-          amount: capture.result.purchase_units[0].payments.captures[0].amount.value,
-          currency: capture.result.purchase_units[0].payments.captures[0].amount.currency_code
-        }
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: 'Payment capture failed',
-        status: capture.result.status
-      });
-    }
-    
+
+    const client = paypalClient();
+    const capture = await client.execute(request);
+
+    res.json(capture.result);
   } catch (error) {
-    console.error('PayPal capture order error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to capture PayPal order',
-      error: error.message
-    });
+    console.error('PayPal capture error:', error);
+    res.status(500).json({ error: 'PayPal capture failed' });
   }
 });
 
 export { router as paypalRoutes };
-
