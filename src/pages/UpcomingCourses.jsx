@@ -286,7 +286,7 @@ function UpcomingCourses() {
                           Details
                         </Link>
                         <Link
-                          to={item.payLink}
+                          to="/contact"
                           className="group relative px-5 py-2.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden"
                         >
                           <span className="relative z-10 flex items-center gap-2">
@@ -414,7 +414,7 @@ function UpcomingCourses() {
                           Details
                         </Link>
                         <Link
-                          to={item.payLink}
+                          to="/contact"
                           className="group relative px-5 py-2.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden"
                         >
                           <span className="relative z-10 flex items-center gap-2">
