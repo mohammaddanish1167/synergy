@@ -63,17 +63,29 @@ function Payment() {
 
   useEffect(() => {
     const token = query.get('token');
+    const payerId = query.get('PayerID');
     const statusParam = query.get('status');
-    if (statusParam === 'success' && token) {
+    
+    // PayPal redirects with either 'token' (order ID) or 'PayerID'
+    const orderId = token || payerId;
+    
+    if (statusParam === 'success' && orderId) {
       setPaymentMethod('PayPal');
       (async () => {
         try {
           setLoading(true);
-          const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/paypal/capture-order`, {
+          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+          const res = await fetch(`${apiUrl}/api/paypal/capture-order`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orderId: token })
+            body: JSON.stringify({ orderId: orderId })
           });
+
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ message: `HTTP ${res.status}: ${res.statusText}` }));
+            throw new Error(errorData.message || `Server error: ${res.status}`);
+          }
+
           const data = await res.json();
           if (data.success) {
             setMessage('Payment successful! Your enrollment is confirmed.');
@@ -83,7 +95,8 @@ function Payment() {
             setStatus('error');
           }
         } catch (e) {
-          setMessage('Network error capturing PayPal payment');
+          console.error('PayPal capture error:', e);
+          setMessage(e.message || 'Network error capturing PayPal payment');
           setStatus('error');
         } finally {
           setLoading(false);
@@ -97,7 +110,9 @@ function Payment() {
       setLoading(true);
       setMessage('');
       setPaymentMethod('PayPal');
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/paypal/create-order`, {
+      
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const res = await fetch(`${apiUrl}/api/paypal/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -110,14 +125,44 @@ function Payment() {
           country
         })
       });
+
       const data = await res.json();
+      
+      if (!res.ok) {
+        // Server returned an error
+        const errorMessage = data.message || data.error || `Server error: ${res.status} ${res.statusText}`;
+        console.error('PayPal server error:', {
+          status: res.status,
+          statusText: res.statusText,
+          error: data.error,
+          message: data.message,
+          fullResponse: data
+        });
+        throw new Error(errorMessage);
+      }
+
       if (data.success && data.approveUrl) {
         window.location.href = data.approveUrl;
       } else {
-        setMessage(data.message || 'Failed to start PayPal checkout');
+        const errorMessage = data.message || data.error || 'Failed to start PayPal checkout';
+        console.error('PayPal response error:', data);
+        setMessage(errorMessage);
+        setStatus('error');
       }
     } catch (e) {
-      setMessage('Network error starting PayPal checkout');
+      console.error('PayPal checkout error:', e);
+      // Show more detailed error message
+      let errorMessage = e.message || 'Network error starting PayPal checkout.';
+      
+      // Add helpful hints based on error
+      if (e.message?.includes('credentials') || e.message?.includes('not configured')) {
+        errorMessage += ' Please check PayPal configuration on the server.';
+      } else if (e.message?.includes('Network') || e.message?.includes('fetch')) {
+        errorMessage += ' Please check your connection and try again.';
+      }
+      
+      setMessage(errorMessage);
+      setStatus('error');
     } finally {
       setLoading(false);
     }

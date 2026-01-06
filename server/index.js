@@ -3,7 +3,8 @@
  * Handles Enquiries, Stripe & PayPal Payments
  */
 
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
