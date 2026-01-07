@@ -17,62 +17,62 @@ function ApplicationProcess() {
   const steps = [
     {
       icon: FileText,
-      title: 'Online Application',
-      subtitle: 'Apply by filling a simple online application form',
+      title: 'Share Your Profile',
+      subtitle: 'Submit CV/Resume or LinkedIn profile for initial assessment',
       color: '#3B82F6',
       gradient: 'from-blue-500 to-cyan-400',
       details: [
-        'Simple form with basic information',
-        'Upload required documents',
-        'Select preferred program',
-        'Review and submit online'
+        'Share your CV/Resume document',
+        'Submit LinkedIn profile link',
+        'Provide academic transcripts',
+        'Share professional achievements'
       ],
-      duration: '10-15 minutes',
+      duration: 'Quick submission',
       iconBg: 'bg-blue-50'
     },
     {
       icon: Users,
-      title: 'Review & Shortlisting',
-      subtitle: 'Admissions committee will review and shortlist',
+      title: 'DRC Review Process',
+      subtitle: 'Doctoral Review Committee evaluates your profile',
       color: '#8B5CF6',
       gradient: 'from-purple-500 to-pink-400',
       details: [
         'Academic background evaluation',
-        'Professional experience assessment',
-        'Achievements review',
-        'Shortlisting notification via email'
+        'Research potential assessment',
+        'Professional experience review',
+        'Overall profile analysis'
       ],
       duration: '3-5 business days',
       iconBg: 'bg-purple-50'
     },
     {
       icon: BarChart3,
-      title: 'Aptitude Test',
-      subtitle: 'Shortlisted candidates need to appear for an online aptitude test',
+      title: 'Program & Scholarship',
+      subtitle: 'Receive personalized recommendations',
       color: '#10B981',
       gradient: 'from-emerald-500 to-teal-400',
       details: [
-        'Logical reasoning assessment',
-        'Problem-solving skills evaluation',
-        'Critical thinking analysis',
-        'Online proctored test environment'
+        'Suitable doctoral programme recommendation',
+        'University partnership suggestions',
+        'Scholarship eligibility details',
+        'Personalized pathway planning'
       ],
-      duration: '60 minutes',
+      duration: 'Comprehensive review',
       iconBg: 'bg-emerald-50'
     },
     {
       icon: PhoneCall,
-      title: 'Final Screening',
-      subtitle: 'Screening call with Alumni/Faculty',
+      title: 'Next Steps Guidance',
+      subtitle: 'Complete guidance for application process',
       color: '#F59E0B',
       gradient: 'from-amber-500 to-orange-400',
       details: [
-        'Interactive discussion session',
-        'Career aspirations assessment',
-        'Program fit evaluation',
-        'Final decision notification'
+        'Detailed application process walkthrough',
+        'Documentation requirements',
+        'Timeline and deadlines',
+        'Ongoing support commitment'
       ],
-      duration: '30-45 minutes',
+      duration: 'Ongoing support',
       iconBg: 'bg-amber-50'
     }
   ];
@@ -132,7 +132,7 @@ function ApplicationProcess() {
           >
             <Sparkles className="w-4 h-4 text-blue-500" />
             <span className="text-sm font-semibold text-blue-700 uppercase tracking-wider">
-              Application Journey
+              Doctoral Application Journey
             </span>
           </motion.div>
 
@@ -142,9 +142,9 @@ function ApplicationProcess() {
             viewport={{ once: true }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6"
           >
-            <span className="block">Simple & Transparent</span>
+            <span className="block">Streamlined</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600">
-              Application Process
+              Doctoral Admission Process
             </span>
           </motion.h1>
 
@@ -155,7 +155,7 @@ function ApplicationProcess() {
             transition={{ delay: 0.2 }}
             className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto"
           >
-            Four straightforward steps to join our prestigious academic community
+            Four structured steps to guide you through your doctoral journey with personalized support
           </motion.p>
         </div>
 

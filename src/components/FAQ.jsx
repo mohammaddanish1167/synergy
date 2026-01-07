@@ -3,6 +3,7 @@
  * Interactive FAQ with rich content, animations, and better UX
  */
 
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, HelpCircle, Search, BookOpen, GraduationCap, Globe, Briefcase, Users } from 'lucide-react';
@@ -438,10 +439,16 @@ function FAQ() {
                 Our expert advisors are here to help you with personalized answers.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-lg shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300">
+                <Link 
+                  to="/contact"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-lg shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300"
+                >
                   Contact Support
-                </button>
-                <button className="px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg border border-blue-200 hover:bg-blue-50 transition-all duration-300">
+                </Link>
+                <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-guidance-modal'))}
+                  className="px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg border border-blue-200 hover:bg-blue-50 transition-all duration-300"
+                >
                   Schedule Consultation
                 </button>
               </div>

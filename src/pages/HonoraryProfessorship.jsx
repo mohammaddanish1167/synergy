@@ -343,17 +343,7 @@ function HonoraryProfessorship() {
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 </motion.a>
 
-                {/* Added See Upcoming Courses Button */}
-                <motion.a
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="/upcoming-courses"
-                  className="group px-10 py-5 rounded-xl text-lg font-semibold text-white border-2 border-white/30 hover:border-white/50 bg-white/10 hover:bg-white/20 backdrop-blur-lg transition-all duration-300 flex items-center justify-center gap-3"
-                >
-                  <CalendarDays className="w-5 h-5" />
-                  See Upcoming Courses
-                  <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </motion.a>
+
               </div>
 
               {/* Trust Badge */}
@@ -602,7 +592,7 @@ function HonoraryProfessorship() {
         </div>
       </section>
 
-      {/* Application Form Section */}
+      {/* Application Form Section - Fixed Text Color */}
       <section id="application" className="py-20 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
@@ -623,7 +613,7 @@ function HonoraryProfessorship() {
                     <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                       placeholder="Your full name"
                     />
                   </div>
@@ -631,7 +621,7 @@ function HonoraryProfessorship() {
                     <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
                     <input 
                       type="tel" 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                       placeholder="Your phone number"
                     />
                   </div>
@@ -641,7 +631,7 @@ function HonoraryProfessorship() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
                   <input 
                     type="email" 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                     placeholder="Your email address"
                   />
                 </div>
@@ -650,42 +640,42 @@ function HonoraryProfessorship() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Professional Title</label>
                   <input 
                     type="text" 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                     placeholder="Your current professional title"
                   />
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Academic Field</label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                    <option>Select your academic field</option>
-                    <option>Business & Management</option>
-                    <option>Technology & Engineering</option>
-                    <option>Healthcare & Medicine</option>
-                    <option>Arts & Humanities</option>
-                    <option>Social Sciences</option>
+                  <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900">
+                    <option className="text-slate-400">Select your academic field</option>
+                    <option className="text-slate-900">Business & Management</option>
+                    <option className="text-slate-900">Technology & Engineering</option>
+                    <option className="text-slate-900">Healthcare & Medicine</option>
+                    <option className="text-slate-900">Arts & Humanities</option>
+                    <option className="text-slate-900">Social Sciences</option>
                   </select>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                      <option>Select experience range</option>
-                      <option>10-15 years</option>
-                      <option>15-20 years</option>
-                      <option>20-25 years</option>
-                      <option>25+ years</option>
+                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900">
+                      <option className="text-slate-400">Select experience range</option>
+                      <option className="text-slate-900">10-15 years</option>
+                      <option className="text-slate-900">15-20 years</option>
+                      <option className="text-slate-900">20-25 years</option>
+                      <option className="text-slate-900">25+ years</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Preferred Engagement</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                      <option>Select engagement type</option>
-                      <option>Guest Lectures</option>
-                      <option>Research Collaboration</option>
-                      <option>Curriculum Development</option>
-                      <option>Student Mentoring</option>
+                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900">
+                      <option className="text-slate-400">Select engagement type</option>
+                      <option className="text-slate-900">Guest Lectures</option>
+                      <option className="text-slate-900">Research Collaboration</option>
+                      <option className="text-slate-900">Curriculum Development</option>
+                      <option className="text-slate-900">Student Mentoring</option>
                     </select>
                   </div>
                 </div>
@@ -889,16 +879,7 @@ function HonoraryProfessorship() {
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                   </motion.a>
 
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="/upcoming-courses"
-                    className="group px-12 py-5 rounded-xl text-lg font-semibold text-blue-700 border-2 border-blue-200 hover:border-blue-300 bg-white hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
-                  >
-                    <CalendarDays className="w-6 h-6" />
-                    View All Programs
-                    <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                  </motion.a>
+
                 </div>
 
                 <p className="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">

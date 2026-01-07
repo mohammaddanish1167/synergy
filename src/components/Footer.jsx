@@ -76,7 +76,6 @@ function Footer() {
               {[
                 { label: 'Home', to: '/' },
                 { label: 'About Us', to: '/about' },
-                { label: 'Upcoming Batches', to: '/upcoming-courses' },
                 { label: 'Contact Us', to: '/contact' }
               ].map((link) => (
                 <Link

@@ -362,12 +362,7 @@ function Enroll() {
                   </div>
                   
                   {/* USD Equivalent */}
-                  <div className="mt-3 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-slate-700">USD Equivalent:</span>
-                      <span className="text-lg font-bold text-blue-700">${usdAmount} USD</span>
-                    </div>
-                  </div>
+                  
                 </div>
 
                 {error && (

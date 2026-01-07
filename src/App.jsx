@@ -7,9 +7,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
+import KennedyUniversity from './pages/KennedyUniversity';
+import AmericanManagementUniversity from './pages/AmericanManagementUniversity';
+import KennedyBaptistUniversity from './pages/KennedyBaptistUniversity';
+import CentralGlobalUniversity from './pages/CentralGlobalUniversity';
+import EuroAsianUniversity from './pages/EuroAsianUniversity';
 
 
-import UpcomingCourses from './pages/UpcomingCourses';
 import About from './pages/About';
 import Contact from './pages/Contact';
 // Removed StudyAbroad and PhDAdmission per request
@@ -38,10 +42,14 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* Public Routes */}
           <Route index element={<Home />} />
-          <Route path="upcoming-courses" element={<UpcomingCourses />} />
           <Route path="enroll" element={<Enroll />} />
           <Route path="pay" element={<Payment />} />
           <Route path="about" element={<About />} />
+          <Route path="kennedy-university" element={<KennedyUniversity />} />
+          <Route path="american-management-university" element={<AmericanManagementUniversity />} />
+          <Route path="kennedy-baptist-university" element={<KennedyBaptistUniversity />} />
+          <Route path="central-global-university" element={<CentralGlobalUniversity />} />
+          <Route path="euro-asian-university" element={<EuroAsianUniversity />} />
           <Route path="contact" element={<Contact />} />
           {/** Removed study-abroad and phd-admission routes per request */}
           <Route path="phd" element={<PhD />} />

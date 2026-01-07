@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { Building2, ExternalLink, Sparkles, Globe, GraduationCap, ChevronRight } from 'lucide-react';
+import { Building2, Sparkles, Globe, GraduationCap, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Logos
 import KennedyUniLogo from '../assets/kennedy-university-logo.jpg';
@@ -14,6 +15,7 @@ const partners = [
     id: 1, 
     name: 'Kennedy University', 
     logo: KennedyUniLogo, 
+    path: '/kennedy-university',
     link: 'https://www.kennedy.edu/', 
     color: 'from-blue-500 to-cyan-500',
     verified: true
@@ -22,6 +24,7 @@ const partners = [
     id: 2, 
     name: 'American Management University', 
     logo: AMULogo, 
+    path: '/american-management-university',
     link: 'https://amuonline.org/', 
     color: 'from-purple-500 to-pink-500',
     verified: true
@@ -30,6 +33,7 @@ const partners = [
     id: 3, 
     name: 'Kennedy Baptist University', 
     logo: KennedyBaptistLogo, 
+    path: '/kennedy-baptist-university',
     link: 'https://kennedybaptistuniversity.com/', 
     color: 'from-emerald-500 to-green-500',
     verified: true
@@ -38,6 +42,7 @@ const partners = [
     id: 4, 
     name: 'Central Global University', 
     logo: CentralGlobalLogo, 
+    path: '/central-global-university',
     link: 'https://central-global-university.com/', 
     color: 'from-amber-500 to-orange-500',
     verified: true
@@ -46,6 +51,7 @@ const partners = [
     id: 5, 
     name: 'Euro-Asian University', 
     logo: EuroAsianLogo, 
+    path: '/euro-asian-university',
     link: 'https://euroasianuniversity.edu/', 
     color: 'from-rose-500 to-red-500',
     verified: true
@@ -56,6 +62,7 @@ const partners = [
 const duplicatedPartners = [...partners, ...partners, ...partners, ...partners];
 
 export default function UniversityPartnerships() {
+  const navigate = useNavigate();
   const trackRef = useRef(null);
   const containerRef = useRef(null);
   const animationRef = useRef(null);
@@ -105,7 +112,9 @@ export default function UniversityPartnerships() {
   }, [isMobile]);
 
   const handlePartnerClick = (partner) => {
-    if (partner.link) {
+    if (partner.path) {
+      navigate(partner.path);
+    } else if (partner.link) {
       window.open(partner.link, '_blank', 'noopener,noreferrer');
     }
   };
@@ -410,8 +419,8 @@ export default function UniversityPartnerships() {
                     }}
                   >
                     <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100 text-blue-600 font-medium shadow-sm hover:shadow-md transition-shadow">
-                      know More
-                      <ExternalLink className="w-4 h-4" />
+                      View More
+                      <ChevronRight className="w-4 h-4" />
                     </span>
                   </motion.div>
 
@@ -468,12 +477,10 @@ export default function UniversityPartnerships() {
             ))}
           </div>
 
-          {/* Gradient overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white to-transparent pointer-events-none z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white to-transparent pointer-events-none z-10" />
+          {/* REMOVED: Gradient overlays - these were creating the side blur effects */}
+          {/* <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white to-transparent pointer-events-none z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white to-transparent pointer-events-none z-10" /> */}
         </div>
-
-       
 
         {/* Quick Links Footer */}
         <motion.div

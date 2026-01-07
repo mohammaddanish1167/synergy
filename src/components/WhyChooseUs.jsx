@@ -320,29 +320,7 @@ export default function WhyChooseUs() {
         </motion.div>
 
         {/* ================= FINAL CTA ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-gray-800 rounded-3xl p-12">
-            <h3 className="text-3xl font-bold text-white mb-6">
-              Ready to Transform Your Career?
-            </h3>
-            <p className="text-gray-400 text-xl mb-10 max-w-2xl mx-auto">
-              Join thousands of successful professionals who achieved their dreams with QualifyLearn
-            </p>
-            
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-12 py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl text-lg shadow-2xl shadow-blue-600/30"
-            >
-              Start Your Journey Today
-            </motion.button>
-          </div>
-        </motion.div>
+        
       </div>
 
       <style jsx>{`

@@ -378,18 +378,6 @@ function MBA() {
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 </motion.a>
-
-                {/* Added See Upcoming Courses Button */}
-                <motion.a
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="/upcoming-courses"
-                  className="group px-10 py-5 rounded-xl text-lg font-semibold text-white border-2 border-white/30 hover:border-white/50 bg-white/10 hover:bg-white/20 backdrop-blur-lg transition-all duration-300 flex items-center justify-center gap-3"
-                >
-                  <CalendarDays className="w-5 h-5" />
-                  See Upcoming Courses
-                  <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </motion.a>
               </div>
 
               {/* Trust Badge */}
@@ -940,16 +928,7 @@ function MBA() {
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                   </motion.a>
 
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="/upcoming-courses"
-                    className="group px-12 py-5 rounded-xl text-lg font-semibold text-blue-700 border-2 border-blue-200 hover:border-blue-300 bg-white hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
-                  >
-                    <CalendarDays className="w-6 h-6" />
-                    View All Programs
-                    <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                  </motion.a>
+
                 </div>
 
                 <p className="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">

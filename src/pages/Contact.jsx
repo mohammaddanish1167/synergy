@@ -293,38 +293,7 @@ const ContactPage = () => {
               ))}
             </div>
 
-            {/* Business Hours */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              whileHover={{ scale: 1.01 }}
-              className="mt-8 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-xl"
-            >
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600/30 to-blue-800/30 flex items-center justify-center">
-                  <FiClock className="w-5 h-5 text-blue-400" />
-                </div>
-                Business Hours
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { day: 'Mon - Fri', time: '9:00 AM - 6:00 PM' },
-                  { day: 'Saturday', time: '10:00 AM - 4:00 PM' },
-                  { day: 'Sunday', time: 'Closed' },
-                  { day: 'Emergency', time: '24/7 via Email' }
-                ].map((schedule, idx) => (
-                  <motion.div
-                    key={idx}
-                    whileHover={{ scale: 1.03 }}
-                    className="p-4 rounded-xl bg-gradient-to-br from-gray-800/30 to-gray-900/30 border border-gray-700/50"
-                  >
-                    <p className="text-sm text-gray-400 mb-1">{schedule.day}</p>
-                    <p className="text-white font-semibold">{schedule.time}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+
           </div>
 
           {/* Contact Form */}
