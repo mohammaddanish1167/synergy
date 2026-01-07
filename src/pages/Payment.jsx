@@ -74,7 +74,7 @@ function Payment() {
       (async () => {
         try {
           setLoading(true);
-          const apiUrl = import.meta.env.VITE_API_URL;
+          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
           const res = await fetch(`${apiUrl}/api/paypal/capture-order`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
