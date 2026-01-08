@@ -25,57 +25,41 @@ const PORT = process.env.PORT || 3001;
 
 /* ===================== MIDDLEWARE ===================== */
 
-// Parse JSON bodies
 app.use(express.json());
 
-/* ===================== CORS (FIXED & SAFE) ===================== */
+/* ===================== CORS (FINAL & CORRECT) ===================== */
 
-// ✅ Explicit allowlist (NO silent failures)
 const allowedOrigins = [
-  // Local development
   "http://localhost:5173",
   "http://localhost:3000",
-
-  // ✅ LIVE FRONTEND (CRITICAL)
   "https://qualifylearn.com",
   "https://www.qualifylearn.com",
-
-  // Render preview (optional)
-  "https://qualifylearnnn.onrender.com",
+  "https://qualifylearn-backend.onrender.com",
 ];
 
-// ✅ CORS middleware
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow server-to-server, Postman, PayPal webhooks
-      if (!origin) return callback(null, true);
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow server-to-server calls, curl, PayPal webhooks
+    if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
 
-      // ❌ Explicitly block (prevents silent browser failures)
-      return callback(new Error("CORS not allowed"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+    return callback(new Error("CORS not allowed"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-// ✅ Handle preflight requests (CRITICAL for PayPal/Stripe)
-app.options(
-  "*",
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
+app.use(cors(corsOptions));
+
+// ✅ THIS IS THE ONLY CORRECT WAY
+app.options("*", cors(corsOptions));
 
 /* ===================== RATE LIMITING ===================== */
 
-// Limit only non-payment routes
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -94,7 +78,8 @@ app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/paypal", paypalRoutes);
 app.use("/api/stripe", stripeRoutes);
 
-// Health check
+/* ===================== HEALTH CHECK ===================== */
+
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
@@ -104,7 +89,6 @@ app.get("/api/health", (req, res) => {
 
 /* ===================== ERROR HANDLER ===================== */
 
-// ✅ Proper CORS error response (important)
 app.use((err, req, res, next) => {
   if (err.message === "CORS not allowed") {
     return res.status(403).json({
