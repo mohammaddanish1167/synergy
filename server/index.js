@@ -32,8 +32,15 @@ app.use(express.json());
 
 // ✅ Explicit allowlist (NO silent failures)
 const allowedOrigins = [
+  // Local development
   "http://localhost:5173",
   "http://localhost:3000",
+
+  // ✅ LIVE FRONTEND (CRITICAL)
+  "https://qualifylearn.com",
+  "https://www.qualifylearn.com",
+
+  // Render preview (optional)
   "https://qualifylearnnn.onrender.com",
 ];
 

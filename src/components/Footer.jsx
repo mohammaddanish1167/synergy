@@ -168,7 +168,7 @@ function Footer() {
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-blue-400 flex-shrink-0" />
                   <a href="mailto:info@qualitylearn.com" className="text-gray-400 hover:text-white text-sm transition">
-                    info@qualitylearn.com
+                    info@qualifylearn.com
                   </a>
                 </div>
               </div>
