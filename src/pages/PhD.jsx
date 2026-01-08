@@ -43,8 +43,13 @@ import {
   Layers,
   ClipboardCheck
 } from 'lucide-react';
+import { useState } from 'react';
 
 function PhD() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitMessage, setSubmitMessage] = useState('');
+
   const programStats = [
     { icon: <GraduationCap className="w-5 h-5" />, number: '800+', label: 'PhD Graduates', color: 'from-blue-500 to-cyan-500' },
     { icon: <Award className="w-5 h-5" />, number: '97%', label: 'Success Rate', color: 'from-emerald-500 to-green-500' },
@@ -285,6 +290,88 @@ function PhD() {
     'Urban Planning & Development',
     'Creative Industries & Media'
   ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setSubmitMessage('');
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitStatus('success');
+        setSubmitMessage('Application submitted successfully! Our admissions team will review your application and contact you shortly.');
+        form.reset();
+        
+        // Reset file name display
+        const fileNameDisplay = document.getElementById('file-name');
+        if (fileNameDisplay) {
+          fileNameDisplay.textContent = 'No file selected';
+        }
+      } else {
+        setSubmitStatus('error');
+        setSubmitMessage(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setSubmitMessage('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+      
+      // Scroll to show message
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // Clear message after 10 seconds
+      setTimeout(() => {
+        setSubmitStatus(null);
+        setSubmitMessage('');
+      }, 10000);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        setSubmitStatus('error');
+        setSubmitMessage('File size must be less than 5MB');
+        e.target.value = '';
+        return;
+      }
+      
+      // Validate file type
+      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+      if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|doc|docx|txt)$/i)) {
+        setSubmitStatus('error');
+        setSubmitMessage('Please upload a PDF, DOC, DOCX, or TXT file');
+        e.target.value = '';
+        return;
+      }
+      
+      // Display file name
+      const fileNameDisplay = document.getElementById('file-name');
+      if (fileNameDisplay) {
+        fileNameDisplay.textContent = file.name;
+      }
+      
+      // Clear any previous error messages
+      if (submitStatus === 'error') {
+        setSubmitStatus(null);
+        setSubmitMessage('');
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -557,21 +644,52 @@ function PhD() {
                 Begin Your <span className="text-blue-600">Research Journey</span>
               </h2>
               
-              <form className="space-y-6" id="phdApplicationForm">
+              {/* Web3Forms Form */}
+              <form onSubmit={handleSubmit} className="space-y-6" id="phdApplicationForm">
+                {/* Web3Forms Hidden Inputs */}
+                <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                <input type="hidden" name="subject" value="New PhD Program Application" />
+                <input type="hidden" name="from_name" value="PhD Program Website" />
+                <input type="hidden" name="redirect" value="true" />
+                <input type="hidden" name="redirect_url" value="https://yourdomain.com/thank-you" />
+                <input type="checkbox" name="botcheck" className="hidden" />
+
+                {/* Status Messages */}
+                {submitStatus && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`p-4 rounded-xl ${submitStatus === 'success' ? 'bg-emerald-50 border border-emerald-200 text-emerald-700' : 'bg-red-50 border border-red-200 text-red-700'}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      {submitStatus === 'success' ? (
+                        <CheckCircle className="w-5 h-5" />
+                      ) : (
+                        <span className="text-red-500">⚠️</span>
+                      )}
+                      <p className="font-medium">{submitMessage}</p>
+                    </div>
+                  </motion.div>
+                )}
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
                     <input 
+                      id="name"
                       type="text" 
+                      name="name"
                       required
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                       placeholder="Your full name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
+                    <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
                     <input 
+                      id="phone"
                       type="tel" 
+                      name="phone"
                       required
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                       placeholder="Your phone number"
@@ -580,9 +698,11 @@ function PhD() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
+                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
                   <input 
+                    id="email"
                     type="email" 
+                    name="email"
                     required
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                     placeholder="Your email address"
@@ -590,9 +710,11 @@ function PhD() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Research Interest *</label>
+                  <label htmlFor="research_interest" className="block text-sm font-medium text-slate-700 mb-2">Research Interest *</label>
                   <input 
+                    id="research_interest"
                     type="text" 
+                    name="research_interest"
                     required
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                     placeholder="Your primary research area"
@@ -600,44 +722,59 @@ function PhD() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Program Selection *</label>
-                  <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                  <label htmlFor="program" className="block text-sm font-medium text-slate-700 mb-2">Program Selection *</label>
+                  <select 
+                    id="program"
+                    name="program"
+                    required 
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
+                  >
                     <option value="">Select a program</option>
-                    <option value="management">PhD in Management</option>
-                    <option value="technology">PhD in Technology</option>
-                    <option value="social-sciences">PhD in Social Sciences</option>
-                    <option value="healthcare">PhD in Healthcare</option>
-                    <option value="education">PhD in Education</option>
+                    <option value="PhD in Management">PhD in Management</option>
+                    <option value="PhD in Technology">PhD in Technology</option>
+                    <option value="PhD in Social Sciences">PhD in Social Sciences</option>
+                    <option value="PhD in Healthcare">PhD in Healthcare</option>
+                    <option value="PhD in Education">PhD in Education</option>
                   </select>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Highest Qualification *</label>
-                    <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                    <label htmlFor="qualification" className="block text-sm font-medium text-slate-700 mb-2">Highest Qualification *</label>
+                    <select 
+                      id="qualification"
+                      name="qualification"
+                      required 
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
+                    >
                       <option value="">Select qualification</option>
-                      <option value="masters">Master's Degree</option>
-                      <option value="professional">Professional Certification</option>
-                      <option value="bachelors">Bachelor's Degree</option>
-                      <option value="doctoral-candidate">Doctoral Candidate</option>
+                      <option value="Master's Degree">Master's Degree</option>
+                      <option value="Professional Certification">Professional Certification</option>
+                      <option value="Bachelor's Degree">Bachelor's Degree</option>
+                      <option value="Doctoral Candidate">Doctoral Candidate</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Research Experience *</label>
-                    <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                    <label htmlFor="experience" className="block text-sm font-medium text-slate-700 mb-2">Research Experience *</label>
+                    <select 
+                      id="experience"
+                      name="experience"
+                      required 
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
+                    >
                       <option value="">Select experience</option>
-                      <option value="1-3">1-3 years</option>
-                      <option value="3-5">3-5 years</option>
-                      <option value="5-10">5-10 years</option>
-                      <option value="10+">10+ years</option>
+                      <option value="1-3 years">1-3 years</option>
+                      <option value="3-5 years">3-5 years</option>
+                      <option value="5-10 years">5-10 years</option>
+                      <option value="10+ years">10+ years</option>
                     </select>
                   </div>
                 </div>
                 
-                {/* Resume Upload Section */}
+                {/* Resume Upload Section - Optional */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Resume/CV * <span className="text-slate-500 font-normal">(PDF, DOC, DOCX up to 5MB)</span>
+                    Resume/CV (Optional) <span className="text-slate-500 font-normal">(PDF, DOC, DOCX up to 5MB)</span>
                   </label>
                   <div className="mt-2">
                     <motion.div
@@ -648,36 +785,10 @@ function PhD() {
                       <input
                         type="file"
                         id="resume"
+                        name="resume"
                         accept=".pdf,.doc,.docx,.txt"
-                        required
                         className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            // Validate file size (5MB max)
-                            if (file.size > 5 * 1024 * 1024) {
-                              alert('File size must be less than 5MB');
-                              e.target.value = '';
-                              return;
-                            }
-                            
-                            // Validate file type
-                            const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
-                            if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|doc|docx|txt)$/i)) {
-                              alert('Please upload a PDF, DOC, DOCX, or TXT file');
-                              e.target.value = '';
-                              return;
-                            }
-                            
-                            // File is valid - you can handle it here
-                            console.log('File selected:', file.name, file.size, file.type);
-                            // Display file name
-                            const fileNameDisplay = document.getElementById('file-name');
-                            if (fileNameDisplay) {
-                              fileNameDisplay.textContent = file.name;
-                            }
-                          }
-                        }}
+                        onChange={handleFileChange}
                       />
                       <label
                         htmlFor="resume"
@@ -688,7 +799,7 @@ function PhD() {
                           <p className="text-sm text-slate-700 mb-2">
                             <span className="font-semibold">Click to upload</span> or drag and drop
                           </p>
-                          <p className="text-xs text-slate-500">PDF, DOC, DOCX (MAX. 5MB)</p>
+                          <p className="text-xs text-slate-500">PDF, DOC, DOCX (MAX. 5MB) - Optional</p>
                         </div>
                       </label>
                     </motion.div>
@@ -696,7 +807,7 @@ function PhD() {
                     {/* Selected file name display */}
                     <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
                       <FileText className="w-4 h-4" />
-                      <span id="file-name" className="font-medium">No file selected</span>
+                      <span id="file-name" className="font-medium">No file selected (Optional)</span>
                     </div>
                     
                     {/* Upload tips */}
@@ -714,10 +825,12 @@ function PhD() {
                 
                 {/* Additional Information */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                  <label htmlFor="additional_info" className="block text-sm font-medium text-slate-700 mb-2">
                     Additional Information (Optional)
                   </label>
                   <textarea 
+                    id="additional_info"
+                    name="additional_info"
                     rows={3}
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                     placeholder="Tell us about your research interests, publications, or any other relevant information..."
@@ -729,6 +842,7 @@ function PhD() {
                   <input 
                     type="checkbox" 
                     id="consent"
+                    name="consent"
                     required
                     className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                   />
@@ -742,26 +856,29 @@ function PhD() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const form = document.getElementById('phdApplicationForm');
-                    if (form && form.checkValidity()) {
-                      // Form is valid - you can submit to your backend here
-                      alert('Application submitted successfully! Our admissions team will review your application and contact you shortly.');
-                      form.reset();
-                      const fileNameDisplay = document.getElementById('file-name');
-                      if (fileNameDisplay) {
-                        fileNameDisplay.textContent = 'No file selected';
-                      }
-                    } else if (form) {
-                      form.reportValidity();
-                    }
-                  }}
+                  disabled={isSubmitting}
+                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <GraduationCap className="w-6 h-6" />
-                  Submit Research Application
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <GraduationCap className="w-6 h-6" />
+                      Submit Research Application
+                    </>
+                  )}
                 </motion.button>
+
+                {/* Spam Protection Note */}
+                <p className="text-xs text-slate-500 text-center">
+                  Protected by reCAPTCHA and Web3Forms. Your information is secure.
+                </p>
               </form>
             </motion.div>
 

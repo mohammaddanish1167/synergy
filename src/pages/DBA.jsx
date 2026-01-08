@@ -63,8 +63,7 @@ import {
   FileUp,
   X,
   AlertCircle,
-  FiCheckCircle,
-  FiAlertCircle
+  
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -140,11 +139,7 @@ function DBA() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!selectedFile) {
-      alert('Please upload your resume/CV');
-      return;
-    }
-    
+    // Removed file requirement check
     if (!formData.consent) {
       alert('Please agree to the terms and conditions');
       return;
@@ -178,7 +173,7 @@ function DBA() {
       formDataObj.append('program', 'DBA Program');
       formDataObj.append('source', 'DBA Application Page');
       
-      // Add file
+      // Add file only if selected (now optional)
       if (selectedFile) {
         formDataObj.append('attachment', selectedFile);
       }
@@ -914,10 +909,10 @@ function DBA() {
                   </div>
                 </div>
 
-                {/* Resume Upload Section */}
+                {/* Resume Upload Section - Now Optional */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Upload Resume/CV *
+                    Upload Resume/CV (Optional)
                   </label>
                   
                   {/* File Upload Area */}
@@ -990,7 +985,7 @@ function DBA() {
                   </motion.div>
                   
                   <p className="mt-2 text-xs text-slate-500">
-                    Please include detailed professional experience, academic qualifications, and executive achievements
+                    Optional: Include detailed professional experience, academic qualifications, and executive achievements
                   </p>
                 </div>
 
@@ -1031,7 +1026,7 @@ function DBA() {
                   whileHover={submitting ? {} : { scale: 1.02 }}
                   whileTap={submitting ? {} : { scale: 0.98 }}
                   type="submit"
-                  disabled={submitting || !formData.consent || !selectedFile}
+                  disabled={submitting || !formData.consent}
                   className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-cyan-600"
                 >
                   {submitting ? (

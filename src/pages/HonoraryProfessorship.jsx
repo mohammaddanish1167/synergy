@@ -55,10 +55,14 @@ import {
   FileUp,
   X
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function HonoraryProfessorship() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitMessage, setSubmitMessage] = useState('');
+  
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -70,6 +74,17 @@ function HonoraryProfessorship() {
     additionalInfo: '',
     consent: false
   });
+
+  // Clear status message after 5 seconds
+  useEffect(() => {
+    if (submitStatus) {
+      const timer = setTimeout(() => {
+        setSubmitStatus(null);
+        setSubmitMessage('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -111,60 +126,93 @@ function HonoraryProfessorship() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!selectedFile) {
-      alert('Please upload your resume/CV');
-      return;
-    }
-    
+    // Removed file requirement check
     if (!formData.consent) {
       alert('Please agree to the terms and conditions');
       return;
     }
     
-    // Create FormData object to send file and form data
-    const submitFormData = new FormData();
-    submitFormData.append('resume', selectedFile);
-    submitFormData.append('name', formData.name);
-    submitFormData.append('phone', formData.phone);
-    submitFormData.append('email', formData.email);
-    submitFormData.append('title', formData.title);
-    submitFormData.append('field', formData.field);
-    submitFormData.append('experience', formData.experience);
-    submitFormData.append('engagement', formData.engagement);
-    submitFormData.append('additionalInfo', formData.additionalInfo);
-    
-    // Here you would typically send the data to your backend
-    console.log('Submitting form data:', {
-      ...formData,
-      fileName: selectedFile.name,
-      fileSize: selectedFile.size,
-      fileType: selectedFile.type
-    });
-    
-    // Simulate API call
-    alert('Application submitted successfully! We will review your submission and contact you soon.');
-    
-    // Reset form
-    setSelectedFile(null);
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      title: '',
-      field: '',
-      experience: '',
-      engagement: '',
-      additionalInfo: '',
-      consent: false
-    });
-    
-    // Reset file input
-    const fileInput = document.getElementById('resume-upload');
-    if (fileInput) {
-      fileInput.value = '';
+    setSubmitting(true);
+    setSubmitStatus(null);
+    setSubmitMessage('');
+
+    try {
+      // Create FormData for file upload
+      const formDataObj = new FormData();
+      
+      // Add Web3Forms required fields
+      formDataObj.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
+      formDataObj.append('subject', 'New Honorary Professorship Application');
+      formDataObj.append('from_name', 'QualifyLearn Website');
+      formDataObj.append('honeypot', '');
+      formDataObj.append('botcheck', '');
+      
+      // Add form data
+      formDataObj.append('name', formData.name);
+      formDataObj.append('phone', formData.phone);
+      formDataObj.append('email', formData.email);
+      formDataObj.append('title', formData.title);
+      formDataObj.append('field', formData.field);
+      formDataObj.append('experience', formData.experience);
+      formDataObj.append('engagement', formData.engagement);
+      formDataObj.append('additionalInfo', formData.additionalInfo);
+      formDataObj.append('consent', formData.consent ? 'Agreed' : 'Not agreed');
+      formDataObj.append('program', 'Honorary Professorship');
+      formDataObj.append('source', 'Honorary Professorship Page');
+      
+      // Add file only if selected (now optional)
+      if (selectedFile) {
+        formDataObj.append('attachment', selectedFile);
+      }
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataObj
+      });
+      
+      const json = await res.json();
+
+      if (json.success) {
+        setSubmitStatus('success');
+        setSubmitMessage('Honorary Professorship application submitted successfully! We will review your submission and contact you within 3-5 business days.');
+        
+        // Reset form
+        e.target.reset();
+        setSelectedFile(null);
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          title: '',
+          field: '',
+          experience: '',
+          engagement: '',
+          additionalInfo: '',
+          consent: false
+        });
+        
+        // Reset file input
+        const fileInput = document.getElementById('resume-upload');
+        if (fileInput) {
+          fileInput.value = '';
+        }
+        
+        // Scroll to success message
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setSubmitStatus('error');
+        setSubmitMessage(json.message || 'Failed to submit application. Please try again.');
+        console.error('Web3Forms Error:', json);
+      }
+    } catch (err) {
+      setSubmitStatus('error');
+      setSubmitMessage('An error occurred while submitting the form. Please check your connection and try again.');
+      console.error('Submission Error:', err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -174,6 +222,42 @@ function HonoraryProfessorship() {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  // Add success/error message component at the top
+  const renderStatusMessage = () => {
+    if (!submitStatus) return null;
+    
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+        className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4`}
+      >
+        <div className={`p-4 rounded-lg shadow-lg backdrop-blur-lg border ${
+          submitStatus === 'success' 
+            ? 'bg-gradient-to-r from-green-900/40 to-emerald-900/20 border-green-700/30' 
+            : 'bg-gradient-to-r from-red-900/40 to-rose-900/20 border-red-700/30'
+        }`}>
+          <div className="flex items-center gap-3">
+            {submitStatus === 'success' ? (
+              <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
+            ) : (
+              <X className="w-6 h-6 text-red-400 flex-shrink-0" />
+            )}
+            <div>
+              <p className={`font-medium ${
+                submitStatus === 'success' ? 'text-green-200' : 'text-red-200'
+              }`}>
+                {submitStatus === 'success' ? 'Success!' : 'Error!'}
+              </p>
+              <p className="text-sm text-white mt-1">{submitMessage}</p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
   };
 
   const programStats = [
@@ -386,6 +470,9 @@ function HonoraryProfessorship() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Status Messages */}
+      {renderStatusMessage()}
+
       {/* Enhanced Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900/90 to-purple-900/90">
         {/* Animated Background Elements */}
@@ -714,6 +801,15 @@ function HonoraryProfessorship() {
               </h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Web3Forms Hidden Fields */}
+                <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                <input type="hidden" name="subject" value="New Honorary Professorship Application" />
+                <input type="hidden" name="from_name" value="QualifyLearn Website" />
+                <input type="hidden" name="honeypot" value="" />
+                <input type="hidden" name="botcheck" value="" />
+                <input type="hidden" name="program" value="Honorary Professorship" />
+                <input type="hidden" name="source" value="Honorary Professorship Page" />
+                
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
@@ -723,7 +819,8 @@ function HonoraryProfessorship() {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Your full name"
                     />
                   </div>
@@ -735,7 +832,8 @@ function HonoraryProfessorship() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Your phone number"
                     />
                   </div>
@@ -749,7 +847,8 @@ function HonoraryProfessorship() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Your email address"
                   />
                 </div>
@@ -762,7 +861,8 @@ function HonoraryProfessorship() {
                     value={formData.title}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Your current professional title"
                   />
                 </div>
@@ -774,7 +874,8 @@ function HonoraryProfessorship() {
                     value={formData.field}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <option value="" className="text-slate-400">Select your academic field</option>
                     <option value="business" className="text-slate-900">Business & Management</option>
@@ -796,7 +897,8 @@ function HonoraryProfessorship() {
                       value={formData.experience}
                       onChange={handleInputChange}
                       required 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="" className="text-slate-400">Select experience range</option>
                       <option value="10-15" className="text-slate-900">10-15 years</option>
@@ -812,7 +914,8 @@ function HonoraryProfessorship() {
                       value={formData.engagement}
                       onChange={handleInputChange}
                       required 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="" className="text-slate-400">Select engagement type</option>
                       <option value="guest-lectures" className="text-slate-900">Guest Lectures</option>
@@ -823,10 +926,10 @@ function HonoraryProfessorship() {
                   </div>
                 </div>
 
-                {/* Resume Upload Section */}
+                {/* Resume Upload Section - Now Optional */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Upload Resume/CV *
+                    Upload Resume/CV (Optional)
                   </label>
                   
                   {/* File Upload Area */}
@@ -837,7 +940,9 @@ function HonoraryProfessorship() {
                     <input
                       type="file"
                       id="resume-upload"
+                      name="attachment"
                       onChange={handleFileChange}
+                      disabled={submitting}
                       className="hidden"
                       accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     />
@@ -845,19 +950,19 @@ function HonoraryProfessorship() {
                     {!selectedFile ? (
                       <label
                         htmlFor="resume-upload"
-                        className="flex flex-col items-center justify-center w-full h-40 px-4 transition-all duration-300 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-dashed border-blue-300 rounded-2xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 group-hover:shadow-lg"
+                        className={`flex flex-col items-center justify-center w-full h-40 px-4 transition-all duration-300 rounded-2xl cursor-pointer border-2 border-dashed ${submitting ? 'bg-gray-50 border-gray-300 cursor-not-allowed' : 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-300 hover:border-blue-500 hover:bg-blue-50 group-hover:shadow-lg'}`}
                       >
-                        <div className="p-4 mb-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
+                        <div className={`p-4 mb-4 rounded-xl ${submitting ? 'bg-gray-300' : 'bg-gradient-to-r from-blue-500 to-cyan-500'} text-white`}>
                           <FileUp className="w-8 h-8" />
                         </div>
                         <div className="text-center">
-                          <p className="text-lg font-semibold text-slate-800 mb-1">
-                            Click to upload Resume/CV
+                          <p className={`text-lg font-semibold mb-1 ${submitting ? 'text-gray-400' : 'text-slate-800'}`}>
+                            {submitting ? 'Uploading...' : 'Click to upload Resume/CV'}
                           </p>
-                          <p className="text-sm text-slate-600 mb-2">
-                            or drag and drop
+                          <p className={`text-sm mb-2 ${submitting ? 'text-gray-400' : 'text-slate-600'}`}>
+                            {submitting ? 'Processing...' : 'or drag and drop'}
                           </p>
-                          <p className="text-xs text-slate-500">
+                          <p className={`text-xs ${submitting ? 'text-gray-400' : 'text-slate-500'}`}>
                             PDF, DOC, DOCX, TXT (Max 5MB)
                           </p>
                         </div>
@@ -874,28 +979,30 @@ function HonoraryProfessorship() {
                               <p className="text-sm text-slate-600">{formatFileSize(selectedFile.size)}</p>
                             </div>
                           </div>
-                          <button
-                            type="button"
-                            onClick={handleRemoveFile}
-                            className="p-2 hover:bg-red-50 rounded-full transition-colors"
-                            aria-label="Remove file"
-                          >
-                            <X className="w-5 h-5 text-red-500" />
-                          </button>
+                          {!submitting && (
+                            <button
+                              type="button"
+                              onClick={handleRemoveFile}
+                              className="p-2 hover:bg-red-50 rounded-full transition-colors"
+                              aria-label="Remove file"
+                            >
+                              <X className="w-5 h-5 text-red-500" />
+                            </button>
+                          )}
                         </div>
                         <div className="w-full bg-emerald-100 rounded-full h-2">
-                          <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full w-full"></div>
+                          <div className={`bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full ${submitting ? 'animate-pulse' : 'w-full'}`}></div>
                         </div>
                         <p className="text-xs text-emerald-600 mt-2 flex items-center gap-1">
                           <CheckCircle className="w-3 h-3" />
-                          File uploaded successfully
+                          {submitting ? 'Uploading file...' : 'File uploaded successfully'}
                         </p>
                       </div>
                     )}
                   </motion.div>
                   
                   <p className="mt-2 text-xs text-slate-500">
-                    Please include detailed academic and professional experience, publications, and achievements
+                    Optional: Include detailed academic and professional experience, publications, and achievements
                   </p>
                 </div>
 
@@ -909,7 +1016,8 @@ function HonoraryProfessorship() {
                     value={formData.additionalInfo}
                     onChange={handleInputChange}
                     rows="4"
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Any additional information about your qualifications, publications, awards, or academic contributions..."
                   />
                 </div>
@@ -923,21 +1031,35 @@ function HonoraryProfessorship() {
                     checked={formData.consent}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 w-5 h-5 text-blue-600 bg-white border-slate-300 rounded focus:ring-blue-600 focus:ring-offset-0"
+                    disabled={submitting}
+                    className="mt-1 w-5 h-5 text-blue-600 bg-white border-slate-300 rounded focus:ring-blue-600 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
-                  <label htmlFor="consent" className="text-sm text-slate-600">
+                  <label htmlFor="consent" className={`text-sm ${submitting ? 'text-slate-400' : 'text-slate-600'}`}>
                     I confirm that all information provided is accurate and I authorize the use of my resume/CV for academic evaluation purposes.
                   </label>
                 </div>
                 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={submitting ? {} : { scale: 1.02 }}
+                  whileTap={submitting ? {} : { scale: 0.98 }}
                   type="submit"
-                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                  disabled={submitting || !formData.consent}
+                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-cyan-600"
                 >
-                  <Award className="w-5 h-5" />
-                  Submit Application
+                  {submitting ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Submitting Application...
+                    </>
+                  ) : (
+                    <>
+                      <Award className="w-5 h-5" />
+                      Submit Application
+                    </>
+                  )}
                 </motion.button>
               </form>
             </motion.div>

@@ -36,13 +36,193 @@ import {
   Pill,
   Activity,
   Stethoscope,
-  MessageCircle
+  MessageCircle,
+  X,
+  FileUp,
+  AlertCircle
 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 // Fallback for missing Certificate icon
 const Certificate = Award;
 
 function HonoraryDoctorate() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitMessage, setSubmitMessage] = useState('');
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    position: '',
+    specialization: '',
+    experience: '',
+    organization: '',
+    achievements: '',
+    consent: false
+  });
+
+  // Clear status message after 5 seconds
+  useEffect(() => {
+    if (submitStatus) {
+      const timer = setTimeout(() => {
+        setSubmitStatus(null);
+        setSubmitMessage('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB');
+        return;
+      }
+      
+      // Check file type
+      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      const validExtensions = ['pdf', 'doc', 'docx', 'txt'];
+      
+      if (!validTypes.includes(file.type) && !validExtensions.includes(fileExtension)) {
+        alert('Please upload a PDF, DOC, DOCX, or TXT file');
+        return;
+      }
+      
+      setSelectedFile(file);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    // Reset the file input
+    const fileInput = document.getElementById('resume');
+    if (fileInput) {
+      fileInput.value = '';
+    }
+    // Reset file name display
+    const fileNameDisplay = document.getElementById('file-name');
+    if (fileNameDisplay) {
+      fileNameDisplay.textContent = 'No file selected';
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!formData.consent) {
+      alert('Please agree to the terms and conditions');
+      return;
+    }
+    
+    setSubmitting(true);
+    setSubmitStatus(null);
+    setSubmitMessage('');
+
+    try {
+      // Create FormData for file upload
+      const formDataObj = new FormData();
+      
+      // Add Web3Forms required fields
+      formDataObj.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
+      formDataObj.append('subject', 'New Honorary Doctorate Application');
+      formDataObj.append('from_name', 'QualifyLearn Website');
+      formDataObj.append('honeypot', '');
+      formDataObj.append('botcheck', '');
+      
+      // Add form data
+      formDataObj.append('name', formData.name);
+      formDataObj.append('phone', formData.phone);
+      formDataObj.append('email', formData.email);
+      formDataObj.append('position', formData.position);
+      formDataObj.append('specialization', formData.specialization);
+      formDataObj.append('experience', formData.experience);
+      formDataObj.append('organization', formData.organization);
+      formDataObj.append('achievements', formData.achievements);
+      formDataObj.append('consent', formData.consent ? 'Agreed' : 'Not agreed');
+      formDataObj.append('program', 'Honorary Doctorate');
+      formDataObj.append('source', 'Honorary Doctorate Page');
+      
+      // Add file if selected (OPTIONAL)
+      if (selectedFile) {
+        formDataObj.append('attachment', selectedFile);
+      }
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataObj
+      });
+      
+      const json = await res.json();
+
+      if (json.success) {
+        setSubmitStatus('success');
+        setSubmitMessage('Honorary Doctorate application submitted successfully! Our review panel will evaluate your achievements and contact you shortly.');
+        
+        // Reset form
+        e.target.reset();
+        setSelectedFile(null);
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          position: '',
+          specialization: '',
+          experience: '',
+          organization: '',
+          achievements: '',
+          consent: false
+        });
+        
+        // Reset file input
+        const fileInput = document.getElementById('resume');
+        if (fileInput) {
+          fileInput.value = '';
+        }
+        
+        // Reset file name display
+        const fileNameDisplay = document.getElementById('file-name');
+        if (fileNameDisplay) {
+          fileNameDisplay.textContent = 'No file selected';
+        }
+        
+        // Scroll to success message
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setSubmitStatus('error');
+        setSubmitMessage(json.message || 'Failed to submit application. Please try again.');
+        console.error('Web3Forms Error:', json);
+      }
+    } catch (err) {
+      setSubmitStatus('error');
+      setSubmitMessage('An error occurred while submitting the form. Please check your connection and try again.');
+      console.error('Submission Error:', err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
   const stats = [
     { icon: <Trophy className="w-5 h-5" />, number: '3,200+', label: 'Doctorates Conferred', color: 'from-blue-500 to-cyan-500' },
     { icon: <Award className="w-5 h-5" />, number: '98%', label: 'Success Rate', color: 'from-emerald-500 to-green-500' },
@@ -227,6 +407,38 @@ function HonoraryDoctorate() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Status Messages */}
+      {submitStatus && (
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4`}
+        >
+          <div className={`p-4 rounded-lg shadow-lg backdrop-blur-lg border ${
+            submitStatus === 'success' 
+              ? 'bg-gradient-to-r from-green-900/40 to-emerald-900/20 border-green-700/30' 
+              : 'bg-gradient-to-r from-red-900/40 to-rose-900/20 border-red-700/30'
+          }`}>
+            <div className="flex items-center gap-3">
+              {submitStatus === 'success' ? (
+                <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
+              ) : (
+                <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0" />
+              )}
+              <div>
+                <p className={`font-medium ${
+                  submitStatus === 'success' ? 'text-green-200' : 'text-red-200'
+                }`}>
+                  {submitStatus === 'success' ? 'Success!' : 'Error!'}
+                </p>
+                <p className="text-sm text-white mt-1">{submitMessage}</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Enhanced Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900/90 to-purple-900/90">
         {/* Animated Background Elements */}
@@ -515,14 +727,26 @@ function HonoraryDoctorate() {
                 Begin Your <span className="text-blue-600">Honorary Journey</span>
               </h2>
               
-              <form className="space-y-6" id="honoraryApplicationForm">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                <input type="hidden" name="subject" value="New Honorary Doctorate Application" />
+                <input type="hidden" name="from_name" value="QualifyLearn Website" />
+                <input type="hidden" name="honeypot" value="" />
+                <input type="hidden" name="botcheck" value="" />
+                <input type="hidden" name="program" value="Honorary Doctorate" />
+                <input type="hidden" name="source" value="Honorary Doctorate Page" />
+                
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
                     <input 
                       type="text" 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Your full name"
                     />
                   </div>
@@ -530,8 +754,12 @@ function HonoraryDoctorate() {
                     <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
                     <input 
                       type="tel" 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Your phone number"
                     />
                   </div>
@@ -541,8 +769,12 @@ function HonoraryDoctorate() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
                   <input 
                     type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Your email address"
                   />
                 </div>
@@ -551,15 +783,26 @@ function HonoraryDoctorate() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Professional Title *</label>
                   <input 
                     type="text" 
+                    name="position"
+                    value={formData.position}
+                    onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="CEO, Founder, Director, etc."
                   />
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Desired Specialization *</label>
-                  <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                  <select 
+                    name="specialization"
+                    value={formData.specialization}
+                    onChange={handleInputChange}
+                    required
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <option value="">Select a specialization</option>
                     <option value="business">Business Administration</option>
                     <option value="technology">Technology Management</option>
@@ -573,7 +816,14 @@ function HonoraryDoctorate() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience *</label>
-                    <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                    <select 
+                      name="experience"
+                      value={formData.experience}
+                      onChange={handleInputChange}
+                      required
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
                       <option value="">Select experience</option>
                       <option value="10-15">10-15 years</option>
                       <option value="15-20">15-20 years</option>
@@ -585,76 +835,93 @@ function HonoraryDoctorate() {
                     <label className="block text-sm font-medium text-slate-700 mb-2">Company/Organization *</label>
                     <input 
                       type="text" 
+                      name="organization"
+                      value={formData.organization}
+                      onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Your organization"
                     />
                   </div>
                 </div>
                 
-                {/* Resume Upload Section */}
+                {/* Resume Upload Section - OPTIONAL */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Professional Portfolio * <span className="text-slate-500 font-normal">(PDF, DOC, DOCX up to 5MB)</span>
+                    Professional Portfolio (Optional) <span className="text-slate-500 font-normal">(PDF, DOC, DOCX up to 5MB)</span>
                   </label>
                   <div className="mt-2">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="relative"
+                      className="relative group"
                     >
                       <input
                         type="file"
                         id="resume"
-                        accept=".pdf,.doc,.docx,.txt"
-                        required
+                        name="attachment"
+                        onChange={handleFileChange}
+                        disabled={submitting}
                         className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            // Validate file size (5MB max)
-                            if (file.size > 5 * 1024 * 1024) {
-                              alert('File size must be less than 5MB');
-                              e.target.value = '';
-                              return;
-                            }
-                            
-                            // Validate file type
-                            const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
-                            if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|doc|docx|txt)$/i)) {
-                              alert('Please upload a PDF, DOC, DOCX, or TXT file');
-                              e.target.value = '';
-                              return;
-                            }
-                            
-                            // File is valid - you can handle it here
-                            console.log('File selected:', file.name, file.size, file.type);
-                            // Display file name
-                            const fileNameDisplay = document.getElementById('file-name');
-                            if (fileNameDisplay) {
-                              fileNameDisplay.textContent = file.name;
-                            }
-                          }
-                        }}
+                        accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                       />
-                      <label
-                        htmlFor="resume"
-                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 transition-all duration-300 group"
-                      >
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <FileText className="w-10 h-10 text-blue-400 mb-3 group-hover:text-blue-500 transition-colors" />
-                          <p className="text-sm text-slate-700 mb-2">
-                            <span className="font-semibold">Click to upload</span> or drag and drop
+                      
+                      {!selectedFile ? (
+                        <label
+                          htmlFor="resume"
+                          className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 group ${submitting ? 'bg-gray-50 border-gray-300 cursor-not-allowed' : 'border-blue-300 bg-blue-50 hover:bg-blue-100 hover:border-blue-500'}`}
+                        >
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <FileText className={`w-10 h-10 mb-3 ${submitting ? 'text-gray-400' : 'text-blue-400 group-hover:text-blue-500'} transition-colors`} />
+                            <p className={`text-sm mb-2 ${submitting ? 'text-gray-400' : 'text-slate-700'}`}>
+                              <span className="font-semibold">{submitting ? 'Processing...' : 'Click to upload'}</span> {!submitting && 'or drag and drop'}
+                            </p>
+                            <p className={`text-xs ${submitting ? 'text-gray-400' : 'text-slate-500'}`}>
+                              PDF, DOC, DOCX (MAX. 5MB)
+                            </p>
+                          </div>
+                        </label>
+                      ) : (
+                        <div className="w-full p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-emerald-300 rounded-2xl">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-4">
+                              <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 text-white">
+                                <FileText className="w-6 h-6" />
+                              </div>
+                              <div>
+                                <h3 className="font-semibold text-slate-800 truncate max-w-xs">{selectedFile.name}</h3>
+                                <p className="text-sm text-slate-600">{formatFileSize(selectedFile.size)}</p>
+                              </div>
+                            </div>
+                            {!submitting && (
+                              <button
+                                type="button"
+                                onClick={handleRemoveFile}
+                                className="p-2 hover:bg-red-50 rounded-full transition-colors"
+                                aria-label="Remove file"
+                              >
+                                <X className="w-5 h-5 text-red-500" />
+                              </button>
+                            )}
+                          </div>
+                          <div className="w-full bg-emerald-100 rounded-full h-2">
+                            <div className={`bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full ${submitting ? 'animate-pulse' : 'w-full'}`}></div>
+                          </div>
+                          <p className="text-xs text-emerald-600 mt-2 flex items-center gap-1">
+                            <CheckCircle className="w-3 h-3" />
+                            {submitting ? 'Uploading file...' : 'File uploaded successfully'}
                           </p>
-                          <p className="text-xs text-slate-500">PDF, DOC, DOCX (MAX. 5MB)</p>
                         </div>
-                      </label>
+                      )}
                     </motion.div>
                     
                     {/* Selected file name display */}
                     <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
                       <FileText className="w-4 h-4" />
-                      <span id="file-name" className="font-medium">No file selected</span>
+                      <span id="file-name" className="font-medium">
+                        {selectedFile ? selectedFile.name : 'No file selected'}
+                      </span>
                     </div>
                     
                     {/* Upload tips */}
@@ -676,8 +943,12 @@ function HonoraryDoctorate() {
                     Notable Achievements (Optional)
                   </label>
                   <textarea 
+                    name="achievements"
+                    value={formData.achievements}
+                    onChange={handleInputChange}
                     rows={3}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="List major awards, publications, patents, or significant contributions..."
                   />
                 </div>
@@ -687,38 +958,40 @@ function HonoraryDoctorate() {
                   <input 
                     type="checkbox" 
                     id="consent"
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleInputChange}
                     required
-                    className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                    disabled={submitting}
+                    className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
-                  <label htmlFor="consent" className="text-sm text-slate-600">
+                  <label htmlFor="consent" className={`text-sm ${submitting ? 'text-slate-400' : 'text-slate-600'}`}>
                     I consent to having my professional achievements reviewed by the 
                     international academic panel and agree to the terms of the Honorary Doctorate program.
                   </label>
                 </div>
                 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={submitting ? {} : { scale: 1.02 }}
+                  whileTap={submitting ? {} : { scale: 0.98 }}
                   type="submit"
-                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const form = document.getElementById('honoraryApplicationForm');
-                    if (form && form.checkValidity()) {
-                      // Form is valid - you can submit to your backend here
-                      alert('Application submitted successfully! Our review panel will evaluate your achievements and contact you shortly.');
-                      form.reset();
-                      const fileNameDisplay = document.getElementById('file-name');
-                      if (fileNameDisplay) {
-                        fileNameDisplay.textContent = 'No file selected';
-                      }
-                    } else if (form) {
-                      form.reportValidity();
-                    }
-                  }}
+                  disabled={submitting || !formData.consent}
+                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-cyan-600"
                 >
-                  <Crown className="w-6 h-6" />
-                  Submit Honorary Doctorate Application
+                  {submitting ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Submitting Application...
+                    </>
+                  ) : (
+                    <>
+                      <Crown className="w-6 h-6" />
+                      Submit Honorary Doctorate Application
+                    </>
+                  )}
                 </motion.button>
               </form>
             </motion.div>

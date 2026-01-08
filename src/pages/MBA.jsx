@@ -64,7 +64,8 @@ import {
   Network,
   TrendingUp as ChartTrendingUp,
   Upload,
-  File
+  File,
+  X
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 
@@ -78,10 +79,13 @@ function MBA() {
     program: '',
     experience: '',
     specialization: '',
-    resume: null
+    additionalInfo: ''
   });
 
-  const [isUploading, setIsUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' or 'error'
+  const [submitMessage, setSubmitMessage] = useState('');
   const fileInputRef = useRef(null);
 
   const programStats = [
@@ -316,78 +320,48 @@ function MBA() {
     },
   ];
 
-  // Handle file upload
-  const handleFileUpload = (event) => {
+  // Handle file change
+  const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Check file size (max 5MB)
+      // Check file size (5MB max)
       if (file.size > 5 * 1024 * 1024) {
-        alert('File size must be less than 5MB');
+        setSubmitMessage('File size must be less than 5MB');
+        setSubmitStatus('error');
         return;
       }
       
       // Check file type
-      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-      if (!allowedTypes.includes(file.type)) {
-        alert('Please upload a PDF or Word document');
+      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      const validExtensions = ['pdf', 'doc', 'docx', 'txt'];
+      
+      if (!validTypes.includes(file.type) && !validExtensions.includes(fileExtension)) {
+        setSubmitMessage('Please upload a PDF, DOC, DOCX, or TXT file');
+        setSubmitStatus('error');
         return;
       }
       
-      setIsUploading(true);
-      
-      // Simulate upload process
-      setTimeout(() => {
-        setFormData(prev => ({
-          ...prev,
-          resume: file
-        }));
-        setIsUploading(false);
-        alert('Resume uploaded successfully!');
-      }, 1500);
+      setSelectedFile(file);
     }
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formEl = e.target;
-      const data = new FormData(formEl);
-      data.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
-      data.append('subject', 'New MBA Application');
-      data.append('from_name', 'QualifyLearn Website');
-      data.append('captcha', 'true');
-      if (formData.resume && !data.get('attachment')) {
-        data.append('attachment', formData.resume);
-      }
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: data
-      });
-      const json = await res.json();
-      if (json.success) {
-        alert('Application submitted successfully! Our admissions team will contact you shortly.');
-        formEl.reset();
-        setFormData({
-          name: '',
-          phone: '',
-          email: '',
-          position: '',
-          program: '',
-          experience: '',
-          specialization: '',
-          resume: null
-        });
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
-      } else {
-        alert('Failed to submit application. Please try again.');
-      }
-    } catch (err) {
-      alert('An error occurred while submitting the form.');
-      console.error(err);
+  // Handle remove file
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    // Reset the file input
+    const fileInput = document.getElementById('resume-upload');
+    if (fileInput) {
+      fileInput.value = '';
     }
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
   // Handle input changes
@@ -399,10 +373,73 @@ function MBA() {
     }));
   };
 
-  // Trigger file input click
-  const handleUploadClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setSubmitMessage('');
+
+    try {
+      const web3formsData = new FormData();
+      
+      // Add Web3Forms access key
+      web3formsData.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
+      
+      // Add form data with proper field names
+      web3formsData.append('name', formData.name);
+      web3formsData.append('phone', formData.phone);
+      web3formsData.append('email', formData.email);
+      web3formsData.append('position', formData.position);
+      web3formsData.append('program', formData.program);
+      web3formsData.append('experience', formData.experience);
+      web3formsData.append('specialization', formData.specialization);
+      web3formsData.append('additional_info', formData.additionalInfo);
+      web3formsData.append('form_type', 'MBA Program Application');
+      web3formsData.append('subject', `New MBA Application from ${formData.name}`);
+      
+      // Add file if selected
+      if (selectedFile) {
+        web3formsData.append('attachment', selectedFile);
+      }
+      
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: web3formsData
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setSubmitStatus('success');
+        setSubmitMessage('Thank you! Your MBA application has been submitted successfully. Our admissions team will contact you shortly.');
+        
+        // Reset form
+        setSelectedFile(null);
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          position: '',
+          program: '',
+          experience: '',
+          specialization: '',
+          additionalInfo: ''
+        });
+        
+        // Reset file input
+        const fileInput = document.getElementById('resume-upload');
+        if (fileInput) {
+          fileInput.value = '';
+        }
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setSubmitMessage(error.message || 'There was an error submitting your application. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -749,11 +786,38 @@ function MBA() {
                 Apply for <span className="text-blue-600">MBA Program</span>
               </h2>
               
+              {/* Submission Status Messages */}
+              {submitStatus === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-xl"
+                >
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="w-6 h-6 text-emerald-600" />
+                    <p className="text-emerald-700 font-medium">{submitMessage}</p>
+                  </div>
+                </motion.div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-gradient-to-r from-rose-50 to-red-50 border border-rose-200 rounded-xl"
+                >
+                  <div className="flex items-center gap-3">
+                    <X className="w-6 h-6 text-rose-600" />
+                    <p className="text-rose-700 font-medium">{submitMessage}</p>
+                  </div>
+                </motion.div>
+              )}
+              
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Web3Forms Hidden Inputs */}
                 <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
-                <input type="hidden" name="subject" value="New MBA Application" />
-                <input type="hidden" name="from_name" value="QualifyLearn Website" />
-                <input type="hidden" name="captcha" value="true" />
+                <input type="hidden" name="subject" value="MBA Program Application" />
+                
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
@@ -762,9 +826,9 @@ function MBA() {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
-                      placeholder="Your full name"
                       required
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                      placeholder="Your full name"
                     />
                   </div>
                   <div>
@@ -774,9 +838,9 @@ function MBA() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
-                      placeholder="Your phone number"
                       required
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                      placeholder="Your phone number"
                     />
                   </div>
                 </div>
@@ -788,9 +852,9 @@ function MBA() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
-                    placeholder="Your email address"
                     required
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                    placeholder="Your email address"
                   />
                 </div>
                 
@@ -801,7 +865,7 @@ function MBA() {
                     name="position"
                     value={formData.position}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                     placeholder="Your current job title"
                   />
                 </div>
@@ -812,8 +876,8 @@ function MBA() {
                     name="program"
                     value={formData.program}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
-                    required
+                    required 
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
                   >
                     <option value="">Select program format</option>
                     <option value="Full-Time MBA">Full-Time MBA</option>
@@ -829,7 +893,7 @@ function MBA() {
                       name="experience"
                       value={formData.experience}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
                     >
                       <option value="">Select experience range</option>
                       <option value="0-2 years">0-2 years</option>
@@ -844,7 +908,7 @@ function MBA() {
                       name="specialization"
                       value={formData.specialization}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
                     >
                       <option value="">Select specialization</option>
                       <option value="Finance">Finance</option>
@@ -857,88 +921,120 @@ function MBA() {
 
                 {/* Resume Upload Section */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Upload Resume/CV *</label>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileUpload}
-                    accept=".pdf,.doc,.docx"
-                    className="hidden"
-                    name="attachment"
-                  />
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Upload Resume/CV (Optional)
+                  </label>
                   
                   <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleUploadClick}
-                    className={`cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-all duration-300 ${formData.resume ? 'border-emerald-500 bg-emerald-50/50' : 'border-blue-300 hover:border-blue-500 bg-blue-50/50'}`}
+                    whileHover={{ scale: 1.01 }}
+                    className="relative group"
                   >
-                    <div className="flex flex-col items-center justify-center gap-4">
-                      <div className={`p-4 rounded-full ${formData.resume ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'}`}>
-                        {isUploading ? (
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                        ) : formData.resume ? (
-                          <FileCheck className="w-8 h-8" />
-                        ) : (
+                    <input
+                      type="file"
+                      id="resume-upload"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    />
+                    
+                    {!selectedFile ? (
+                      <label
+                        htmlFor="resume-upload"
+                        className="flex flex-col items-center justify-center w-full h-40 px-4 transition-all duration-300 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-dashed border-blue-300 rounded-2xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 group-hover:shadow-lg"
+                      >
+                        <div className="p-4 mb-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
                           <Upload className="w-8 h-8" />
-                        )}
-                      </div>
-                      
-                      <div>
-                        <h3 className="font-semibold text-slate-800">
-                          {isUploading ? 'Uploading...' : 
-                           formData.resume ? 'Resume Uploaded!' : 'Click to upload resume'}
-                        </h3>
-                        <p className="text-sm text-slate-500 mt-1">
-                          {formData.resume ? 
-                           `${formData.resume.name} (${(formData.resume.size / 1024 / 1024).toFixed(2)} MB)` : 
-                           'Upload PDF or Word document (Max 5MB)'}
+                        </div>
+                        <div className="text-center">
+                          <p className="text-lg font-semibold text-slate-800 mb-1">
+                            Click to upload Resume/CV (Optional)
+                          </p>
+                          <p className="text-sm text-slate-600 mb-2">
+                            or drag and drop
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            PDF, DOC, DOCX, TXT (Max 5MB)
+                          </p>
+                        </div>
+                      </label>
+                    ) : (
+                      <div className="w-full p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-emerald-300 rounded-2xl">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-4">
+                            <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 text-white">
+                              <FileCheck className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <h3 className="font-semibold text-slate-800 truncate max-w-xs">{selectedFile.name}</h3>
+                              <p className="text-sm text-slate-600">{formatFileSize(selectedFile.size)}</p>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleRemoveFile}
+                            className="p-2 hover:bg-red-50 rounded-full transition-colors"
+                            aria-label="Remove file"
+                          >
+                            <X className="w-5 h-5 text-red-500" />
+                          </button>
+                        </div>
+                        <div className="w-full bg-emerald-100 rounded-full h-2">
+                          <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full w-full"></div>
+                        </div>
+                        <p className="text-xs text-emerald-600 mt-2 flex items-center gap-1">
+                          <CheckCircle className="w-3 h-3" />
+                          File uploaded successfully
                         </p>
                       </div>
-                      
-                      {!formData.resume && !isUploading && (
-                        <motion.button
-                          type="button"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="mt-2 px-6 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-semibold shadow-lg hover:shadow-xl transition-shadow duration-300"
-                        >
-                          Choose File
-                        </motion.button>
-                      )}
-                    </div>
-                    
-                    {formData.resume && !isUploading && (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setFormData(prev => ({ ...prev, resume: null }));
-                          if (fileInputRef.current) {
-                            fileInputRef.current.value = '';
-                          }
-                        }}
-                        className="mt-4 text-sm text-rose-600 hover:text-rose-700 font-medium"
-                      >
-                        Remove File
-                      </button>
                     )}
                   </motion.div>
                   
                   <p className="mt-2 text-xs text-slate-500">
-                    Accepted formats: PDF, DOC, DOCX. Maximum file size: 5MB
+                    Recommended: Include detailed academic and professional experience
                   </p>
+                </div>
+
+                {/* Additional Information */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Additional Information (Optional)
+                  </label>
+                  <textarea
+                    name="additionalInfo"
+                    value={formData.additionalInfo}
+                    onChange={handleInputChange}
+                    rows="4"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                    placeholder="Tell us about your career goals, achievements, or any specific questions..."
+                  />
                 </div>
                 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  disabled={isUploading}
-                  className={`w-full py-4 rounded-xl text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 ${isUploading ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700'}`}
+                  disabled={isSubmitting}
+                  className={`w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                    isSubmitting ? 'opacity-80 cursor-not-allowed' : ''
+                  }`}
                 >
-                  {isUploading ? 'Uploading...' : 'Submit MBA Application'}
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <GraduationCap className="w-5 h-5" />
+                      Submit MBA Application
+                    </>
+                  )}
                 </motion.button>
+                
+                {/* Note about Web3Forms */}
+                <p className="text-xs text-slate-500 text-center mt-4">
+                  Your application will be securely processed via Web3Forms and delivered to our admissions team.
+                </p>
               </form>
             </motion.div>
 
@@ -963,7 +1059,7 @@ function MBA() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 hover:shadow-md transition-shadow duration-300"
                   >
                     <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
                     <span className="text-slate-800 font-medium">{point}</span>
