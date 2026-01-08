@@ -36,7 +36,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         {/* Layout wrapper applies Navbar and Footer to all pages */}
         <Route path="/" element={<Layout />}>
@@ -55,7 +55,7 @@ function App() {
           <Route path="phd" element={<PhD />} />
           <Route path="mba" element={<MBA />} />
           <Route path="dba" element={<DBA />} />
-          
+
           <Route path="honorary-doctorate" element={<HonoraryDoctorate />} />
           <Route path="honorary-professorship" element={<HonoraryProfessorship />} />
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
@@ -63,9 +63,9 @@ function App() {
           <Route path="disclaimer" element={<Disclaimer />} />
           <Route path="terms-and-conditions" element={<TermsAndConditions />} />
           {/** Removed career-counselling route per request */}
-          
+
           {/* Admin enquiries page removed per request */}
-          
+
           {/* 404 - Catch all unmatched routes */}
           <Route path="*" element={<NotFound />} />
         </Route>

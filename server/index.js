@@ -27,6 +27,12 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
+// 📝 Request Logger for debugging
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - Origin: ${req.get('origin')}`);
+  next();
+});
+
 /* ===================== CORS (RENDER-PROOF) ===================== */
 
 /**
@@ -35,15 +41,33 @@ app.use(express.json());
  */
 app.use(
   cors({
-    origin: true, // 🔥 reflect request origin
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+
+      // Allow all local development origins
+      const isLocal = origin.includes('localhost') ||
+        origin.includes('127.0.0.1') ||
+        origin.includes('[::1]');
+
+      const whitelist = [
+        "https://qualifylearnnn.vercel.app",
+        "https://qualifylearn.com"
+      ];
+
+      if (isLocal || whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(null, false); // Block other origins
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: false, // IMPORTANT: must be false
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   })
 );
-
-// ✅ Explicit preflight handler
-app.options("*", cors());
 
 /* ===================== RATE LIMITING ===================== */
 

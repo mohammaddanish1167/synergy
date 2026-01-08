@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  Building2, 
-  Users, 
-  Trophy, 
-  Sparkles, 
+import {
+  Building2,
+  Users,
+  Trophy,
+  Sparkles,
   TrendingUp,
   CheckCircle,
   Award,
@@ -110,45 +110,45 @@ const row3Companies = Object.entries({
 
 /* ================= FALLBACK LOGOS (CDN) ================= */
 const fallbackLogos = {
-  microsoft: "https://cdn.worldvectorlogo.com/logos/microsoft-5.svg",
-  google: "https://cdn.worldvectorlogo.com/logos/google-2015.svg",
-  apple: "https://cdn.worldvectorlogo.com/logos/apple-black.svg",
-  amazon: "https://cdn.worldvectorlogo.com/logos/amazon-2.svg",
-  meta: "https://cdn.worldvectorlogo.com/logos/meta-1.svg",
-  netflix: "https://cdn.worldvectorlogo.com/logos/netflix-3.svg",
-  tesla: "https://cdn.worldvectorlogo.com/logos/tesla-9.svg",
-  nvidia: "https://cdn.worldvectorlogo.com/logos/nvidia-1.svg",
-  intel: "https://cdn.worldvectorlogo.com/logos/intel-8.svg",
-  samsung: "https://cdn.worldvectorlogo.com/logos/samsung-2.svg",
-  oracle: "https://cdn.worldvectorlogo.com/logos/oracle-6.svg",
-  cisco: "https://cdn.worldvectorlogo.com/logos/cisco-2.svg",
-  adobe: "https://cdn.worldvectorlogo.com/logos/adobe-cc.svg",
-  ibm: "https://cdn.worldvectorlogo.com/logos/ibm-logo.svg",
-  uber: "https://cdn.worldvectorlogo.com/logos/uber.svg",
-  spotify: "https://cdn.worldvectorlogo.com/logos/spotify-2.svg",
-  airbnb: "https://cdn.worldvectorlogo.com/logos/airbnb-2.svg",
-  twitter: "https://cdn.worldvectorlogo.com/logos/twitter-6.svg",
-  linkedin: "https://cdn.worldvectorlogo.com/logos/linkedin-icon-2.svg",
-  paypal: "https://cdn.worldvectorlogo.com/logos/paypal-3.svg",
-  stripe: "https://cdn.worldvectorlogo.com/logos/stripe-4.svg",
-  walmart: "https://cdn.worldvectorlogo.com/logos/walmart.svg",
-  flipkart: "https://cdn.worldvectorlogo.com/logos/flipkart.svg",
-  infosys: "https://cdn.worldvectorlogo.com/logos/infosys-1.svg",
-  tcs: "https://cdn.worldvectorlogo.com/logos/tata-consultancy-services.svg",
-  wipro: "https://cdn.worldvectorlogo.com/logos/wipro.svg",
-  accenture: "https://cdn.worldvectorlogo.com/logos/accenture.svg",
-  deloitte: "https://cdn.worldvectorlogo.com/logos/deloitte-2.svg",
-  ey: "https://cdn.worldvectorlogo.com/logos/ernst-young.svg",
-  kpmg: "https://cdn.worldvectorlogo.com/logos/kpmg-1.svg",
-  goldman: "https://cdn.worldvectorlogo.com/logos/goldman-sachs.svg",
-  jpmorgan: "https://cdn.worldvectorlogo.com/logos/jpmorgan-chase.svg",
-  mckinsey: "https://cdn.worldvectorlogo.com/logos/mckinsey-company.svg",
-  capgemini: "https://cdn.worldvectorlogo.com/logos/capgemini.svg",
-  cognizant: "https://cdn.worldvectorlogo.com/logos/cognizant.svg",
-  hcl: "https://cdn.worldvectorlogo.com/logos/hcl-technologies.svg",
-  byjus: "https://cdn.worldvectorlogo.com/logos/byjus.svg",
-  zomato: "https://cdn.worldvectorlogo.com/logos/zomato-2.svg",
-  swiggy: "https://cdn.worldvectorlogo.com/logos/swiggy-1.svg",
+  microsoft: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",
+  google: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+  apple: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+  amazon: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+  meta: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
+  netflix: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
+  tesla: "https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg",
+  nvidia: "https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg",
+  intel: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg",
+  samsung: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg",
+  oracle: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+  cisco: "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg",
+  adobe: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Adobe_Corporate_logo.svg",
+  ibm: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+  uber: "https://upload.wikimedia.org/wikipedia/commons/5/58/Uber_logo_2018.svg",
+  spotify: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg",
+  airbnb: "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",
+  twitter: "https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg",
+  linkedin: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
+  paypal: "https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg",
+  stripe: "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",
+  walmart: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Walmart_logo.svg",
+  flipkart: "https://upload.wikimedia.org/wikipedia/commons/0/0a/Flipkart_Logo.svg",
+  infosys: "https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg",
+  tcs: "https://upload.wikimedia.org/wikipedia/en/b/b9/Tata_Consultancy_Services_Logo.svg",
+  wipro: "https://upload.wikimedia.org/wikipedia/commons/4/42/Wipro_Logo_new.svg",
+  accenture: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg",
+  deloitte: "https://upload.wikimedia.org/wikipedia/commons/1/12/Deloitte.svg",
+  ey: "https://upload.wikimedia.org/wikipedia/commons/9/98/Ernst_%26_Young_Logo.svg",
+  kpmg: "https://upload.wikimedia.org/wikipedia/commons/9/9d/KPMG_logo.svg",
+  goldman: "https://upload.wikimedia.org/wikipedia/commons/6/61/Goldman_Sachs.svg",
+  jpmorgan: "https://upload.wikimedia.org/wikipedia/commons/d/de/JPMorgan_Chase_Logo_2008.svg",
+  mckinsey: "https://upload.wikimedia.org/wikipedia/commons/8/8c/McKinsey_%26_Company_Logo.svg",
+  capgemini: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Capgemini_Logo_2022.svg",
+  cognizant: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Cognizant_logo_2022.svg",
+  hcl: "https://upload.wikimedia.org/wikipedia/commons/0/0e/HCL_Technologies_logo.svg",
+  byjus: "https://upload.wikimedia.org/wikipedia/en/d/dd/Byju%27s_logo.svg",
+  zomato: "https://upload.wikimedia.org/wikipedia/commons/7/75/Zomato_logo.svg",
+  swiggy: "https://upload.wikimedia.org/wikipedia/en/1/12/Swiggy_logo.svg",
 };
 
 /* ================= COMPONENT ================= */
@@ -164,13 +164,12 @@ export default function HiringPartners() {
     const preloadImages = async () => {
       const allCompanies = [...row1Companies, ...row2Companies, ...row3Companies];
       const loaded = {};
-      
+
       const imagePromises = allCompanies.map(async (company) => {
         const key = company.name.toLowerCase().replace(/ /g, '');
         const urls = [
           companyLogos[key],
-          fallbackLogos[key],
-          `https://logo.clearbit.com/${company.name.toLowerCase().replace(/ /g, '')}.com?size=128`
+          fallbackLogos[key]
         ].filter(Boolean);
 
         for (const url of urls) {
@@ -218,7 +217,7 @@ export default function HiringPartners() {
           raf = requestAnimationFrame(animate);
           return;
         }
-        
+
         const dt = now - last;
         last = now;
 
@@ -268,7 +267,7 @@ export default function HiringPartners() {
       {/* Gradient overlays */}
       <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white via-white to-transparent z-20 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white via-white to-transparent z-20 pointer-events-none" />
-      
+
       {/* Animated shine effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-100/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 opacity-0 group-hover:opacity-100" />
 
@@ -276,13 +275,13 @@ export default function HiringPartners() {
         {[...companies, ...companies].map((c, i) => {
           const key = c.name.toLowerCase().replace(/ /g, '');
           const logoUrl = loadedLogos[key] || fallbackLogos[key];
-          
+
           return (
             <div key={`${c.name}-${i}`} className="flex-shrink-0">
-              <motion.div 
+              <motion.div
                 className="w-48 h-28 flex items-center justify-center bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 group/item relative overflow-hidden"
-                whileHover={{ 
-                  scale: 1.05, 
+                whileHover={{
+                  scale: 1.05,
                   y: -4,
                   borderColor: "#3b82f6",
                   boxShadow: "0 20px 40px rgba(59, 130, 246, 0.15)"
@@ -298,7 +297,7 @@ export default function HiringPartners() {
 
                 {/* Glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-hover/item:opacity-100 transition-opacity duration-500" />
-                
+
                 {/* Logo container */}
                 <div className="relative z-10 p-6 flex items-center justify-center w-full h-full">
                   {logoUrl ? (
@@ -332,9 +331,9 @@ export default function HiringPartners() {
                     </div>
                   )}
                 </div>
-                
+
                 {/* Company name badge */}
-                <motion.div 
+                <motion.div
                   className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover/item:opacity-100 transition-all duration-300"
                   initial={{ y: 10 }}
                   whileHover={{ y: 0 }}
@@ -343,7 +342,7 @@ export default function HiringPartners() {
                     {c.name}
                   </span>
                 </motion.div>
-                
+
                 {/* Verified badge */}
                 <div className="absolute top-2 right-2 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
                   <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
@@ -362,14 +361,14 @@ export default function HiringPartners() {
     <section className="bg-gradient-to-b from-slate-50 to-white py-24 overflow-hidden relative">
       {/* Animated background elements */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-      
+
       {/* Floating elements */}
       <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-100/30 to-cyan-100/20 rounded-full blur-3xl" />
       <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-100/20 to-pink-100/20 rounded-full blur-3xl" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* HEADING */}
-        <motion.div 
+        <motion.div
           className="text-center mb-20 space-y-6"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -380,13 +379,13 @@ export default function HiringPartners() {
             <span className="text-sm font-semibold text-blue-700 tracking-wide">TRUSTED BY INDUSTRY LEADERS</span>
             <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
             Our Graduates Work At <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent">World's Top Companies</span>
           </h2>
 
           <p className="text-slate-600 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed">
-            From Silicon Valley giants to Fortune 500 enterprises, our alumni are making significant impacts 
+            From Silicon Valley giants to Fortune 500 enterprises, our alumni are making significant impacts
             at the most innovative companies shaping the future of technology and business.
           </p>
         </motion.div>
@@ -399,7 +398,7 @@ export default function HiringPartners() {
         </div>
 
         {/* STATS SECTION */}
-        <motion.div 
+        <motion.div
           className="mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -407,34 +406,34 @@ export default function HiringPartners() {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { 
-                icon: <Globe className="w-6 h-6" />, 
-                value: "50+", 
-                label: "Global Companies", 
+              {
+                icon: <Globe className="w-6 h-6" />,
+                value: "50+",
+                label: "Global Companies",
                 description: "Across 6 continents",
                 gradient: "from-blue-500 to-cyan-500",
                 delay: 0
               },
-              { 
-                icon: <Users className="w-6 h-6" />, 
-                value: "10K+", 
-                label: "Placements", 
+              {
+                icon: <Users className="w-6 h-6" />,
+                value: "10K+",
+                label: "Placements",
                 description: "Successful career transitions",
                 gradient: "from-purple-500 to-pink-500",
                 delay: 0.1
               },
-              { 
-                icon: <Trophy className="w-6 h-6" />, 
-                value: "95%", 
-                label: "Success Rate", 
+              {
+                icon: <Trophy className="w-6 h-6" />,
+                value: "95%",
+                label: "Success Rate",
                 description: "Employer satisfaction",
                 gradient: "from-emerald-500 to-green-500",
                 delay: 0.2
               },
-              { 
-                icon: <TrendingUp className="w-6 h-6" />, 
-                value: "4.9★", 
-                label: "Rating", 
+              {
+                icon: <TrendingUp className="w-6 h-6" />,
+                value: "4.9★",
+                label: "Rating",
                 description: "Average employer feedback",
                 gradient: "from-amber-500 to-orange-500",
                 delay: 0.3
@@ -455,7 +454,7 @@ export default function HiringPartners() {
                   <div className="text-5xl font-bold text-slate-900 mb-2">{stat.value}</div>
                   <div className="text-xl font-semibold text-slate-800 mb-3">{stat.label}</div>
                   <div className="text-slate-600">{stat.description}</div>
-                  
+
                   {/* Animated line */}
                   <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-700 mt-6" />
                 </div>
@@ -465,7 +464,7 @@ export default function HiringPartners() {
         </motion.div>
 
         {/* SUCCESS STORIES */}
-        <motion.div 
+        <motion.div
           className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-3xl p-8 md:p-12 mb-12 border border-blue-100"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -481,7 +480,7 @@ export default function HiringPartners() {
                 Join Our Network of High-Achieving Professionals
               </h3>
               <p className="text-slate-700 mb-6 text-lg">
-                Our graduates secure positions at top-tier companies with an average salary 
+                Our graduates secure positions at top-tier companies with an average salary
                 increase of 45% within 6 months of course completion.
               </p>
               <div className="flex flex-wrap gap-4">
@@ -495,12 +494,12 @@ export default function HiringPartners() {
                 </div>
               </div>
             </div>
-             
+
           </div>
         </motion.div>
 
         {/* TRUST BADGES */}
-        <motion.div 
+        <motion.div
           className="flex flex-wrap justify-center gap-8 items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

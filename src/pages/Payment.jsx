@@ -1,14 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
+import {
   Lock, Shield, CreditCard, CheckCircle, XCircle, ArrowLeft,
   Sparkles, Calendar, Clock, Award, Zap, AlertCircle,
   Loader2, User, Mail, Phone, Globe, DollarSign, ChevronRight
 } from 'lucide-react';
 
 /* ✅ BACKEND URL (NO ENV, NO FALLBACK) */
-const API_BASE_URL = "https://qualifylearn-backend.onrender.com";
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE_URL = isLocal
+  ? `http://${window.location.hostname}:3001`
+  : "https://qualifylearn-backend.onrender.com";
 
 /* ✅ SAFE JSON PARSER */
 async function safeJson(res) {
@@ -154,7 +157,7 @@ function Payment() {
                 <ArrowLeft className="w-4 h-4" />
                 Back
               </button>
-              
+
               <div className="mb-4">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-sm">
@@ -176,7 +179,7 @@ function Payment() {
                 </div>
                 Order Details
               </h2>
-              
+
               <div className="space-y-6">
                 {/* User Details */}
                 {name && (
@@ -191,9 +194,9 @@ function Payment() {
                           <p className="font-medium text-slate-900">{name}</p>
                         </div>
                       </div>
-                    
+
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-3 pl-12">
                       <div>
                         <p className="text-xs text-slate-400 mb-1">Email</p>
@@ -284,13 +287,12 @@ function Payment() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`mb-4 p-4 rounded-xl flex items-start gap-3 ${
-                    status === 'success'
-                      ? 'bg-emerald-50 border border-emerald-200'
-                      : status === 'error'
+                  className={`mb-4 p-4 rounded-xl flex items-start gap-3 ${status === 'success'
+                    ? 'bg-emerald-50 border border-emerald-200'
+                    : status === 'error'
                       ? 'bg-red-50 border border-red-200'
                       : 'bg-blue-50 border border-blue-200'
-                  }`}
+                    }`}
                 >
                   {status === 'success' ? (
                     <CheckCircle className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
@@ -300,11 +302,10 @@ function Payment() {
                     <AlertCircle className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
                   )}
                   <div className="flex-1">
-                    <p className={`text-sm font-medium ${
-                      status === 'success' ? 'text-emerald-800' : 
-                      status === 'error' ? 'text-red-800' : 
-                      'text-blue-800'
-                    }`}>
+                    <p className={`text-sm font-medium ${status === 'success' ? 'text-emerald-800' :
+                      status === 'error' ? 'text-red-800' :
+                        'text-blue-800'
+                      }`}>
                       {message}
                     </p>
                   </div>
@@ -314,7 +315,7 @@ function Payment() {
               {/* Payment Methods Card */}
               <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                 <h2 className="text-lg font-bold text-slate-900 mb-6">Choose Payment Method</h2>
-                
+
                 <div className="space-y-3">
                   {/* PayPal Option */}
                   <motion.button
@@ -322,16 +323,14 @@ function Payment() {
                     whileTap={{ scale: 0.99 }}
                     onClick={handlePayPal}
                     disabled={loading}
-                    className={`w-full p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group ${
-                      paymentMethod === 'PayPal'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
-                    } ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    className={`w-full p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group ${paymentMethod === 'PayPal'
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
+                      } ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                        paymentMethod === 'PayPal' ? 'bg-blue-100' : 'bg-slate-100'
-                      }`}>
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${paymentMethod === 'PayPal' ? 'bg-blue-100' : 'bg-slate-100'
+                        }`}>
                         <div className="text-blue-600 font-bold text-sm">PP</div>
                       </div>
                       <div className="text-left">
@@ -342,9 +341,8 @@ function Payment() {
                     {loading && paymentMethod === 'PayPal' ? (
                       <Loader2 className="w-4 h-4 text-blue-600 animate-spin" />
                     ) : (
-                      <ChevronRight className={`w-4 h-4 transition-colors ${
-                        paymentMethod === 'PayPal' ? 'text-blue-600' : 'text-slate-400'
-                      }`} />
+                      <ChevronRight className={`w-4 h-4 transition-colors ${paymentMethod === 'PayPal' ? 'text-blue-600' : 'text-slate-400'
+                        }`} />
                     )}
                   </motion.button>
 
@@ -354,16 +352,14 @@ function Payment() {
                     whileTap={{ scale: 0.99 }}
                     onClick={handleStripe}
                     disabled={loading}
-                    className={`w-full p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group ${
-                      paymentMethod === 'Stripe'
-                        ? 'border-slate-800 bg-slate-50'
-                        : 'border-slate-200 hover:border-slate-800 hover:bg-slate-50/50'
-                    } ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    className={`w-full p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group ${paymentMethod === 'Stripe'
+                      ? 'border-slate-800 bg-slate-50'
+                      : 'border-slate-200 hover:border-slate-800 hover:bg-slate-50/50'
+                      } ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                        paymentMethod === 'Stripe' ? 'bg-slate-100' : 'bg-slate-100'
-                      }`}>
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${paymentMethod === 'Stripe' ? 'bg-slate-100' : 'bg-slate-100'
+                        }`}>
                         <CreditCard className="w-5 h-5 text-slate-700" />
                       </div>
                       <div className="text-left">
@@ -374,9 +370,8 @@ function Payment() {
                     {loading && paymentMethod === 'Stripe' ? (
                       <Loader2 className="w-4 h-4 text-slate-600 animate-spin" />
                     ) : (
-                      <ChevronRight className={`w-4 h-4 transition-colors ${
-                        paymentMethod === 'Stripe' ? 'text-slate-800' : 'text-slate-400'
-                      }`} />
+                      <ChevronRight className={`w-4 h-4 transition-colors ${paymentMethod === 'Stripe' ? 'text-slate-800' : 'text-slate-400'
+                        }`} />
                     )}
                   </motion.button>
                 </div>
@@ -434,7 +429,7 @@ function Payment() {
                   <div>
                     <p className="text-sm font-medium text-slate-900">Need help?</p>
                     <p className="text-xs text-slate-500 mb-2">Our team is here to assist you</p>
-                    <button 
+                    <button
                       onClick={() => window.location.href = 'mailto:support@qualifylearn.com'}
                       className="text-xs text-blue-600 hover:text-blue-700 font-medium"
                     >
