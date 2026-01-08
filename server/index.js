@@ -4,21 +4,23 @@
  */
 
 import dotenv from "dotenv";
-dotenv.config();
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load .env from project root (parent of /server)
+dotenv.config({ path: join(__dirname, '..', '.env') });
 
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
 import fs from "fs/promises";
 
 import { enquiryRoutes } from "./routes/enquiries.js";
 import { paypalRoutes } from "./routes/paypal.js";
 import { stripeRoutes } from "./routes/stripe.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -52,7 +54,8 @@ app.use(
 
       const whitelist = [
         "https://qualifylearnnn.vercel.app",
-        "https://qualifylearn.com"
+        "https://qualifylearn.com",
+        "https://www.qualifylearn.com"
       ];
 
       if (isLocal || whitelist.indexOf(origin) !== -1) {

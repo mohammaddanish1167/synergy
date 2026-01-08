@@ -304,6 +304,7 @@ export default function HiringPartners() {
                     <img
                       src={logoUrl}
                       alt={c.name}
+                      crossOrigin="anonymous"
                       className="h-12 w-auto max-w-[160px] object-contain filter grayscale group-hover/item:grayscale-0 group-hover/item:contrast-110 transition-all duration-500"
                       loading="lazy"
                       onError={(e) => {

@@ -11,7 +11,7 @@ import {
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const API_BASE_URL = isLocal
   ? `http://${window.location.hostname}:3001`
-  : "https://qualifylearn-backend.onrender.com";
+  : "https://qualifylearnnn-backend.onrender.com";
 
 /* ✅ SAFE JSON PARSER */
 async function safeJson(res) {
