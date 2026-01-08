@@ -65,7 +65,13 @@ app.use(
 );
 
 // ✅ Handle preflight requests (CRITICAL for PayPal/Stripe)
-app.options("*", cors());
+app.options(
+  "*",
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 /* ===================== RATE LIMITING ===================== */
 
