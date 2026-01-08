@@ -10,7 +10,8 @@ import {
   FiSend,
   FiCheck,
   FiGlobe,
-  FiAward
+  FiAward,
+  FiAlertCircle
 } from 'react-icons/fi';
 
 function GuidanceModal({ open, onClose, defaultCourse = '' }) {
@@ -60,28 +61,77 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
     e.preventDefault();
     setSubmitting(true);
     setStatus(null);
+    
     try {
-      await new Promise((r) => setTimeout(r, 1500));
-      setStatus({ 
-        type: 'success', 
-        title: 'Success!',
-        message: 'Our advisor will contact you within 24 hours.',
+      // Prepare data for Web3Forms
+      const formDataObject = {
+        access_key: '57f7ee33-9ae4-4e3e-ae91-018650618fcb',
+        subject: `Academic Consultation Request - ${form.course || 'General Inquiry'}`,
+        from_name: 'QualifyLearn Website',
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        country: form.country,
+        course: form.course,
+        message: form.message,
+        consent: form.consent ? 'Agreed' : 'Not agreed',
+        honeypot: '',
+        botcheck: '',
+        replyto: form.email,
+        source: 'Guidance Modal',
+        modal_type: 'Academic Consultation'
+      };
+
+      // Remove undefined/null values
+      Object.keys(formDataObject).forEach(key => {
+        if (formDataObject[key] === undefined || formDataObject[key] === null) {
+          delete formDataObject[key];
+        }
       });
-      setForm({ 
-        name: '', 
-        email: '', 
-        phone: '', 
-        country: '',
-        course: defaultCourse || '', 
-        message: '', 
-        consent: false,
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formDataObject)
       });
+      
+      const json = await res.json();
+
+      if (json.success) {
+        setStatus({ 
+          type: 'success', 
+          title: 'Success!',
+          message: 'Our advisor will contact you within 24 hours. You will also receive a confirmation email.',
+        });
+        
+        // Reset form
+        setForm({ 
+          name: '', 
+          email: '', 
+          phone: '', 
+          country: '',
+          course: defaultCourse || '', 
+          message: '', 
+          consent: false,
+        });
+      } else {
+        setStatus({ 
+          type: 'error', 
+          title: 'Submission Failed',
+          message: json.message || 'Please try again or contact us directly.',
+        });
+        console.error('Web3Forms Error:', json);
+      }
     } catch (err) {
       setStatus({ 
         type: 'error', 
-        title: 'Submission Failed',
-        message: 'Please try again or contact us directly.',
+        title: 'Connection Error',
+        message: 'Unable to submit. Please check your internet connection.',
       });
+      console.error('Submission Error:', err);
     } finally {
       setSubmitting(false);
     }
@@ -191,7 +241,11 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                   >
                     <div className="flex items-start gap-3">
                       <div className={`p-2 rounded-full ${status.type === 'success' ? 'bg-green-100' : 'bg-red-100'}`}>
-                        <FiCheckCircle className={`w-5 h-5 ${status.type === 'success' ? 'text-green-600' : 'text-red-600'}`} />
+                        {status.type === 'success' ? (
+                          <FiCheckCircle className="w-5 h-5 text-green-600" />
+                        ) : (
+                          <FiAlertCircle className="w-5 h-5 text-red-600" />
+                        )}
                       </div>
                       <div>
                         <h4 className="font-bold text-lg mb-1">{status.title}</h4>
@@ -202,6 +256,13 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Web3Forms hidden fields */}
+                  <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                  <input type="hidden" name="subject" value={`Academic Consultation Request - ${form.course || 'General Inquiry'}`} />
+                  <input type="hidden" name="from_name" value="QualifyLearn Website" />
+                  <input type="hidden" name="honeypot" value="" />
+                  <input type="hidden" name="source" value="Guidance Modal" />
+
                   {/* Name and Email */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-2">
@@ -215,7 +276,8 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                           value={form.name} 
                           onChange={handleChange} 
                           required 
-                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900"
+                          disabled={submitting}
+                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
                           placeholder="John Smith"
                         />
                       </div>
@@ -233,7 +295,8 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                           value={form.email} 
                           onChange={handleChange} 
                           required 
-                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900"
+                          disabled={submitting}
+                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
                           placeholder="john@example.com"
                         />
                       </div>
@@ -252,7 +315,8 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                           name="phone" 
                           value={form.phone} 
                           onChange={handleChange} 
-                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900"
+                          disabled={submitting}
+                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
                           placeholder="+1 (555) 123-4567"
                         />
                       </div>
@@ -269,7 +333,8 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                           value={form.country} 
                           onChange={handleChange} 
                           required
-                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 appearance-none cursor-pointer"
+                          disabled={submitting}
+                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <option value="" className="text-gray-400">Select your country</option>
                           {countryOptions.map((country) => (
@@ -293,7 +358,8 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                         name="course" 
                         value={form.course} 
                         onChange={handleChange}
-                        className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 appearance-none cursor-pointer"
+                        disabled={submitting}
+                        className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <option value="" className="text-gray-400">Select a program</option>
                         {courseOptions.map((course) => (
@@ -335,7 +401,8 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                       onChange={handleChange} 
                       required 
                       rows="4"
-                      className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none resize-none transition-all bg-white hover:border-gray-300 text-gray-900"
+                      disabled={submitting}
+                      className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none resize-none transition-all bg-white hover:border-gray-300 text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Tell us about your educational background, career aspirations, and what you hope to achieve..."
                     />
                     <p className="text-xs text-gray-500 mt-1">
@@ -345,8 +412,8 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
 
                   {/* Consent */}
                   <div 
-                    className="p-5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 cursor-pointer hover:border-blue-200 transition-all duration-200"
-                    onClick={handleConsentClick}
+                    className={`p-5 rounded-xl border transition-all duration-200 ${submitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-blue-200'} ${form.consent ? 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100' : 'bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200'}`}
+                    onClick={submitting ? null : handleConsentClick}
                   >
                     <div className="flex items-start gap-4">
                       <div 
@@ -379,6 +446,7 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                       onChange={handleChange} 
                       required 
                       className="hidden" 
+                      disabled={submitting}
                     />
                   </div>
 

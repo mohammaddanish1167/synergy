@@ -50,10 +50,132 @@ import {
   MessageSquare,
   BookHeart,
   UsersRound,
-  TrophyIcon
+  TrophyIcon,
+  Upload,
+  FileUp,
+  X
 } from 'lucide-react';
+import { useState } from 'react';
 
 function HonoraryProfessorship() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    title: '',
+    field: '',
+    experience: '',
+    engagement: '',
+    additionalInfo: '',
+    consent: false
+  });
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB');
+        return;
+      }
+      
+      // Check file type
+      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      const validExtensions = ['pdf', 'doc', 'docx', 'txt'];
+      
+      if (!validTypes.includes(file.type) && !validExtensions.includes(fileExtension)) {
+        alert('Please upload a PDF, DOC, DOCX, or TXT file');
+        return;
+      }
+      
+      setSelectedFile(file);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    // Reset the file input
+    const fileInput = document.getElementById('resume-upload');
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!selectedFile) {
+      alert('Please upload your resume/CV');
+      return;
+    }
+    
+    if (!formData.consent) {
+      alert('Please agree to the terms and conditions');
+      return;
+    }
+    
+    // Create FormData object to send file and form data
+    const submitFormData = new FormData();
+    submitFormData.append('resume', selectedFile);
+    submitFormData.append('name', formData.name);
+    submitFormData.append('phone', formData.phone);
+    submitFormData.append('email', formData.email);
+    submitFormData.append('title', formData.title);
+    submitFormData.append('field', formData.field);
+    submitFormData.append('experience', formData.experience);
+    submitFormData.append('engagement', formData.engagement);
+    submitFormData.append('additionalInfo', formData.additionalInfo);
+    
+    // Here you would typically send the data to your backend
+    console.log('Submitting form data:', {
+      ...formData,
+      fileName: selectedFile.name,
+      fileSize: selectedFile.size,
+      fileType: selectedFile.type
+    });
+    
+    // Simulate API call
+    alert('Application submitted successfully! We will review your submission and contact you soon.');
+    
+    // Reset form
+    setSelectedFile(null);
+    setFormData({
+      name: '',
+      phone: '',
+      email: '',
+      title: '',
+      field: '',
+      experience: '',
+      engagement: '',
+      additionalInfo: '',
+      consent: false
+    });
+    
+    // Reset file input
+    const fileInput = document.getElementById('resume-upload');
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
   const programStats = [
     { icon: <UsersRound className="w-5 h-5" />, number: '400+', label: 'Professors Appointed', color: 'from-blue-500 to-cyan-500' },
     { icon: <AwardIcon className="w-5 h-5" />, number: '96%', label: 'Success Rate', color: 'from-emerald-500 to-green-500' },
@@ -169,7 +291,7 @@ function HonoraryProfessorship() {
   ];
 
   const eligibilityPoints = [
-    '15+ years of professional or academic experience',
+    'Professional years of academic experience',
     'Significant contributions to your field',
     'Published works, research, or notable achievements',
     'Teaching or mentoring experience',
@@ -329,10 +451,10 @@ function HonoraryProfessorship() {
 
               {/* Enhanced CTA Buttons */}
               <div className="mt-16 flex flex-col sm:flex-row justify-center items-center gap-6">
-                <motion.a
+                <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  href="#application"
+                  onClick={() => document.getElementById('application').scrollIntoView({ behavior: 'smooth' })}
                   className="group relative px-10 py-5 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-3">
@@ -341,9 +463,7 @@ function HonoraryProfessorship() {
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                </motion.a>
-
-
+                </motion.button>
               </div>
 
               {/* Trust Badge */}
@@ -399,9 +519,6 @@ function HonoraryProfessorship() {
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-3">{highlight.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{highlight.description}</p>
-                  <div className="mt-6 pt-4 border-t border-slate-100">
-                    <span className="text-sm text-slate-500">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -527,14 +644,6 @@ function HonoraryProfessorship() {
 
                     <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
                     <p className="text-slate-600 mb-6 leading-relaxed">{step.description}</p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-slate-500">
-                        <Clock className="w-4 h-4" />
-                        <span className="font-semibold">{step.duration}</span>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-blue-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -582,9 +691,6 @@ function HonoraryProfessorship() {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-4">{benefit.title}</h3>
                   <p className="text-blue-100/70 leading-relaxed">{benefit.description}</p>
-                  <div className="mt-6 pt-4 border-t border-white/10">
-                    <span className="text-sm text-blue-200/60">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -607,20 +713,28 @@ function HonoraryProfessorship() {
                 Apply for <span className="text-blue-600">Honorary Professorship</span>
               </h2>
               
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
                     <input 
                       type="text" 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                       placeholder="Your full name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
                     <input 
                       type="tel" 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      required
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                       placeholder="Your phone number"
                     />
@@ -628,64 +742,201 @@ function HonoraryProfessorship() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
                   <input 
                     type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                     placeholder="Your email address"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Professional Title</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Professional Title *</label>
                   <input 
                     type="text" 
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
                     placeholder="Your current professional title"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Academic Field</label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900">
-                    <option className="text-slate-400">Select your academic field</option>
-                    <option className="text-slate-900">Business & Management</option>
-                    <option className="text-slate-900">Technology & Engineering</option>
-                    <option className="text-slate-900">Healthcare & Medicine</option>
-                    <option className="text-slate-900">Arts & Humanities</option>
-                    <option className="text-slate-900">Social Sciences</option>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Academic Field *</label>
+                  <select 
+                    name="field"
+                    value={formData.field}
+                    onChange={handleInputChange}
+                    required 
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
+                  >
+                    <option value="" className="text-slate-400">Select your academic field</option>
+                    <option value="business" className="text-slate-900">Business & Management</option>
+                    <option value="technology" className="text-slate-900">Technology & Engineering</option>
+                    <option value="healthcare" className="text-slate-900">Healthcare & Medicine</option>
+                    <option value="arts" className="text-slate-900">Arts & Humanities</option>
+                    <option value="social-sciences" className="text-slate-900">Social Sciences</option>
+                    <option value="environmental" className="text-slate-900">Environmental Studies</option>
+                    <option value="law" className="text-slate-900">Law & Public Policy</option>
+                    <option value="education" className="text-slate-900">Education & Pedagogy</option>
                   </select>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900">
-                      <option className="text-slate-400">Select experience range</option>
-                      <option className="text-slate-900">10-15 years</option>
-                      <option className="text-slate-900">15-20 years</option>
-                      <option className="text-slate-900">20-25 years</option>
-                      <option className="text-slate-900">25+ years</option>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience *</label>
+                    <select 
+                      name="experience"
+                      value={formData.experience}
+                      onChange={handleInputChange}
+                      required 
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
+                    >
+                      <option value="" className="text-slate-400">Select experience range</option>
+                      <option value="10-15" className="text-slate-900">10-15 years</option>
+                      <option value="15-20" className="text-slate-900">15-20 years</option>
+                      <option value="20-25" className="text-slate-900">20-25 years</option>
+                      <option value="25+" className="text-slate-900">25+ years</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Preferred Engagement</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900">
-                      <option className="text-slate-400">Select engagement type</option>
-                      <option className="text-slate-900">Guest Lectures</option>
-                      <option className="text-slate-900">Research Collaboration</option>
-                      <option className="text-slate-900">Curriculum Development</option>
-                      <option className="text-slate-900">Student Mentoring</option>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Preferred Engagement *</label>
+                    <select 
+                      name="engagement"
+                      value={formData.engagement}
+                      onChange={handleInputChange}
+                      required 
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
+                    >
+                      <option value="" className="text-slate-400">Select engagement type</option>
+                      <option value="guest-lectures" className="text-slate-900">Guest Lectures</option>
+                      <option value="research" className="text-slate-900">Research Collaboration</option>
+                      <option value="curriculum" className="text-slate-900">Curriculum Development</option>
+                      <option value="mentoring" className="text-slate-900">Student Mentoring</option>
                     </select>
                   </div>
+                </div>
+
+                {/* Resume Upload Section */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Upload Resume/CV *
+                  </label>
+                  
+                  {/* File Upload Area */}
+                  <motion.div
+                    whileHover={{ scale: 1.01 }}
+                    className="relative group"
+                  >
+                    <input
+                      type="file"
+                      id="resume-upload"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    />
+                    
+                    {!selectedFile ? (
+                      <label
+                        htmlFor="resume-upload"
+                        className="flex flex-col items-center justify-center w-full h-40 px-4 transition-all duration-300 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-dashed border-blue-300 rounded-2xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 group-hover:shadow-lg"
+                      >
+                        <div className="p-4 mb-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
+                          <FileUp className="w-8 h-8" />
+                        </div>
+                        <div className="text-center">
+                          <p className="text-lg font-semibold text-slate-800 mb-1">
+                            Click to upload Resume/CV
+                          </p>
+                          <p className="text-sm text-slate-600 mb-2">
+                            or drag and drop
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            PDF, DOC, DOCX, TXT (Max 5MB)
+                          </p>
+                        </div>
+                      </label>
+                    ) : (
+                      <div className="w-full p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-emerald-300 rounded-2xl">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-4">
+                            <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 text-white">
+                              <FileUp className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <h3 className="font-semibold text-slate-800 truncate max-w-xs">{selectedFile.name}</h3>
+                              <p className="text-sm text-slate-600">{formatFileSize(selectedFile.size)}</p>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleRemoveFile}
+                            className="p-2 hover:bg-red-50 rounded-full transition-colors"
+                            aria-label="Remove file"
+                          >
+                            <X className="w-5 h-5 text-red-500" />
+                          </button>
+                        </div>
+                        <div className="w-full bg-emerald-100 rounded-full h-2">
+                          <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full w-full"></div>
+                        </div>
+                        <p className="text-xs text-emerald-600 mt-2 flex items-center gap-1">
+                          <CheckCircle className="w-3 h-3" />
+                          File uploaded successfully
+                        </p>
+                      </div>
+                    )}
+                  </motion.div>
+                  
+                  <p className="mt-2 text-xs text-slate-500">
+                    Please include detailed academic and professional experience, publications, and achievements
+                  </p>
+                </div>
+
+                {/* Additional Information */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Additional Information (Optional)
+                  </label>
+                  <textarea
+                    name="additionalInfo"
+                    value={formData.additionalInfo}
+                    onChange={handleInputChange}
+                    rows="4"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                    placeholder="Any additional information about your qualifications, publications, awards, or academic contributions..."
+                  />
+                </div>
+
+                {/* Consent Checkbox */}
+                <div className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    id="consent"
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleInputChange}
+                    required
+                    className="mt-1 w-5 h-5 text-blue-600 bg-white border-slate-300 rounded focus:ring-blue-600 focus:ring-offset-0"
+                  />
+                  <label htmlFor="consent" className="text-sm text-slate-600">
+                    I confirm that all information provided is accurate and I authorize the use of my resume/CV for academic evaluation purposes.
+                  </label>
                 </div>
                 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
                 >
+                  <Award className="w-5 h-5" />
                   Submit Application
                 </motion.button>
               </form>
@@ -712,7 +963,7 @@ function HonoraryProfessorship() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 hover:shadow-md transition-shadow duration-300"
                   >
                     <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
                     <span className="text-slate-800 font-medium">{point}</span>
@@ -721,7 +972,7 @@ function HonoraryProfessorship() {
               </div>
 
               {/* Testimonials */}
-              <div className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-3xl p-8 text-white">
+              <div className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-3xl p-8 text-white shadow-xl">
                 <h3 className="text-2xl font-bold mb-6">Academic Community Feedback</h3>
                 <div className="space-y-6">
                   {testimonials.slice(0, 2).map((testimonial, index) => (
@@ -734,6 +985,32 @@ function HonoraryProfessorship() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Application Tips */}
+              <div className="mt-8 bg-gradient-to-br from-cyan-50 to-blue-50 rounded-3xl p-6 border border-cyan-100 shadow-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <Lightbulb className="w-6 h-6 text-cyan-600" />
+                  <h4 className="text-lg font-bold text-slate-900">Application Tips</h4>
+                </div>
+                <ul className="space-y-3 text-slate-700">
+                  <li className="flex items-start gap-2">
+                    <div className="w-2 h-2 mt-2 rounded-full bg-cyan-500"></div>
+                    <span>Ensure your resume highlights key academic contributions</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-2 h-2 mt-2 rounded-full bg-cyan-500"></div>
+                    <span>Include publications, research work, and teaching experience</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-2 h-2 mt-2 rounded-full bg-cyan-500"></div>
+                    <span>Provide clear contact information for references</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-2 h-2 mt-2 rounded-full bg-cyan-500"></div>
+                    <span>Applications reviewed within 5-7 business days</span>
+                  </li>
+                </ul>
               </div>
             </motion.div>
           </div>
@@ -765,7 +1042,7 @@ function HonoraryProfessorship() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.2 }}
-                className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-xl border border-slate-100"
+                className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-xl border border-slate-100 hover:shadow-2xl transition-shadow duration-300"
               >
                 <div className="flex items-center gap-1 mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -865,10 +1142,10 @@ function HonoraryProfessorship() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row justify-center gap-6">
-                  <motion.a
+                  <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="#application"
+                    onClick={() => document.getElementById('application').scrollIntoView({ behavior: 'smooth' })}
                     className="group relative px-12 py-5 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-3">
@@ -877,14 +1154,12 @@ function HonoraryProfessorship() {
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                  </motion.a>
-
-
+                  </motion.button>
                 </div>
 
                 <p className="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">
                   <Clock className="w-4 h-4" />
-                  Next review cycle begins: May 1, 2024 • Limited positions available
+                  Next review cycle begins • Limited positions available
                 </p>
               </div>
             </div>

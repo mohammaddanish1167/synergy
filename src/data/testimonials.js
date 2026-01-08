@@ -22,8 +22,8 @@ export const testimonials = [
 
   {
     id: 'tp-6',
-    name: "Irene",
-    location: 'NG', // Nigeria
+    name: "Swati srivastava",
+    location: 'CA', // Nigeria
     reviewsCount: '1 review',
     date: 'August 12, 2025',
     course: 'PhD Program',

@@ -367,8 +367,6 @@ function PhD() {
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 </motion.a>
-
-
               </div>
 
               {/* Trust Badge */}
@@ -445,19 +443,6 @@ function PhD() {
               </motion.div>
             ))}
           </div>
-
-          {/* View All Fields Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <button className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-blue-600 font-semibold border-2 border-blue-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-300">
-              View All Research Areas
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </motion.div>
         </div>
       </section>
 
@@ -496,9 +481,6 @@ function PhD() {
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-4">{highlight.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{highlight.description}</p>
-                  <div className="mt-6 pt-4 border-t border-slate-100">
-                    <span className="text-sm text-slate-500">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -552,14 +534,6 @@ function PhD() {
 
                     <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
                     <p className="text-slate-600 mb-6 leading-relaxed">{step.description}</p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-slate-500">
-                        <Clock className="w-4 h-4" />
-                        <span className="font-semibold">3-6 months</span>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-blue-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -568,11 +542,11 @@ function PhD() {
         </div>
       </section>
 
-      {/* Application Form Section */}
+      {/* Application Form Section with Resume Upload */}
       <section id="application" className="py-20 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Form */}
+            {/* Form with Resume Upload */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -583,82 +557,209 @@ function PhD() {
                 Begin Your <span className="text-blue-600">Research Journey</span>
               </h2>
               
-              <form className="space-y-6">
+              <form className="space-y-6" id="phdApplicationForm">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                       placeholder="Your full name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
                     <input 
                       type="tel" 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                       placeholder="Your phone number"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
                   <input 
                     type="email" 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                     placeholder="Your email address"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Research Interest</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Research Interest *</label>
                   <input 
                     type="text" 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                     placeholder="Your primary research area"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Program Selection</label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                    <option>PhD in Management</option>
-                    <option>PhD in Technology</option>
-                    <option>PhD in Social Sciences</option>
-                    <option>PhD in Healthcare</option>
-                    <option>PhD in Education</option>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Program Selection *</label>
+                  <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                    <option value="">Select a program</option>
+                    <option value="management">PhD in Management</option>
+                    <option value="technology">PhD in Technology</option>
+                    <option value="social-sciences">PhD in Social Sciences</option>
+                    <option value="healthcare">PhD in Healthcare</option>
+                    <option value="education">PhD in Education</option>
                   </select>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Highest Qualification</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                      <option>Master's Degree</option>
-                      <option>Professional Certification</option>
-                      <option>Bachelor's Degree</option>
-                      <option>Doctoral Candidate</option>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Highest Qualification *</label>
+                    <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                      <option value="">Select qualification</option>
+                      <option value="masters">Master's Degree</option>
+                      <option value="professional">Professional Certification</option>
+                      <option value="bachelors">Bachelor's Degree</option>
+                      <option value="doctoral-candidate">Doctoral Candidate</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Research Experience</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                      <option>1-3 years</option>
-                      <option>3-5 years</option>
-                      <option>5-10 years</option>
-                      <option>10+ years</option>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Research Experience *</label>
+                    <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                      <option value="">Select experience</option>
+                      <option value="1-3">1-3 years</option>
+                      <option value="3-5">3-5 years</option>
+                      <option value="5-10">5-10 years</option>
+                      <option value="10+">10+ years</option>
                     </select>
                   </div>
+                </div>
+                
+                {/* Resume Upload Section */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Resume/CV * <span className="text-slate-500 font-normal">(PDF, DOC, DOCX up to 5MB)</span>
+                  </label>
+                  <div className="mt-2">
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="relative"
+                    >
+                      <input
+                        type="file"
+                        id="resume"
+                        accept=".pdf,.doc,.docx,.txt"
+                        required
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            // Validate file size (5MB max)
+                            if (file.size > 5 * 1024 * 1024) {
+                              alert('File size must be less than 5MB');
+                              e.target.value = '';
+                              return;
+                            }
+                            
+                            // Validate file type
+                            const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+                            if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|doc|docx|txt)$/i)) {
+                              alert('Please upload a PDF, DOC, DOCX, or TXT file');
+                              e.target.value = '';
+                              return;
+                            }
+                            
+                            // File is valid - you can handle it here
+                            console.log('File selected:', file.name, file.size, file.type);
+                            // Display file name
+                            const fileNameDisplay = document.getElementById('file-name');
+                            if (fileNameDisplay) {
+                              fileNameDisplay.textContent = file.name;
+                            }
+                          }
+                        }}
+                      />
+                      <label
+                        htmlFor="resume"
+                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 transition-all duration-300 group"
+                      >
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <FileText className="w-10 h-10 text-blue-400 mb-3 group-hover:text-blue-500 transition-colors" />
+                          <p className="text-sm text-slate-700 mb-2">
+                            <span className="font-semibold">Click to upload</span> or drag and drop
+                          </p>
+                          <p className="text-xs text-slate-500">PDF, DOC, DOCX (MAX. 5MB)</p>
+                        </div>
+                      </label>
+                    </motion.div>
+                    
+                    {/* Selected file name display */}
+                    <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
+                      <FileText className="w-4 h-4" />
+                      <span id="file-name" className="font-medium">No file selected</span>
+                    </div>
+                    
+                    {/* Upload tips */}
+                    <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                      <p className="text-xs text-slate-600 flex items-start gap-2">
+                        <Lightbulb className="w-3 h-3 mt-0.5 text-blue-500 flex-shrink-0" />
+                        <span>
+                          <strong>Tip:</strong> Include your academic publications, research experience, 
+                          and any previous scholarly work in your resume for better evaluation.
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Additional Information */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Additional Information (Optional)
+                  </label>
+                  <textarea 
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                    placeholder="Tell us about your research interests, publications, or any other relevant information..."
+                  />
+                </div>
+                
+                {/* Consent Checkbox */}
+                <div className="flex items-start gap-3">
+                  <input 
+                    type="checkbox" 
+                    id="consent"
+                    required
+                    className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <label htmlFor="consent" className="text-sm text-slate-600">
+                    I consent to having my academic credentials and research proposal reviewed by the 
+                    university panel and agree to the terms of the PhD program.
+                  </label>
                 </div>
                 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const form = document.getElementById('phdApplicationForm');
+                    if (form && form.checkValidity()) {
+                      // Form is valid - you can submit to your backend here
+                      alert('Application submitted successfully! Our admissions team will review your application and contact you shortly.');
+                      form.reset();
+                      const fileNameDisplay = document.getElementById('file-name');
+                      if (fileNameDisplay) {
+                        fileNameDisplay.textContent = 'No file selected';
+                      }
+                    } else if (form) {
+                      form.reportValidity();
+                    }
+                  }}
                 >
+                  <GraduationCap className="w-6 h-6" />
                   Submit Research Application
                 </motion.button>
               </form>
@@ -805,9 +906,6 @@ function PhD() {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-4">{item.title}</h3>
                   <p className="text-blue-100/70 leading-relaxed">{item.description}</p>
-                  <div className="mt-6 pt-4 border-t border-white/10">
-                    <span className="text-sm text-blue-200/60">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -861,13 +959,11 @@ function PhD() {
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                   </motion.a>
-
-
                 </div>
 
                 <p className="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">
                   <Clock className="w-4 h-4" />
-                  Next admission cycle begins: May 15, 2024 • Limited research positions available
+                  Next admission cycle begins • Limited research positions available
                 </p>
               </div>
             </div>

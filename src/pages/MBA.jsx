@@ -62,10 +62,28 @@ import {
   DollarSign,
   PieChart,
   Network,
-  TrendingUp as ChartTrendingUp
+  TrendingUp as ChartTrendingUp,
+  Upload,
+  File
 } from 'lucide-react';
+import { useState, useRef } from 'react';
 
 function MBA() {
+  // State for form data
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    position: '',
+    program: '',
+    experience: '',
+    specialization: '',
+    resume: null
+  });
+
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
   const programStats = [
     { icon: <BriefcaseIcon className="w-5 h-5" />, number: '2,500+', label: 'MBA Graduates', color: 'from-blue-500 to-cyan-500' },
     { icon: <ChartTrendingUp className="w-5 h-5" />, number: '92%', label: 'Placement Rate', color: 'from-emerald-500 to-green-500' },
@@ -221,7 +239,7 @@ function MBA() {
 
   const eligibilityPoints = [
     'Bachelor\'s degree from recognized institution',
-    '2+ years of work experience (varies by program)',
+    'professional years of work experience (varies by program)',
     'Strong academic background',
     'GMAT/GRE scores (waivers available)',
     'English proficiency for international programs',
@@ -298,6 +316,96 @@ function MBA() {
     },
   ];
 
+  // Handle file upload
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB');
+        return;
+      }
+      
+      // Check file type
+      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('Please upload a PDF or Word document');
+        return;
+      }
+      
+      setIsUploading(true);
+      
+      // Simulate upload process
+      setTimeout(() => {
+        setFormData(prev => ({
+          ...prev,
+          resume: file
+        }));
+        setIsUploading(false);
+        alert('Resume uploaded successfully!');
+      }, 1500);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formEl = e.target;
+      const data = new FormData(formEl);
+      data.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
+      data.append('subject', 'New MBA Application');
+      data.append('from_name', 'QualifyLearn Website');
+      data.append('captcha', 'true');
+      if (formData.resume && !data.get('attachment')) {
+        data.append('attachment', formData.resume);
+      }
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data
+      });
+      const json = await res.json();
+      if (json.success) {
+        alert('Application submitted successfully! Our admissions team will contact you shortly.');
+        formEl.reset();
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          position: '',
+          program: '',
+          experience: '',
+          specialization: '',
+          resume: null
+        });
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      } else {
+        alert('Failed to submit application. Please try again.');
+      }
+    } catch (err) {
+      alert('An error occurred while submitting the form.');
+      console.error(err);
+    }
+  };
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Trigger file input click
+  const handleUploadClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Enhanced Hero Section */}
@@ -343,7 +451,7 @@ function MBA() {
               {/* Subtitle */}
               <p className="mt-8 text-xl md:text-2xl text-blue-100/90 max-w-4xl mx-auto font-light leading-relaxed">
                 Transform your career with comprehensive business education, leadership development, 
-                and strategic thinking for today\'s dynamic global marketplace.
+                and strategic thinking for today's dynamic global marketplace.
               </p>
 
               {/* Stats Row */}
@@ -444,10 +552,6 @@ function MBA() {
                 <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-slate-100 group-hover:shadow-2xl transition-all duration-300">
                   <div className="text-4xl mb-4">{format.icon}</div>
                   <h3 className="text-xl font-bold text-slate-900 mb-2">{format.title}</h3>
-                  <div className="inline-flex items-center gap-2 text-sm text-blue-600 font-semibold mb-4">
-                    <Clock className="w-4 h-4" />
-                    {format.duration}
-                  </div>
                   <p className="text-slate-600 mb-6">{format.description}</p>
                   <div className="space-y-2">
                     {format.features.map((feature, idx) => (
@@ -529,9 +633,6 @@ function MBA() {
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-4">{highlight.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{highlight.description}</p>
-                  <div className="mt-6 pt-4 border-t border-slate-100">
-                    <span className="text-sm text-slate-500">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -624,11 +725,6 @@ function MBA() {
                     <p className="text-slate-600 mb-6 leading-relaxed">{step.description}</p>
 
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-slate-500">
-                        <Clock className="w-4 h-4" />
-                        <span className="font-semibold">{step.duration}</span>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-blue-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                     </div>
                   </div>
                 </motion.div>
@@ -653,32 +749,48 @@ function MBA() {
                 Apply for <span className="text-blue-600">MBA Program</span>
               </h2>
               
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                <input type="hidden" name="subject" value="New MBA Application" />
+                <input type="hidden" name="from_name" value="QualifyLearn Website" />
+                <input type="hidden" name="captcha" value="true" />
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                       placeholder="Your full name"
+                      required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
                     <input 
                       type="tel" 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                       placeholder="Your phone number"
+                      required
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
                   <input 
                     type="email" 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                     placeholder="Your email address"
+                    required
                   />
                 </div>
                 
@@ -686,51 +798,146 @@ function MBA() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current Position</label>
                   <input 
                     type="text" 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                    name="position"
+                    value={formData.position}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
                     placeholder="Your current job title"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Program Format</label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                    <option>Select program format</option>
-                    <option>Full-Time MBA</option>
-                    <option>Executive MBA</option>
-                    <option>Online MBA</option>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Program Format *</label>
+                  <select 
+                    name="program"
+                    value={formData.program}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
+                    required
+                  >
+                    <option value="">Select program format</option>
+                    <option value="Full-Time MBA">Full-Time MBA</option>
+                    <option value="Executive MBA">Executive MBA</option>
+                    <option value="Online MBA">Online MBA</option>
                   </select>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                      <option>Select experience range</option>
-                      <option>0-2 years</option>
-                      <option>2-5 years</option>
-                      <option>5-10 years</option>
-                      <option>10+ years</option>
+                    <select 
+                      name="experience"
+                      value={formData.experience}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
+                    >
+                      <option value="">Select experience range</option>
+                      <option value="0-2 years">0-2 years</option>
+                      <option value="2-5 years">2-5 years</option>
+                      <option value="5-10 years">5-10 years</option>
+                      <option value="10+ years">10+ years</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Specialization Interest</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                      <option>Select specialization</option>
-                      <option>Finance</option>
-                      <option>Marketing</option>
-                      <option>Strategy</option>
-                      <option>Business Analytics</option>
+                    <select 
+                      name="specialization"
+                      value={formData.specialization}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white"
+                    >
+                      <option value="">Select specialization</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Strategy">Strategy</option>
+                      <option value="Business Analytics">Business Analytics</option>
                     </select>
                   </div>
+                </div>
+
+                {/* Resume Upload Section */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Upload Resume/CV *</label>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileUpload}
+                    accept=".pdf,.doc,.docx"
+                    className="hidden"
+                    name="attachment"
+                  />
+                  
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleUploadClick}
+                    className={`cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-all duration-300 ${formData.resume ? 'border-emerald-500 bg-emerald-50/50' : 'border-blue-300 hover:border-blue-500 bg-blue-50/50'}`}
+                  >
+                    <div className="flex flex-col items-center justify-center gap-4">
+                      <div className={`p-4 rounded-full ${formData.resume ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'}`}>
+                        {isUploading ? (
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        ) : formData.resume ? (
+                          <FileCheck className="w-8 h-8" />
+                        ) : (
+                          <Upload className="w-8 h-8" />
+                        )}
+                      </div>
+                      
+                      <div>
+                        <h3 className="font-semibold text-slate-800">
+                          {isUploading ? 'Uploading...' : 
+                           formData.resume ? 'Resume Uploaded!' : 'Click to upload resume'}
+                        </h3>
+                        <p className="text-sm text-slate-500 mt-1">
+                          {formData.resume ? 
+                           `${formData.resume.name} (${(formData.resume.size / 1024 / 1024).toFixed(2)} MB)` : 
+                           'Upload PDF or Word document (Max 5MB)'}
+                        </p>
+                      </div>
+                      
+                      {!formData.resume && !isUploading && (
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="mt-2 px-6 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-semibold shadow-lg hover:shadow-xl transition-shadow duration-300"
+                        >
+                          Choose File
+                        </motion.button>
+                      )}
+                    </div>
+                    
+                    {formData.resume && !isUploading && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFormData(prev => ({ ...prev, resume: null }));
+                          if (fileInputRef.current) {
+                            fileInputRef.current.value = '';
+                          }
+                        }}
+                        className="mt-4 text-sm text-rose-600 hover:text-rose-700 font-medium"
+                      >
+                        Remove File
+                      </button>
+                    )}
+                  </motion.div>
+                  
+                  <p className="mt-2 text-xs text-slate-500">
+                    Accepted formats: PDF, DOC, DOCX. Maximum file size: 5MB
+                  </p>
                 </div>
                 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300"
+                  disabled={isUploading}
+                  className={`w-full py-4 rounded-xl text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 ${isUploading ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700'}`}
                 >
-                  Submit MBA Application
+                  {isUploading ? 'Uploading...' : 'Submit MBA Application'}
                 </motion.button>
               </form>
             </motion.div>
@@ -825,9 +1032,6 @@ function MBA() {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-4">{benefit.title}</h3>
                   <p className="text-blue-100/70 leading-relaxed">{benefit.description}</p>
-                  <div className="mt-6 pt-4 border-t border-white/10">
-                    <span className="text-sm text-blue-200/60">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -927,13 +1131,11 @@ function MBA() {
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                   </motion.a>
-
-
                 </div>
 
                 <p className="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">
                   <Clock className="w-4 h-4" />
-                  Next intake begins: September 2024 • Limited seats available
+                  Next intake begins • Limited seats available
                 </p>
               </div>
             </div>

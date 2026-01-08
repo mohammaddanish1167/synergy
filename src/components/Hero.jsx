@@ -142,12 +142,7 @@ export default function Hero() {
               <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition" />
             </Link>
 
-            <Link
-              to="/programs"
-              className="px-8 py-4 rounded-xl border border-white/30 hover:bg-white/10 transition font-semibold"
-            >
-              Explore Programs
-            </Link>
+            
           </div>
         </div>
 

@@ -58,10 +58,187 @@ import {
   BookOpen as BookOpenIcon,
   BarChart as BarChartIcon,
   Briefcase as BriefcaseIcon,
-  Globe as GlobeIcon
+  Globe as GlobeIcon,
+  Upload,
+  FileUp,
+  X,
+  AlertCircle,
+  FiCheckCircle,
+  FiAlertCircle
 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 function DBA() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitMessage, setSubmitMessage] = useState('');
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    position: '',
+    specialization: '',
+    qualification: '',
+    experience: '',
+    additionalInfo: '',
+    consent: false
+  });
+
+  // Clear status message after 5 seconds
+  useEffect(() => {
+    if (submitStatus) {
+      const timer = setTimeout(() => {
+        setSubmitStatus(null);
+        setSubmitMessage('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB');
+        return;
+      }
+      
+      // Check file type
+      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      const validExtensions = ['pdf', 'doc', 'docx', 'txt'];
+      
+      if (!validTypes.includes(file.type) && !validExtensions.includes(fileExtension)) {
+        alert('Please upload a PDF, DOC, DOCX, or TXT file');
+        return;
+      }
+      
+      setSelectedFile(file);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    // Reset the file input
+    const fileInput = document.getElementById('resume-upload');
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!selectedFile) {
+      alert('Please upload your resume/CV');
+      return;
+    }
+    
+    if (!formData.consent) {
+      alert('Please agree to the terms and conditions');
+      return;
+    }
+    
+    setSubmitting(true);
+    setSubmitStatus(null);
+    setSubmitMessage('');
+
+    try {
+      // Create FormData for file upload
+      const formDataObj = new FormData();
+      
+      // Add Web3Forms required fields
+      formDataObj.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
+      formDataObj.append('subject', 'New DBA Application');
+      formDataObj.append('from_name', 'QualifyLearn Website');
+      formDataObj.append('honeypot', '');
+      formDataObj.append('botcheck', '');
+      
+      // Add form data
+      formDataObj.append('name', formData.name);
+      formDataObj.append('phone', formData.phone);
+      formDataObj.append('email', formData.email);
+      formDataObj.append('position', formData.position);
+      formDataObj.append('specialization', formData.specialization);
+      formDataObj.append('qualification', formData.qualification);
+      formDataObj.append('experience', formData.experience);
+      formDataObj.append('additionalInfo', formData.additionalInfo);
+      formDataObj.append('consent', formData.consent ? 'Agreed' : 'Not agreed');
+      formDataObj.append('program', 'DBA Program');
+      formDataObj.append('source', 'DBA Application Page');
+      
+      // Add file
+      if (selectedFile) {
+        formDataObj.append('attachment', selectedFile);
+      }
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataObj
+      });
+      
+      const json = await res.json();
+
+      if (json.success) {
+        setSubmitStatus('success');
+        setSubmitMessage('DBA application submitted successfully! We will review your submission and contact you within 3-5 business days.');
+        
+        // Reset form
+        e.target.reset();
+        setSelectedFile(null);
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          position: '',
+          specialization: '',
+          qualification: '',
+          experience: '',
+          additionalInfo: '',
+          consent: false
+        });
+        
+        // Reset file input
+        const fileInput = document.getElementById('resume-upload');
+        if (fileInput) {
+          fileInput.value = '';
+        }
+        
+        // Scroll to success message
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setSubmitStatus('error');
+        setSubmitMessage(json.message || 'Failed to submit application. Please try again.');
+        console.error('Web3Forms Error:', json);
+      }
+    } catch (err) {
+      setSubmitStatus('error');
+      setSubmitMessage('An error occurred while submitting the form. Please check your connection and try again.');
+      console.error('Submission Error:', err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
   const programStats = [
     { icon: <BriefcaseIcon className="w-5 h-5" />, number: '600+', label: 'DBA Graduates', color: 'from-blue-500 to-cyan-500' },
     { icon: <TrendingUpIcon className="w-5 h-5" />, number: '94%', label: 'Career Advancement', color: 'from-emerald-500 to-green-500' },
@@ -186,8 +363,8 @@ function DBA() {
 
   const eligibilityPoints = [
     'Master\'s degree in Business or related field',
-    '10+ years of professional experience',
-    '5+ years in managerial/leadership roles',
+    'Professional years of professional experience',
+    'Professional years in managerial/leadership roles',
     'Strong academic and professional background',
     'Research proposal demonstrating business relevance',
     'English proficiency (for international programs)'
@@ -276,6 +453,38 @@ function DBA() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Status Messages */}
+      {submitStatus && (
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4`}
+        >
+          <div className={`p-4 rounded-lg shadow-lg backdrop-blur-lg border ${
+            submitStatus === 'success' 
+              ? 'bg-gradient-to-r from-green-900/40 to-emerald-900/20 border-green-700/30' 
+              : 'bg-gradient-to-r from-red-900/40 to-rose-900/20 border-red-700/30'
+          }`}>
+            <div className="flex items-center gap-3">
+              {submitStatus === 'success' ? (
+                <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
+              ) : (
+                <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0" />
+              )}
+              <div>
+                <p className={`font-medium ${
+                  submitStatus === 'success' ? 'text-green-200' : 'text-red-200'
+                }`}>
+                  {submitStatus === 'success' ? 'Success!' : 'Error!'}
+                </p>
+                <p className="text-sm text-white mt-1">{submitMessage}</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Enhanced Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900/90 to-purple-900/90">
         {/* Animated Background Elements */}
@@ -341,10 +550,10 @@ function DBA() {
 
               {/* Enhanced CTA Buttons */}
               <div className="mt-16 flex flex-col sm:flex-row justify-center items-center gap-6">
-                <motion.a
+                <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  href="#application"
+                  onClick={() => document.getElementById('application').scrollIntoView({ behavior: 'smooth' })}
                   className="group relative px-10 py-5 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-3">
@@ -353,9 +562,7 @@ function DBA() {
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                </motion.a>
-
-
+                </motion.button>
               </div>
 
               {/* Trust Badge */}
@@ -470,9 +677,6 @@ function DBA() {
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-4">{highlight.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{highlight.description}</p>
-                  <div className="mt-6 pt-4 border-t border-slate-100">
-                    <span className="text-sm text-slate-500">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -526,14 +730,6 @@ function DBA() {
 
                     <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
                     <p className="text-slate-600 mb-6 leading-relaxed">{step.description}</p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-slate-500">
-                        <Clock className="w-4 h-4" />
-                        <span className="font-semibold">{step.duration}</span>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-blue-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -593,85 +789,265 @@ function DBA() {
                 Apply for <span className="text-blue-600">DBA Program</span>
               </h2>
               
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                <input type="hidden" name="subject" value="New DBA Application" />
+                <input type="hidden" name="from_name" value="QualifyLearn Website" />
+                <input type="hidden" name="honeypot" value="" />
+                <input type="hidden" name="botcheck" value="" />
+                <input type="hidden" name="program" value="DBA Program" />
+                <input type="hidden" name="source" value="DBA Application Page" />
+                
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
                     <input 
                       type="text" 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Your full name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
                     <input 
                       type="tel" 
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      required
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Your phone number"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
                   <input 
                     type="email" 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Your email address"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Current Position</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Current Position *</label>
                   <input 
                     type="text" 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                    name="position"
+                    value={formData.position}
+                    onChange={handleInputChange}
+                    required
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Your current job title"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Specialization Interest</label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                    <option>Select specialization area</option>
-                    <option>Strategic Management</option>
-                    <option>Organizational Leadership</option>
-                    <option>Global Business</option>
-                    <option>Digital Transformation</option>
-                    <option>Business Analytics</option>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Specialization Interest *</label>
+                  <select 
+                    name="specialization"
+                    value={formData.specialization}
+                    onChange={handleInputChange}
+                    required
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <option value="" className="text-slate-400">Select specialization area</option>
+                    <option value="strategic-management" className="text-slate-900">Strategic Management</option>
+                    <option value="organizational-leadership" className="text-slate-900">Organizational Leadership</option>
+                    <option value="global-business" className="text-slate-900">Global Business</option>
+                    <option value="digital-transformation" className="text-slate-900">Digital Transformation</option>
+                    <option value="business-analytics" className="text-slate-900">Business Analytics</option>
+                    <option value="innovation-entrepreneurship" className="text-slate-900">Innovation & Entrepreneurship</option>
+                    <option value="financial-management" className="text-slate-900">Financial Management</option>
+                    <option value="marketing-strategy" className="text-slate-900">Marketing Strategy</option>
                   </select>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Highest Qualification</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                      <option>Master\'s Degree</option>
-                      <option>MBA</option>
-                      <option>Professional Certification</option>
-                      <option>Other Doctoral Degree</option>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Highest Qualification *</label>
+                    <select 
+                      name="qualification"
+                      value={formData.qualification}
+                      onChange={handleInputChange}
+                      required
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="" className="text-slate-400">Select qualification</option>
+                      <option value="masters" className="text-slate-900">Master's Degree</option>
+                      <option value="mba" className="text-slate-900">MBA</option>
+                      <option value="professional-certification" className="text-slate-900">Professional Certification</option>
+                      <option value="other-doctoral" className="text-slate-900">Other Doctoral Degree</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300">
-                      <option>Select experience range</option>
-                      <option>10-15 years</option>
-                      <option>15-20 years</option>
-                      <option>20-25 years</option>
-                      <option>25+ years</option>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience *</label>
+                    <select 
+                      name="experience"
+                      value={formData.experience}
+                      onChange={handleInputChange}
+                      required
+                      disabled={submitting}
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="" className="text-slate-400">Select experience range</option>
+                      <option value="10-15" className="text-slate-900">10-15 years</option>
+                      <option value="15-20" className="text-slate-900">15-20 years</option>
+                      <option value="20-25" className="text-slate-900">20-25 years</option>
+                      <option value="25+" className="text-slate-900">25+ years</option>
                     </select>
                   </div>
                 </div>
+
+                {/* Resume Upload Section */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Upload Resume/CV *
+                  </label>
+                  
+                  {/* File Upload Area */}
+                  <motion.div
+                    whileHover={{ scale: 1.01 }}
+                    className="relative group"
+                  >
+                    <input
+                      type="file"
+                      id="resume-upload"
+                      name="attachment"
+                      onChange={handleFileChange}
+                      disabled={submitting}
+                      className="hidden"
+                      accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    />
+                    
+                    {!selectedFile ? (
+                      <label
+                        htmlFor="resume-upload"
+                        className={`flex flex-col items-center justify-center w-full h-40 px-4 transition-all duration-300 rounded-2xl cursor-pointer border-2 border-dashed ${submitting ? 'bg-gray-50 border-gray-300 cursor-not-allowed' : 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-300 hover:border-blue-500 hover:bg-blue-50 group-hover:shadow-lg'}`}
+                      >
+                        <div className={`p-4 mb-4 rounded-xl ${submitting ? 'bg-gray-300' : 'bg-gradient-to-r from-blue-500 to-cyan-500'} text-white`}>
+                          <FileUp className="w-8 h-8" />
+                        </div>
+                        <div className="text-center">
+                          <p className={`text-lg font-semibold mb-1 ${submitting ? 'text-gray-400' : 'text-slate-800'}`}>
+                            {submitting ? 'Uploading...' : 'Click to upload Resume/CV'}
+                          </p>
+                          <p className={`text-sm mb-2 ${submitting ? 'text-gray-400' : 'text-slate-600'}`}>
+                            {submitting ? 'Processing...' : 'or drag and drop'}
+                          </p>
+                          <p className={`text-xs ${submitting ? 'text-gray-400' : 'text-slate-500'}`}>
+                            PDF, DOC, DOCX, TXT (Max 5MB)
+                          </p>
+                        </div>
+                      </label>
+                    ) : (
+                      <div className="w-full p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-emerald-300 rounded-2xl">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-4">
+                            <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 text-white">
+                              <FileUp className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <h3 className="font-semibold text-slate-800 truncate max-w-xs">{selectedFile.name}</h3>
+                              <p className="text-sm text-slate-600">{formatFileSize(selectedFile.size)}</p>
+                            </div>
+                          </div>
+                          {!submitting && (
+                            <button
+                              type="button"
+                              onClick={handleRemoveFile}
+                              className="p-2 hover:bg-red-50 rounded-full transition-colors"
+                              aria-label="Remove file"
+                            >
+                              <X className="w-5 h-5 text-red-500" />
+                            </button>
+                          )}
+                        </div>
+                        <div className="w-full bg-emerald-100 rounded-full h-2">
+                          <div className={`bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full ${submitting ? 'animate-pulse' : 'w-full'}`}></div>
+                        </div>
+                        <p className="text-xs text-emerald-600 mt-2 flex items-center gap-1">
+                          <CheckCircle className="w-3 h-3" />
+                          {submitting ? 'Uploading file...' : 'File uploaded successfully'}
+                        </p>
+                      </div>
+                    )}
+                  </motion.div>
+                  
+                  <p className="mt-2 text-xs text-slate-500">
+                    Please include detailed professional experience, academic qualifications, and executive achievements
+                  </p>
+                </div>
+
+                {/* Additional Information */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Additional Information (Optional)
+                  </label>
+                  <textarea
+                    name="additionalInfo"
+                    value={formData.additionalInfo}
+                    onChange={handleInputChange}
+                    rows="4"
+                    disabled={submitting}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    placeholder="Any additional information about your professional background, research interests, or career objectives..."
+                  />
+                </div>
+
+                {/* Consent Checkbox */}
+                <div className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    id="consent"
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleInputChange}
+                    required
+                    disabled={submitting}
+                    className="mt-1 w-5 h-5 text-blue-600 bg-white border-slate-300 rounded focus:ring-blue-600 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                  />
+                  <label htmlFor="consent" className={`text-sm ${submitting ? 'text-slate-400' : 'text-slate-600'}`}>
+                    I confirm that all information provided is accurate and I authorize the use of my resume/CV for academic evaluation purposes.
+                  </label>
+                </div>
                 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={submitting ? {} : { scale: 1.02 }}
+                  whileTap={submitting ? {} : { scale: 0.98 }}
                   type="submit"
-                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300"
+                  disabled={submitting || !formData.consent || !selectedFile}
+                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-cyan-600"
                 >
-                  Submit DBA Application
+                  {submitting ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Submitting Application...
+                    </>
+                  ) : (
+                    <>
+                      <BriefcaseIcon className="w-5 h-5" />
+                      Submit DBA Application
+                    </>
+                  )}
                 </motion.button>
               </form>
             </motion.div>
@@ -697,7 +1073,7 @@ function DBA() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 hover:shadow-md transition-shadow duration-300"
                   >
                     <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
                     <span className="text-slate-800 font-medium">{point}</span>
@@ -706,7 +1082,7 @@ function DBA() {
               </div>
 
               {/* Benefits Section */}
-              <div className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-3xl p-8 text-white">
+              <div className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-3xl p-8 text-white shadow-xl mb-8">
                 <h3 className="text-2xl font-bold mb-6">Executive Advantages</h3>
                 <div className="space-y-6">
                   {benefits.map((benefit, index) => (
@@ -721,6 +1097,32 @@ function DBA() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Application Tips */}
+              <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-3xl p-6 border border-cyan-100 shadow-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <Lightbulb className="w-6 h-6 text-cyan-600" />
+                  <h4 className="text-lg font-bold text-slate-900">Application Tips</h4>
+                </div>
+                <ul className="space-y-3 text-slate-700">
+                  <li className="flex items-start gap-2">
+                    <div className="w-2 h-2 mt-2 rounded-full bg-cyan-500"></div>
+                    <span>Highlight executive leadership experience in your resume</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-2 h-2 mt-2 rounded-full bg-cyan-500"></div>
+                    <span>Include relevant academic qualifications and publications</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-2 h-2 mt-2 rounded-full bg-cyan-500"></div>
+                    <span>Describe your research interests and business challenges</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-2 h-2 mt-2 rounded-full bg-cyan-500"></div>
+                    <span>Applications reviewed within 3-5 business days</span>
+                  </li>
+                </ul>
               </div>
             </motion.div>
           </div>
@@ -766,9 +1168,6 @@ function DBA() {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-4">{benefit.title}</h3>
                   <p className="text-blue-100/70 leading-relaxed">{benefit.description}</p>
-                  <div className="mt-6 pt-4 border-t border-white/10">
-                    <span className="text-sm text-blue-200/60">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -801,7 +1200,7 @@ function DBA() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.2 }}
-                className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-xl border border-slate-100"
+                className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-xl border border-slate-100 hover:shadow-2xl transition-shadow duration-300"
               >
                 <div className="flex items-center gap-1 mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -815,6 +1214,52 @@ function DBA() {
                   <span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
                     {testimonial.badge}
                   </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-gradient-to-b from-blue-50 to-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              Frequently Asked <span className="text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text">Questions</span>
+            </h2>
+            <p className="text-xl text-slate-600">
+              Everything you need to know about the DBA program.
+            </p>
+          </motion.div>
+
+          <div className="space-y-6">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="group"
+              >
+                <div className="bg-gradient-to-r from-white to-blue-50/50 rounded-2xl p-8 border border-slate-100 hover:border-blue-200 transition-all duration-300 hover:shadow-lg">
+                  <div className="flex items-start gap-6">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                      <span className="text-white font-bold text-lg">{index + 1}</span>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+                        {faq.question}
+                      </h3>
+                      <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -855,10 +1300,10 @@ function DBA() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row justify-center gap-6">
-                  <motion.a
+                  <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="#application"
+                    onClick={() => document.getElementById('application').scrollIntoView({ behavior: 'smooth' })}
                     className="group relative px-12 py-5 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-3">
@@ -867,14 +1312,12 @@ function DBA() {
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                  </motion.a>
-
-
+                  </motion.button>
                 </div>
 
                 <p className="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">
                   <Clock className="w-4 h-4" />
-                  Next cohort begins: June 15, 2024 • Limited executive seats available
+                  Next cohort begins • Limited executive seats available
                 </p>
               </div>
             </div>

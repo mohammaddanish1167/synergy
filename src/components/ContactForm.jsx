@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FiCheckCircle, FiUser, FiMail, FiPhone, FiMapPin, FiMessageSquare } from 'react-icons/fi';
 
@@ -18,29 +18,52 @@ const ContactForm = ({ location, fields = ['name', 'email', 'mobile', 'message']
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  const formRef = useRef(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     setStatus(null);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setStatus({ 
-        type: 'success', 
-        message: 'Message sent successfully!',
-        details: 'Our team will get back to you within 2 business hours.'
+      const formEl = formRef.current;
+      const data = new FormData(formEl);
+      data.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
+      data.append('subject', 'New Message via ContactForm');
+      data.append('from_name', 'QualifyLearn Website');
+      data.append('captcha', 'true');
+      // Map mobile to phone for compatibility
+      if (form.mobile && !data.get('phone')) {
+        data.append('phone', form.mobile);
+      }
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data
       });
-      
-      // Reset form
-      setForm({
-        name: '',
-        email: '',
-        mobile: '',
-        city: '',
-        message: ''
-      });
+      const json = await res.json();
+
+      if (json.success) {
+        setStatus({ 
+          type: 'success', 
+          message: 'Message sent successfully!',
+          details: 'Our team will get back to you within 2 business hours.'
+        });
+        formEl.reset();
+        setForm({
+          name: '',
+          email: '',
+          mobile: '',
+          city: '',
+          message: ''
+        });
+      } else {
+        setStatus({ 
+          type: 'error', 
+          message: 'Failed to send message.',
+          details: json.message || 'Please try again or contact us directly.'
+        });
+      }
     } catch (error) {
       setStatus({ 
         type: 'error', 
@@ -106,7 +129,11 @@ const ContactForm = ({ location, fields = ['name', 'email', 'mobile', 'message']
         </motion.div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+        <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+        <input type="hidden" name="subject" value="New Message via ContactForm" />
+        <input type="hidden" name="from_name" value="QualifyLearn Website" />
+        <input type="hidden" name="captcha" value="true" />
         {fields.map((fieldName) => (
           <div key={fieldName}>
             <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">

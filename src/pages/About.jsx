@@ -391,63 +391,6 @@ function About() {
               </div>
             </motion.div>
 
-            {/* Timeline visualization */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="relative h-[400px]">
-                {/* Timeline line */}
-                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-emerald-500" />
-                
-                {/* Timeline points */}
-                {[
-                  { year: '2015', event: 'Founded', description: 'Started with a single web development course' },
-                  { year: '2018', event: 'Expansion', description: 'Launched programs in 10+ countries' },
-                  { year: '2020', event: 'Innovation', description: 'Introduced AI-powered learning platform' },
-                  { year: '2023', event: 'Growth', description: 'Reached 10,000+ students globally' },
-                ].map((point, idx) => (
-                  <motion.div
-                    key={point.year}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.2 }}
-                    className="absolute left-0"
-                    style={{ top: `${idx * 100}px` }}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="relative">
-                        <motion.div
-                          className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg"
-                          whileHover={{ scale: 1.1 }}
-                        >
-                          {point.year}
-                        </motion.div>
-                        <motion.div
-                          className="absolute -inset-4 rounded-full border-2 border-blue-500/30"
-                          animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.5, 0, 0.5],
-                          }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            delay: idx * 0.5,
-                          }}
-                        />
-                      </div>
-                      <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                        <h4 className="font-bold text-white">{point.event}</h4>
-                        <p className="text-sm text-gray-400">{point.description}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
@@ -733,20 +676,7 @@ function About() {
             viewport={{ once: true }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <motion.a
-              href="/courses"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl shadow-2xl hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-3 group"
-            >
-              <span>Explore Our Courses</span>
-              <motion.div
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <FiArrowRight className="w-5 h-5" />
-              </motion.div>
-            </motion.a>
+            
 
             <motion.a
               href="/contact"

@@ -8,7 +8,7 @@ import logoImage from '../assets/logo.jpeg';
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from 'lucide-react';
 
 function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2025;
 
   const socialLinks = [
     {

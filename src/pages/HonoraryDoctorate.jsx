@@ -35,7 +35,8 @@ import {
   BadgeCheck,
   Pill,
   Activity,
-  Stethoscope
+  Stethoscope,
+  MessageCircle
 } from 'lucide-react';
 
 // Fallback for missing Certificate icon
@@ -143,7 +144,7 @@ function HonoraryDoctorate() {
   ];
 
   const eligibilityPoints = [
-    '15+ years of distinguished professional experience',
+    '20+ years of distinguished professional experience',
     'Significant contributions to industry or society',
     'Published works, patents, or recognized innovations',
     'Leadership roles with measurable global impact',
@@ -215,6 +216,13 @@ function HonoraryDoctorate() {
       color: 'from-amber-500 to-orange-500',
       examples: ['Cultural Leadership', 'Creative Writing', 'Performing Arts']
     },
+  ];
+
+  const achievementStats = [
+    { number: '500+', label: 'Industry Leaders' },
+    { number: '60+', label: 'Countries Served' },
+    { number: '100+', label: 'Global Partners' },
+    { number: '98%', label: 'Satisfaction Rate' },
   ];
 
   return (
@@ -297,8 +305,6 @@ function HonoraryDoctorate() {
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 </motion.a>
-
-
               </div>
 
               {/* Trust Badge */}
@@ -354,9 +360,6 @@ function HonoraryDoctorate() {
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{feature.description}</p>
-                  <div className="mt-6 pt-4 border-t border-slate-100">
-                    <span className="text-sm text-slate-500">Learn more →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -411,9 +414,6 @@ function HonoraryDoctorate() {
                       </div>
                     ))}
                   </div>
-                  <button className="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-600 font-semibold hover:from-blue-100 hover:to-cyan-100 transition-all duration-300">
-                    Explore More
-                  </button>
                 </div>
               </motion.div>
             ))}
@@ -492,18 +492,300 @@ function HonoraryDoctorate() {
 
                     <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
                     <p className="text-slate-600 mb-6 leading-relaxed">{step.description}</p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-slate-500">
-                        <Clock className="w-4 h-4" />
-                        <span className="font-semibold">{step.duration}</span>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-blue-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                    </div>
                   </div>
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Application Form Section */}
+      <section id="application" className="py-20 bg-gradient-to-b from-blue-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Form with Resume Upload */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-3xl p-8 shadow-2xl border border-slate-100"
+            >
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">
+                Begin Your <span className="text-blue-600">Honorary Journey</span>
+              </h2>
+              
+              <form className="space-y-6" id="honoraryApplicationForm">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
+                    <input 
+                      type="text" 
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
+                    <input 
+                      type="tel" 
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                      placeholder="Your phone number"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
+                  <input 
+                    type="email" 
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                    placeholder="Your email address"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Professional Title *</label>
+                  <input 
+                    type="text" 
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                    placeholder="CEO, Founder, Director, etc."
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Desired Specialization *</label>
+                  <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                    <option value="">Select a specialization</option>
+                    <option value="business">Business Administration</option>
+                    <option value="technology">Technology Management</option>
+                    <option value="healthcare">Healthcare Leadership</option>
+                    <option value="education">Education Innovation</option>
+                    <option value="arts">Creative Arts</option>
+                    <option value="engineering">Engineering Excellence</option>
+                  </select>
+                </div>
+                
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience *</label>
+                    <select required className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 bg-white">
+                      <option value="">Select experience</option>
+                      <option value="10-15">10-15 years</option>
+                      <option value="15-20">15-20 years</option>
+                      <option value="20-25">20-25 years</option>
+                      <option value="25+">25+ years</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Company/Organization *</label>
+                    <input 
+                      type="text" 
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                      placeholder="Your organization"
+                    />
+                  </div>
+                </div>
+                
+                {/* Resume Upload Section */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Professional Portfolio * <span className="text-slate-500 font-normal">(PDF, DOC, DOCX up to 5MB)</span>
+                  </label>
+                  <div className="mt-2">
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="relative"
+                    >
+                      <input
+                        type="file"
+                        id="resume"
+                        accept=".pdf,.doc,.docx,.txt"
+                        required
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            // Validate file size (5MB max)
+                            if (file.size > 5 * 1024 * 1024) {
+                              alert('File size must be less than 5MB');
+                              e.target.value = '';
+                              return;
+                            }
+                            
+                            // Validate file type
+                            const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+                            if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|doc|docx|txt)$/i)) {
+                              alert('Please upload a PDF, DOC, DOCX, or TXT file');
+                              e.target.value = '';
+                              return;
+                            }
+                            
+                            // File is valid - you can handle it here
+                            console.log('File selected:', file.name, file.size, file.type);
+                            // Display file name
+                            const fileNameDisplay = document.getElementById('file-name');
+                            if (fileNameDisplay) {
+                              fileNameDisplay.textContent = file.name;
+                            }
+                          }
+                        }}
+                      />
+                      <label
+                        htmlFor="resume"
+                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 transition-all duration-300 group"
+                      >
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <FileText className="w-10 h-10 text-blue-400 mb-3 group-hover:text-blue-500 transition-colors" />
+                          <p className="text-sm text-slate-700 mb-2">
+                            <span className="font-semibold">Click to upload</span> or drag and drop
+                          </p>
+                          <p className="text-xs text-slate-500">PDF, DOC, DOCX (MAX. 5MB)</p>
+                        </div>
+                      </label>
+                    </motion.div>
+                    
+                    {/* Selected file name display */}
+                    <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
+                      <FileText className="w-4 h-4" />
+                      <span id="file-name" className="font-medium">No file selected</span>
+                    </div>
+                    
+                    {/* Upload tips */}
+                    <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                      <p className="text-xs text-slate-600 flex items-start gap-2">
+                        <Lightbulb className="w-3 h-3 mt-0.5 text-blue-500 flex-shrink-0" />
+                        <span>
+                          <strong>Tip:</strong> Include your achievements, awards, publications, 
+                          leadership roles, and media coverage in your portfolio for comprehensive evaluation.
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Additional Information */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Notable Achievements (Optional)
+                  </label>
+                  <textarea 
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400 bg-white"
+                    placeholder="List major awards, publications, patents, or significant contributions..."
+                  />
+                </div>
+                
+                {/* Consent Checkbox */}
+                <div className="flex items-start gap-3">
+                  <input 
+                    type="checkbox" 
+                    id="consent"
+                    required
+                    className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <label htmlFor="consent" className="text-sm text-slate-600">
+                    I consent to having my professional achievements reviewed by the 
+                    international academic panel and agree to the terms of the Honorary Doctorate program.
+                  </label>
+                </div>
+                
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  className="w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const form = document.getElementById('honoraryApplicationForm');
+                    if (form && form.checkValidity()) {
+                      // Form is valid - you can submit to your backend here
+                      alert('Application submitted successfully! Our review panel will evaluate your achievements and contact you shortly.');
+                      form.reset();
+                      const fileNameDisplay = document.getElementById('file-name');
+                      if (fileNameDisplay) {
+                        fileNameDisplay.textContent = 'No file selected';
+                      }
+                    } else if (form) {
+                      form.reportValidity();
+                    }
+                  }}
+                >
+                  <Crown className="w-6 h-6" />
+                  Submit Honorary Doctorate Application
+                </motion.button>
+              </form>
+            </motion.div>
+
+            {/* Who Is It For */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl font-bold text-slate-900 mb-8">
+                Ideal Candidate Profile
+              </h2>
+              <p className="text-lg text-slate-600 mb-8">
+                The Honorary Doctorate is reserved for exceptional individuals who have made 
+                significant contributions to their field, industry, or society at large.
+              </p>
+              
+              <div className="space-y-4 mb-12">
+                {eligibilityPoints.map((item, index) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100"
+                  >
+                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <span className="text-slate-800 font-medium">{item}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Achievement Stats */}
+              <div className="grid grid-cols-2 gap-6">
+                {achievementStats.map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="text-center p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50 border border-slate-100"
+                  >
+                    <div className="text-3xl font-bold text-slate-900">{stat.number}</div>
+                    <div className="text-sm text-slate-600 mt-2">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* WhatsApp CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mt-8 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl p-6 text-white"
+              >
+                <div className="flex items-center gap-4">
+                  <MessageCircle className="w-8 h-8" />
+                  <div>
+                    <h3 className="text-xl font-bold">Eligibility Consultation</h3>
+                    <p className="text-emerald-100">Get expert guidance for your portfolio preparation</p>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -547,9 +829,6 @@ function HonoraryDoctorate() {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-4">{benefit.title}</h3>
                   <p className="text-blue-100/70 leading-relaxed">{benefit.description}</p>
-                  <div className="mt-6 pt-4 border-t border-white/10">
-                    <span className="text-sm text-blue-200/60">Explore benefit →</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -594,7 +873,7 @@ function HonoraryDoctorate() {
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="#"
+                    href="#application"
                     className="group relative px-12 py-5 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-3">
@@ -604,13 +883,11 @@ function HonoraryDoctorate() {
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                   </motion.a>
-
-
                 </div>
 
                 <p className="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">
                   <Clock className="w-4 h-4" />
-                  Next review cycle begins: April 15, 2024 • Limited nominations available
+                  Next review cycle begins • Limited nominations available
                 </p>
               </div>
             </div>

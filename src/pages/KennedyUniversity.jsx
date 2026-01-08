@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Globe, MapPin, CheckCircle, ExternalLink, Award, Shield, BookOpen, Users, Building, Flag, GraduationCap } from 'lucide-react';
+import { ArrowLeft, Globe, MapPin, CheckCircle, ExternalLink, Award, Shield, BookOpen, Users, Building, Flag, GraduationCap, Star } from 'lucide-react';
 import KennedyUniLogo from '../assets/kennedy-university-logo.jpg';
 
 const KennedyUniversity = () => {
@@ -11,7 +11,9 @@ const KennedyUniversity = () => {
     name: 'Kennedy University', 
     logo: KennedyUniLogo, 
     link: 'https://www.kennedy.edu.eu/', 
-    color: 'from-blue-500 to-cyan-500',
+    color: 'from-blue-700 to-blue-900',
+    gradient: 'bg-gradient-to-r from-blue-700 to-blue-900',
+    lightColor: 'from-blue-50 to-blue-100',
     verified: true,
     location: 'France (Headquarters) & Global Recognition',
     type: 'Private Higher Education Establishment'
@@ -25,7 +27,8 @@ const KennedyUniversity = () => {
         "Students at Kennedy University can pursue a double degree in the name of Kennedy University of Baptist",
         "Students at Kennedy University of Baptist can obtain a double degree in the name of Kennedy University"
       ],
-      icon: "👑"
+      icon: "👑",
+      iconColor: "bg-blue-100 text-blue-700"
     },
     {
       title: "FRENCH MINISTRY OF NATIONAL EDUCATION, HIGHER EDUCATION, RESEARCH AND INNOVATION",
@@ -37,7 +40,8 @@ const KennedyUniversity = () => {
         "All academic programs developed and assessed by Kennedy University"
       ],
       note: "These degrees are not classified as Diplômes Nationaux (national degrees).",
-      icon: "🇫🇷"
+      icon: "🇫🇷",
+      iconColor: "bg-blue-100 text-blue-700"
     },
     {
       title: "MINISTRY OF EDUCATION, CULTURE AND HIGHER EDUCATION (GALMUDUG STATE OF SOMALIA)",
@@ -47,7 +51,8 @@ const KennedyUniversity = () => {
         "Somalia is a full member state of the United Nations (UN)",
         "Galmudug State is an autonomous region constituting part of Somalia"
       ],
-      icon: "🇸🇴"
+      icon: "🇸🇴",
+      iconColor: "bg-blue-100 text-blue-700"
     },
     {
       title: "MINISTRY OF EDUCATION, CULTURE AND HIGHER EDUCATION (HIRSHABELLE STATE OF SOMALIA)",
@@ -56,7 +61,8 @@ const KennedyUniversity = () => {
         "Graduates can obtain degrees recognized in the Hirshabelle State of Somalia",
         "Hirshabelle State is an autonomous region constituting part of Somalia"
       ],
-      icon: "🇸🇴"
+      icon: "🇸🇴",
+      iconColor: "bg-blue-100 text-blue-700"
     },
     {
       title: "INTERNATIONAL ASSOCIATION FOR QUALITY ASSURANCE IN HIGHER EDUCATION (QAHE)",
@@ -68,7 +74,8 @@ const KennedyUniversity = () => {
         "• Agency for Quality Assurance in Education (EdNet), Kyrgyz Republic",
         "• Accreditation Council for Education (ACE), Indonesia"
       ],
-      icon: "🏆"
+      icon: "🏆",
+      iconColor: "bg-blue-100 text-blue-700"
     },
     {
       title: "EUROPEAN COUNCIL OF LEADING BUSINESS SCHOOLS (ECLBS)",
@@ -81,12 +88,53 @@ const KennedyUniversity = () => {
         "• INOAAHE - International Network For Quality Assurance Agencies in Higher Education in Europe"
       ],
       note: "ECLBS has a board of trustees representing state and private organizations from different countries.",
-      icon: "🇪🇺"
+      icon: "🇪🇺",
+      iconColor: "bg-blue-100 text-blue-700"
     },
     {
       title: "FLORIDA DEPARTMENT OF EDUCATION (USA)",
       description: "Kennedy University of Baptist has been granted an Annual Verification as a Religious College by the Florida Department of Education Commission for Independent Education.",
-      icon: "🇺🇸"
+      icon: "🇺🇸",
+      iconColor: "bg-blue-100 text-blue-700"
+    }
+  ];
+
+  const features = [
+    {
+      title: 'International Recognition',
+      description: 'Accredited in multiple countries with global recognition',
+      icon: '🌍',
+      iconColor: 'bg-blue-100'
+    },
+    {
+      title: 'Flexible Learning',
+      description: 'Distance learning programs with flexible schedules',
+      icon: '💻',
+      iconColor: 'bg-blue-100'
+    },
+    {
+      title: 'Dual Degrees',
+      description: 'Double degree options with Kennedy Baptist University',
+      icon: '🎓',
+      iconColor: 'bg-blue-100'
+    },
+    {
+      title: 'Legal Compliance',
+      description: 'Authorized by multiple government ministries',
+      icon: '⚖️',
+      iconColor: 'bg-blue-100'
+    },
+    {
+      title: 'Quality Assurance',
+      description: 'Multiple international accreditation bodies',
+      icon: '🏅',
+      iconColor: 'bg-blue-100'
+    },
+    {
+      title: 'Global Network',
+      description: 'Partnerships across Europe, Africa, and Americas',
+      icon: '🤝',
+      iconColor: 'bg-blue-100'
     }
   ];
 
@@ -95,116 +143,123 @@ const KennedyUniversity = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <button 
           onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-gray-600 hover:text-blue-600 mb-8 transition-colors group"
+          className="flex items-center gap-2 text-blue-700 hover:text-blue-800 mb-8 transition-colors group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           Back to Partners
         </button>
 
-        {/* Compact Hero Section */}
+        {/* Fixed Hero Section - Dark Blue Theme */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="relative mb-12"
         >
-          <div className={`h-48 rounded-3xl bg-gradient-to-r ${university.color} relative overflow-hidden`}>
+          {/* Dark Blue Gradient Background */}
+          <div className={`h-64 md:h-72 rounded-3xl ${university.gradient} relative overflow-hidden shadow-2xl`}>
+            {/* Dark overlay for better text visibility */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-blue-800/30 z-0" />
+            
             {/* Animated Background Elements */}
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 z-0">
               <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
               <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
             </div>
 
-            <div className="relative h-full flex items-center px-8 md:px-12">
-              <div className="flex items-center gap-6">
-                <div className="bg-white p-4 rounded-2xl shadow-2xl">
+            {/* Content Container */}
+            <div className="relative z-10 h-full flex flex-col md:flex-row items-center justify-between px-6 md:px-12 py-8">
+              {/* University Info */}
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-6 md:mb-0">
+                {/* Logo Container - White Background */}
+                <div className="bg-white p-4 rounded-2xl shadow-2xl border border-blue-200">
                   <img 
                     src={university.logo} 
                     alt={university.name} 
-                    className="w-24 h-24 object-contain"
+                    className="w-24 h-24 md:w-28 md:h-28 object-contain"
                   />
                 </div>
-                <div>
-                  <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                
+                {/* Text Content - White Text */}
+                <div className="text-center md:text-left">
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
                     {university.name}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-4 text-white/90">
-                    <span className="flex items-center gap-2">
+                  
+                  <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-4">
+                    <span className="inline-flex items-center gap-2 text-white bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm border border-white/30">
                       <MapPin className="w-4 h-4" />
                       {university.location}
                     </span>
-                    <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm">
+                    
+                    <span className="inline-flex px-3 py-1.5 bg-white/25 backdrop-blur-sm rounded-full text-sm text-white border border-white/40">
                       {university.type}
                     </span>
+                    
                     {university.verified && (
-                      <span className="flex items-center gap-1 px-3 py-1 bg-emerald-500/20 backdrop-blur-sm rounded-full text-sm font-medium border border-emerald-400/30">
-                        <CheckCircle className="w-3 h-3" />
+                      <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-500/30 backdrop-blur-sm rounded-full text-sm font-medium text-white border border-emerald-400/50">
+                        <CheckCircle className="w-4 h-4" />
                         Verified Partner
                       </span>
                     )}
                   </div>
                 </div>
               </div>
+
+              {/* Visit Website Button - White with Blue Text */}
+             
             </div>
           </div>
 
-          {/* Quick Stats */}
+          {/* Quick Stats - White Cards */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 -mt-8 px-4"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 px-4"
           >
-            <div className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 text-center">
-              <div className="text-xl font-bold text-blue-600">7+</div>
-              <div className="text-sm text-gray-600">Accreditations</div>
+            <div className="bg-white p-5 rounded-2xl shadow-lg border border-blue-100 text-center hover:shadow-xl transition-all duration-300">
+              <div className="text-2xl md:text-3xl font-bold text-blue-700">7+</div>
+              <div className="text-sm text-blue-600">Accreditations</div>
             </div>
-            <div className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 text-center">
-              <div className="text-xl font-bold text-blue-600">3</div>
-              <div className="text-sm text-gray-600">Countries</div>
+            <div className="bg-white p-5 rounded-2xl shadow-lg border border-blue-100 text-center hover:shadow-xl transition-all duration-300">
+              <div className="text-2xl md:text-3xl font-bold text-blue-700">3+</div>
+              <div className="text-sm text-blue-600">Countries</div>
             </div>
-            <div className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 text-center">
-              <div className="text-xl font-bold text-blue-600">Dual</div>
-              <div className="text-sm text-gray-600">Degree Options</div>
+            <div className="bg-white p-5 rounded-2xl shadow-lg border border-blue-100 text-center hover:shadow-xl transition-all duration-300">
+              <div className="text-2xl md:text-3xl font-bold text-blue-700">Dual</div>
+              <div className="text-sm text-blue-600">Degree Options</div>
             </div>
-            <div className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 text-center">
-              <div className="text-xl font-bold text-blue-600">100%</div>
-              <div className="text-sm text-gray-600">Legal Recognition</div>
+            <div className="bg-white p-5 rounded-2xl shadow-lg border border-blue-100 text-center hover:shadow-xl transition-all duration-300">
+              <div className="text-2xl md:text-3xl font-bold text-blue-700">100%</div>
+              <div className="text-sm text-blue-600">Legal Recognition</div>
             </div>
           </motion.div>
         </motion.div>
 
-        {/* Main Banner */}
+        {/* Main Banner - Dark Blue Theme */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mb-12"
         >
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-3xl p-8 text-white relative overflow-hidden">
+          <div className={`rounded-3xl p-8 text-white relative overflow-hidden shadow-xl ${university.gradient}`}>
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center gap-3">
-                <Award className="w-8 h-8" />
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
+                <Award className="w-7 h-7" />
                 ACCREDITATION & RECOGNITION
               </h2>
-              <p className="text-blue-100 text-lg max-w-3xl">
+              <p className="text-blue-100 text-lg md:text-xl max-w-3xl leading-relaxed">
                 Kennedy University holds multiple international accreditations and recognitions, ensuring quality education and global acceptance of degrees.
               </p>
-              <a 
-                href="https://www.kennedy.edu.eu/Accreditation-and-Recognition"
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-white text-blue-600 rounded-xl hover:bg-blue-50 font-medium shadow-lg"
-              >
-                View Full Accreditation Details
-                <ExternalLink className="w-4 h-4" />
-              </a>
+             
             </div>
           </div>
         </motion.div>
@@ -212,20 +267,61 @@ const KennedyUniversity = () => {
         {/* Main Content */}
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            {/* Accreditation Details */}
+            {/* University Features - White Cards */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100"
+              className="bg-white rounded-3xl p-8 shadow-lg border border-blue-100"
             >
               <div className="flex items-center gap-3 mb-8">
-                <div className={`p-3 rounded-xl bg-gradient-to-r ${university.color} text-white`}>
+                <div className={`p-3 rounded-xl ${university.gradient} text-white shadow-lg`}>
+                  <Star className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">Key Features</h2>
+                  <p className="text-blue-600 font-medium">What makes Kennedy University a distinguished institution</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {features.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                    whileHover={{ y: -4 }}
+                    className="bg-white rounded-2xl p-6 border border-blue-100 hover:border-blue-300 transition-all duration-300 group shadow-sm hover:shadow-lg"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`text-2xl ${feature.iconColor} p-3 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
+                        {feature.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
+                        <p className="text-blue-700 text-sm">{feature.description}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Accreditation Details - White Cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="bg-white rounded-3xl p-8 shadow-lg border border-blue-100"
+            >
+              <div className="flex items-center gap-3 mb-8">
+                <div className={`p-3 rounded-xl ${university.gradient} text-white shadow-lg`}>
                   <Shield className="w-6 h-6" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900">Official Accreditations & Recognitions</h2>
-                  <p className="text-gray-500">Comprehensive list of Kennedy University's international authorizations and quality assurances</p>
+                  <p className="text-blue-600 font-medium">Comprehensive list of Kennedy University's international authorizations and quality assurances</p>
                 </div>
               </div>
 
@@ -236,29 +332,29 @@ const KennedyUniversity = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.1 * index }}
-                    className="pb-8 border-b border-gray-100 last:border-b-0 last:pb-0"
+                    className="pb-8 border-b border-blue-100 last:border-b-0 last:pb-0"
                   >
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="text-2xl bg-blue-50 p-4 rounded-xl">
+                      <div className={`text-2xl ${acc.iconColor} p-4 rounded-xl shadow-sm`}>
                         {acc.icon}
                       </div>
                       <div className="flex-1">
                         <h3 className="text-xl font-bold text-gray-900 mb-2">{acc.title}</h3>
-                        <p className="text-gray-600 mb-4">{acc.description}</p>
+                        <p className="text-blue-700 mb-4">{acc.description}</p>
                         
                         {acc.highlights && (
                           <ul className="space-y-2 mb-4">
                             {acc.highlights.map((highlight, hIndex) => (
                               <li key={hIndex} className="flex items-start gap-2">
                                 <CheckCircle className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
-                                <span className="text-gray-700">{highlight}</span>
+                                <span className="text-blue-800">{highlight}</span>
                               </li>
                             ))}
                           </ul>
                         )}
                         
                         {acc.note && (
-                          <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                          <div className="p-4 bg-blue-50 rounded-xl border border-blue-100 shadow-sm">
                             <p className="text-blue-700 text-sm italic">{acc.note}</p>
                           </div>
                         )}
@@ -269,38 +365,38 @@ const KennedyUniversity = () => {
               </div>
             </motion.div>
 
-            {/* Important Notes */}
+            {/* Important Notes - Blue Background with White Text */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-8 border border-blue-100"
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className={`rounded-3xl p-8 border border-blue-200 shadow-lg ${university.gradient}`}
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                <BookOpen className="w-6 h-6 text-blue-600" />
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                <BookOpen className="w-6 h-6" />
                 Important Information
               </h3>
               
               <div className="space-y-4">
-                <div className="p-4 bg-white/50 rounded-xl border border-blue-100">
-                  <h4 className="font-bold text-gray-900 mb-2">Degree Classification</h4>
-                  <p className="text-gray-700 text-sm">
+                <div className="p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+                  <h4 className="font-bold text-white mb-2">Degree Classification</h4>
+                  <p className="text-blue-100 text-sm">
                     Kennedy University awards Private Institutional Degrees under French law. These are not Diplômes Nationaux (French national degrees) but are legally issued private degrees recognized internationally through Kennedy University's accreditations.
                   </p>
                 </div>
                 
-                <div className="p-4 bg-white/50 rounded-xl border border-blue-100">
-                  <h4 className="font-bold text-gray-900 mb-2">Credit Transfer & Recognition</h4>
-                  <p className="text-gray-700 text-sm">
+                <div className="p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+                  <h4 className="font-bold text-white mb-2">Credit Transfer & Recognition</h4>
+                  <p className="text-blue-100 text-sm">
                     • Credits are mutually recognized between Kennedy University and Kennedy University of Baptist<br/>
                     • Degrees are recognized in France, Somalia (Galmudug & Hirshabelle States), and internationally<br/>
                     • Dual degree options available with Kennedy University of Baptist
                   </p>
                 </div>
                 
-                <div className="p-4 bg-white/50 rounded-xl border border-blue-100">
-                  <h4 className="font-bold text-gray-900 mb-2">Legal Status</h4>
-                  <p className="text-gray-700 text-sm">
+                <div className="p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+                  <h4 className="font-bold text-white mb-2">Legal Status</h4>
+                  <p className="text-blue-100 text-sm">
                     Kennedy University is legally registered in France as a private higher education establishment (Centre d'enseignement à distance) and authorized to operate by multiple national ministries and international accreditation bodies.
                   </p>
                 </div>
@@ -310,37 +406,39 @@ const KennedyUniversity = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Contact Card */}
+            {/* Contact Card - White with Blue Accents */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-6 border border-blue-100"
+              className="bg-white rounded-3xl p-6 border border-blue-100 shadow-lg"
             >
               <h3 className="font-bold text-gray-900 mb-4 text-lg flex items-center gap-2">
-                <GraduationCap className="w-5 h-5 text-blue-600" />
+                <GraduationCap className="w-5 h-5 text-blue-700" />
                 Interested in Kennedy University?
               </h3>
-              <p className="text-gray-600 text-sm mb-6">
+              <p className="text-blue-700 text-sm mb-6">
                 Learn more about admission requirements, program details, and how to apply through QualifyLearn.
               </p>
-              <button 
+              <motion.button 
                 onClick={() => navigate('/contact')}
-                className="w-full px-4 py-3 bg-white border border-blue-200 text-blue-700 font-medium rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors shadow-sm hover:shadow-md"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-sm hover:shadow-md"
               >
                 Contact QualifyLearn for Guidance
-              </button>
+              </motion.button>
             </motion.div>
 
-            {/* Verification Resources */}
+            {/* Verification Resources - White Cards */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+              className="bg-white rounded-3xl p-6 shadow-lg border border-blue-100"
             >
               <h3 className="font-bold text-gray-900 mb-4 text-lg flex items-center gap-2">
-                <Shield className="w-5 h-5 text-blue-600" />
+                <Shield className="w-5 h-5 text-blue-700" />
                 Verification Resources
               </h3>
               <div className="space-y-3">
@@ -348,7 +446,7 @@ const KennedyUniversity = () => {
                   href="https://www.education.gouv.fr/annuaire-des-etablissements" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="block p-3 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-300 transition-colors text-sm text-gray-700 hover:text-blue-800 flex items-center gap-2"
+                  className="block p-3 bg-blue-50 rounded-xl border border-blue-100 hover:border-blue-300 hover:bg-blue-100 transition-all duration-300 text-sm text-blue-800 hover:text-blue-900 flex items-center gap-2"
                 >
                   <Flag className="w-4 h-4" />
                   French Ministry of Education Registry
@@ -357,7 +455,7 @@ const KennedyUniversity = () => {
                   href="https://www.kennedy.edu.eu/Accreditation-and-Recognition" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="block p-3 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-300 transition-colors text-sm text-gray-700 hover:text-blue-800 flex items-center gap-2"
+                  className="block p-3 bg-blue-50 rounded-xl border border-blue-100 hover:border-blue-300 hover:bg-blue-100 transition-all duration-300 text-sm text-blue-800 hover:text-blue-900 flex items-center gap-2"
                 >
                   <Globe className="w-4 h-4" />
                   Kennedy University Accreditation Page
@@ -366,7 +464,7 @@ const KennedyUniversity = () => {
                   href="https://qahe.org" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="block p-3 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-300 transition-colors text-sm text-gray-700 hover:text-blue-800 flex items-center gap-2"
+                  className="block p-3 bg-blue-50 rounded-xl border border-blue-100 hover:border-blue-300 hover:bg-blue-100 transition-all duration-300 text-sm text-blue-800 hover:text-blue-900 flex items-center gap-2"
                 >
                   <Building className="w-4 h-4" />
                   QAHE Accreditation Body
@@ -374,34 +472,34 @@ const KennedyUniversity = () => {
               </div>
             </motion.div>
 
-            {/* Quick Facts */}
+            {/* Quick Facts - White Cards */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+              className="bg-white rounded-3xl p-6 shadow-lg border border-blue-100"
             >
               <h3 className="font-bold text-gray-900 mb-4 text-lg">Key Facts</h3>
               <div className="space-y-3">
-                <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Legal Status</span>
-                  <span className="font-medium">Private Institution</span>
+                <div className="flex items-center justify-between py-2 border-b border-blue-100">
+                  <span className="text-blue-700">Legal Status</span>
+                  <span className="font-medium text-blue-800">Private Institution</span>
                 </div>
-                <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Headquarters</span>
-                  <span className="font-medium">France</span>
+                <div className="flex items-center justify-between py-2 border-b border-blue-100">
+                  <span className="text-blue-700">Headquarters</span>
+                  <span className="font-medium text-blue-800">France</span>
                 </div>
-                <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Education Type</span>
-                  <span className="font-medium">Distance Learning</span>
+                <div className="flex items-center justify-between py-2 border-b border-blue-100">
+                  <span className="text-blue-700">Education Type</span>
+                  <span className="font-medium text-blue-800">Distance Learning</span>
                 </div>
-                <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Degree Type</span>
-                  <span className="font-medium text-blue-600">Private Institutional</span>
+                <div className="flex items-center justify-between py-2 border-b border-blue-100">
+                  <span className="text-blue-700">Degree Type</span>
+                  <span className="font-medium text-blue-800">Private Institutional</span>
                 </div>
                 <div className="flex items-center justify-between py-2">
-                  <span className="text-gray-600">Sister University</span>
-                  <span className="font-medium">Kennedy Baptist</span>
+                  <span className="text-blue-700">Sister University</span>
+                  <span className="font-medium text-blue-800">Kennedy Baptist</span>
                 </div>
               </div>
             </motion.div>

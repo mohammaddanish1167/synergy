@@ -421,13 +421,8 @@ function Enroll() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                      <CheckCircle className="w-4 h-4 text-emerald-600" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-slate-900">Money-Back Guarantee</div>
-                      <div className="text-xs text-slate-500 mt-0.5">14-day refund policy</div>
-                    </div>
+                    
+                    
                   </div>
                 </div>
               </div>
@@ -450,7 +445,7 @@ function Enroll() {
                       onClick={() => setProgram(programOption.value)}
                     >
                       <div className="font-medium text-slate-900">{programOption.label}</div>
-                      <div className="text-xs text-slate-500 mt-1">12-month comprehensive program</div>
+                      
                     </div>
                   ))}
                 </div>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Globe, MapPin, CheckCircle, ExternalLink, Users, Award, BookOpen, Shield } from 'lucide-react';
+import { ArrowLeft, Globe, MapPin, CheckCircle, ExternalLink, Users, Award, BookOpen, Shield, Star, University, Target, Handshake } from 'lucide-react';
 import EuroAsianLogo from '../assets/euro-asian-university-logo.png';
 
 const EuroAsianUniversity = () => {
@@ -11,7 +11,7 @@ const EuroAsianUniversity = () => {
     name: 'EuroAsian University',
     logo: EuroAsianLogo,
     link: 'https://euroasianuniversity.edu/',
-    color: 'from-rose-600 to-red-600',
+    color: 'from-blue-600 to-indigo-700',
     verified: true,
     location: 'Estonia',
     heroText: 'Academic Partners & Affiliations',
@@ -40,12 +40,12 @@ const EuroAsianUniversity = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-28 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50 pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <button 
           onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-gray-600 hover:text-blue-600 mb-8 transition-colors group"
+          className="flex items-center gap-2 text-gray-600 hover:text-blue-700 mb-8 transition-colors group bg-white px-4 py-2 rounded-xl shadow-sm"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           Back to Home
@@ -58,48 +58,37 @@ const EuroAsianUniversity = () => {
           transition={{ duration: 0.5 }}
           className="mb-16"
         >
-          <div className="bg-gradient-to-r from-rose-500 via-red-500 to-rose-600 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden relative">
+          <div className="bg-gradient-to-r from-blue-800 via-blue-900 to-indigo-900 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden relative">
             {/* Animated Background Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-24 -translate-x-24" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-32 translate-x-32" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24" />
             
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-white max-w-2xl">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
-                    <Shield className="w-6 h-6" />
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-white/10 rounded-xl backdrop-blur-sm">
+                    <Target className="w-6 h-6" />
                   </div>
-                  <span className="text-sm font-semibold bg-white/20 px-3 py-1 rounded-full">Verified Partner</span>
+                  <span className="text-sm font-semibold bg-white/20 px-4 py-2 rounded-full flex items-center gap-2">
+                    <Star className="w-4 h-4" /> Verified Partner
+                  </span>
                 </div>
                 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                   {university.heroText}
                 </h1>
                 
-                <p className="text-lg md:text-xl text-white/90 mb-6 leading-relaxed">
+                <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
                   {university.aboutDescription}
                 </p>
                 
-                <div className="flex items-center gap-4">
-                  <a 
-                    href={university.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-rose-600 rounded-xl hover:bg-gray-100 transition-all font-semibold shadow-lg hover:shadow-xl"
-                  >
-                    Visit Official Website
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                  <button 
-                    onClick={() => navigate('/contact')}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-transparent border-2 border-white text-white rounded-xl hover:bg-white/10 transition-all font-semibold"
-                  >
-                    Contact Now
-                  </button>
-                </div>
+                
               </div>
               
-              <div className="bg-white rounded-2xl p-4 shadow-2xl">
+              <div className="bg-white rounded-2xl p-6 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <div className="flex items-center justify-center mb-4">
+                  <University className="w-8 h-8 text-blue-600" />
+                </div>
                 <img 
                   src={university.logo} 
                   alt={university.name} 
@@ -119,14 +108,17 @@ const EuroAsianUniversity = () => {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {university.stats.map((stat, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+              <div 
+                key={index} 
+                className="bg-white rounded-2xl p-6 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              >
                 <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${university.color} text-white`}>
+                  <div className={`p-3 rounded-xl bg-gradient-to-br ${university.color} text-white shadow-md`}>
                     {stat.icon}
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
-                    <div className="text-gray-600">{stat.label}</div>
+                    <div className="text-3xl font-bold text-blue-900">{stat.value}</div>
+                    <div className="text-blue-600 font-medium">{stat.label}</div>
                   </div>
                 </div>
               </div>
@@ -139,13 +131,16 @@ const EuroAsianUniversity = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100"
+          className="bg-white rounded-3xl shadow-xl overflow-hidden border border-blue-100"
         >
           <div className="p-8 md:p-12">
             <div className="grid lg:grid-cols-3 gap-12">
               {/* Left Column - Partners */}
               <div className="lg:col-span-2">
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">Affiliations & Partners</h2>
+                <div className="flex items-center gap-3 mb-8">
+                  <Handshake className="w-8 h-8 text-blue-600" />
+                  <h2 className="text-3xl font-bold text-blue-900">Affiliations & Partners</h2>
+                </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {university.partners.map((partner, index) => (
@@ -156,14 +151,17 @@ const EuroAsianUniversity = () => {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       className="group"
                     >
-                      <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-rose-200 hover:bg-gradient-to-br hover:from-rose-50 hover:to-red-50 transition-all duration-300">
+                      <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl p-6 border border-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
                         <div className="flex items-start gap-4">
-                          <div className="text-3xl">{partner.icon}</div>
+                          <div className="text-3xl p-2 bg-blue-50 rounded-xl">{partner.icon}</div>
                           <div className="flex-1">
-                            <h3 className="font-bold text-lg text-gray-900 mb-1">{partner.name}</h3>
-                            <p className="text-gray-600 text-sm">{partner.type}</p>
+                            <h3 className="font-bold text-lg text-blue-900 mb-1">{partner.name}</h3>
+                            <p className="text-blue-600 text-sm font-medium">{partner.type}</p>
                           </div>
-                          <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                          <div className="flex flex-col items-center gap-1">
+                            <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                            <span className="text-xs text-gray-500">Verified</span>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -174,28 +172,38 @@ const EuroAsianUniversity = () => {
               {/* Right Column - Contact & Info */}
               <div className="space-y-8">
                 {/* Contact Card */}
-                <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-                  <h3 className="font-bold text-xl text-gray-900 mb-4 flex items-center gap-2">
-                    <Globe className="w-5 h-5 text-rose-500" />
-                    Contact Information
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <MapPin className="w-4 h-4 text-rose-500 flex-shrink-0" />
-                      <span>Location: {university.location}</span>
+                <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl p-6 border border-blue-200 shadow-sm">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <Globe className="w-6 h-6 text-blue-600" />
                     </div>
-                    <div className="flex items-center gap-3 text-gray-600">
-                      <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                      <span>Status: Verified Partner</span>
+                    <h3 className="font-bold text-xl text-blue-900">
+                      Contact Information
+                    </h3>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-blue-100">
+                      <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                      <div>
+                        <div className="text-sm text-blue-500">Location</div>
+                        <div className="font-medium text-blue-900">{university.location}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-blue-100">
+                      <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                      <div>
+                        <div className="text-sm text-blue-500">Status</div>
+                        <div className="font-medium text-blue-900">Verified Partner</div>
+                      </div>
                     </div>
                     
-                    <div className="pt-4 mt-4 border-t border-gray-200">
-                      <p className="text-gray-600 mb-4 text-sm">
+                    <div className="pt-6 mt-6 border-t border-blue-100">
+                      <p className="text-blue-700 mb-4 text-sm leading-relaxed">
                         Interested in applying to {university.name} or learning more about our partnership opportunities?
                       </p>
                       <button 
                         onClick={() => navigate('/contact')}
-                        className="w-full px-4 py-3 bg-gradient-to-r from-rose-600 to-red-600 text-white font-medium rounded-xl hover:from-rose-700 hover:to-red-700 transition-all shadow-lg hover:shadow-rose-500/30"
+                        className="w-full px-4 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98]"
                       >
                         Contact QualifyLearn
                       </button>
@@ -204,16 +212,16 @@ const EuroAsianUniversity = () => {
                 </div>
 
                 {/* About Card */}
-                <div className="bg-gradient-to-br from-rose-50 to-red-50 rounded-2xl p-6 border border-rose-100">
-                  <h3 className="font-bold text-xl text-gray-900 mb-4">About {university.name}</h3>
-                  <p className="text-gray-700 leading-relaxed">
+                <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 border border-blue-200 shadow-sm">
+                  <h3 className="font-bold text-xl text-blue-900 mb-6">About {university.name}</h3>
+                  <p className="text-blue-700 leading-relaxed mb-6">
                     {university.description}
                   </p>
-                  <div className="mt-4 flex items-center justify-center">
+                  <div className="bg-white rounded-xl p-4 border border-blue-100">
                     <img 
                       src={university.logo} 
                       alt={university.name} 
-                      className="h-16 w-auto object-contain opacity-80"
+                      className="h-16 w-auto object-contain mx-auto"
                     />
                   </div>
                 </div>
@@ -229,30 +237,7 @@ const EuroAsianUniversity = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-16 text-center"
         >
-          <div className="bg-gradient-to-r from-rose-500 to-red-500 rounded-3xl p-8 md:p-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Ready to Start Your Journey?
-            </h2>
-            <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-              Join thousands of students who have benefited from our partnership with EuroAsian University
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => navigate('/contact')}
-                className="px-8 py-3 bg-white text-rose-600 rounded-xl font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl"
-              >
-                Apply Now
-              </button>
-              <a 
-                href={university.link} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="px-8 py-3 bg-transparent border-2 border-white text-white rounded-xl font-semibold hover:bg-white/10 transition-all"
-              >
-                Visit University Website
-              </a>
-            </div>
-          </div>
+         
         </motion.div>
       </div>
     </div>

@@ -265,9 +265,7 @@ function Payment() {
                           <p className="font-medium text-slate-900">{name}</p>
                         </div>
                       </div>
-                      <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-                        Edit
-                      </button>
+                    
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3 pl-12">

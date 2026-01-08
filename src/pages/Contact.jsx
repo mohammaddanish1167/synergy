@@ -1,160 +1,206 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import ContactForm from '../components/ContactForm';
-import { FiMail, FiPhone, FiMapPin, FiGlobe, FiClock, FiShield, FiUsers } from 'react-icons/fi';
-import { FaLinkedin, FaTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { useState, useRef, useEffect } from 'react';
+import { FiMail, FiPhone, FiMapPin, FiGlobe, FiClock, FiShield, FiUsers, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
+import { FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
 
 const ContactPage = () => {
-  const [activeLocation, setActiveLocation] = useState('UK');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    country: '',
+    course: '',
+    message: '',
+    consent: false
+  });
 
-  // Office locations data
-  const locations = [
-    {
-      id: 'UK',
-      name: 'UNITED KINGDOM',
-      company: 'QUALIFY LEARN LIMITED',
-      emails: ['support@qualifylearn.com', 'info@qualifylearn.com'],
-      phone: '+44-745-741-7703',
-      address: '124 City Road, London, United Kingdom, EC1V 2NX',
-      timezone: 'GMT',
-      formFields: ['name', 'email', 'mobile', 'city', 'message']
-    },
-    {
-      id: 'US',
-      name: 'UNITED STATES',
-      company: 'QUALIFY LEARN LLC',
-      emails: ['support@qualifylearn.com', 'info@qualifylearn.com'],
-      phone: '+1-307-392-9112',
-      address: '30 N Gould St Ste R Sheridan WY 82801 USA',
-      timezone: 'MST',
-      formFields: ['name', 'email', 'mobile', 'message']
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitMessage, setSubmitMessage] = useState('');
+  
+  const formRef = useRef(null);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  useEffect(() => {
+    if (submitStatus) {
+      const timer = setTimeout(() => {
+        setSubmitStatus(null);
+        setSubmitMessage('');
+      }, 5000);
+      return () => clearTimeout(timer);
     }
-  ];
+  }, [submitStatus]);
 
-  // Contact Info Card Component
-  const ContactCard = ({ location, index }) => (
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setSubmitMessage('');
+
+    try {
+      // Prepare the data object for Web3Forms
+      const formDataObject = {
+        access_key: '57f7ee33-9ae4-4e3e-ae91-018650618fcb',
+        subject: 'New Contact Message from QualifyLearn',
+        from_name: 'QualifyLearn Website',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        country: formData.country,
+        course: formData.course,
+        message: formData.message,
+        consent: formData.consent ? 'Agreed' : 'Not agreed',
+        honeypot: '',
+        botcheck: '',
+        replyto: formData.email,
+      };
+
+      // Remove empty fields that might cause issues
+      Object.keys(formDataObject).forEach(key => {
+        if (formDataObject[key] === undefined || formDataObject[key] === null) {
+          delete formDataObject[key];
+        }
+      });
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formDataObject)
+      });
+      
+      const json = await res.json();
+
+      if (json.success) {
+        setSubmitStatus('success');
+        setSubmitMessage('Message sent successfully! We will get back to you shortly.');
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          country: '',
+          course: '',
+          message: '',
+          consent: false
+        });
+        
+        // Scroll to success message
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setSubmitStatus('error');
+        setSubmitMessage(json.message || 'Failed to send message. Please try again.');
+      }
+    } catch (err) {
+      setSubmitStatus('error');
+      setSubmitMessage('An error occurred while submitting the form. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const ContactInfoCard = () => (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.15, duration: 0.5 }}
-      whileHover={{ scale: 1.02 }}
-      onClick={() => setActiveLocation(location.id)}
-      className={`relative bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-xl border transition-all duration-300 ${
-        activeLocation === location.id 
-          ? 'border-blue-500/50 shadow-2xl shadow-blue-500/20' 
-          : 'border-gray-700/50 hover:border-gray-600'
-      } p-6 cursor-pointer overflow-hidden group`}
+      transition={{ duration: 0.5 }}
+      className="relative bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-xl border border-gray-700/50 p-6 overflow-hidden"
     >
-      {/* Gradient Background Glow */}
-      <div className={`absolute inset-0 bg-gradient-to-br transition-opacity duration-500 ${
-        activeLocation === location.id 
-          ? 'opacity-30 from-blue-900/20 via-transparent to-purple-900/20' 
-          : 'opacity-0 group-hover:opacity-10 from-gray-700/20 to-gray-900/20'
-      }`} />
-
-      {/* Selection Indicator */}
-      {activeLocation === location.id && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30"
-        >
-          <FiGlobe className="w-3 h-3 text-white" />
-        </motion.div>
-      )}
+      <div className="absolute inset-0 bg-gradient-to-br opacity-10 from-blue-900/20 via-transparent to-purple-900/20" />
 
       <div className="relative z-10 space-y-5">
-        {/* Location Header */}
         <div>
           <div className="flex items-center gap-3 mb-3">
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.5 }}
-              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                activeLocation === location.id 
-                  ? 'bg-gradient-to-br from-blue-600/30 to-blue-800/30 shadow-lg shadow-blue-500/20' 
-                  : 'bg-gradient-to-br from-gray-800/50 to-gray-900/50'
-              }`}
+              className="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-blue-600/30 to-blue-800/30 shadow-lg shadow-blue-500/20"
             >
-              <FiMapPin className={`w-6 h-6 transition-colors duration-300 ${
-                activeLocation === location.id ? 'text-blue-400' : 'text-gray-400'
-              }`} />
+              <FiGlobe className="w-6 h-6 text-blue-400" />
             </motion.div>
             <div>
-              <h3 className="text-lg font-bold text-white">{location.name}</h3>
-              <p className="text-sm text-blue-400/80 font-medium">{location.company}</p>
+              <h3 className="text-lg font-bold text-white">Global Headquarters</h3>
+              <p className="text-sm text-blue-400/80 font-medium">QUALIFY LEARN</p>
             </div>
           </div>
         </div>
 
-        {/* Contact Details */}
         <div className="space-y-4">
-          {/* Email */}
           <div className="flex items-start gap-3">
             <div className="p-2 rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-900/50">
               <FiMail className="w-4 h-4 text-blue-400" />
             </div>
             <div>
               <p className="text-xs text-gray-400 mb-1">Email</p>
-              {location.emails.map((email, idx) => (
-                <motion.p
-                  key={idx}
-                  whileHover={{ x: 2 }}
-                  className="text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
-                >
-                  {email}
-                </motion.p>
-              ))}
+              <motion.a
+                href="mailto:support@qualifylearn.com"
+                whileHover={{ x: 2 }}
+                className="block text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer mb-1"
+              >
+                support@qualifylearn.com
+              </motion.a>
+              <motion.a
+                href="mailto:info@qualifylearn.com"
+                whileHover={{ x: 2 }}
+                className="block text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
+              >
+                info@qualifylearn.com
+              </motion.a>
             </div>
           </div>
 
-          {/* Phone */}
           <div className="flex items-start gap-3">
             <div className="p-2 rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-900/50">
               <FiPhone className="w-4 h-4 text-blue-400" />
             </div>
             <div>
               <p className="text-xs text-gray-400 mb-1">Phone</p>
-              <motion.p
+              <motion.a
+                href="tel:+447457417703"
                 whileHover={{ x: 2 }}
-                className="text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
+                className="block text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer mb-1"
               >
-                {location.phone}
-              </motion.p>
+                +44-745-741-7703 (UK)
+              </motion.a>
+              <motion.a
+                href="tel:+13073929112"
+                whileHover={{ x: 2 }}
+                className="block text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
+              >
+                +1-307-392-9112 (US)
+              </motion.a>
             </div>
           </div>
 
-          {/* Address */}
           <div className="flex items-start gap-3">
             <div className="p-2 rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-900/50">
               <FiMapPin className="w-4 h-4 text-blue-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-400 mb-1">Address</p>
-              <p className="text-sm text-gray-300 leading-relaxed">{location.address}</p>
+              <p className="text-xs text-gray-400 mb-1">Addresses</p>
+              <p className="text-sm text-gray-300 leading-relaxed mb-2">
+                124 City Road, London, United Kingdom, EC1V 2NX
+              </p>
+              <p className="text-sm text-gray-300 leading-relaxed">
+                30 N Gould St Ste R Sheridan WY 82801 USA
+              </p>
             </div>
           </div>
 
-          {/* Timezone */}
           <div className="flex items-center gap-2 pt-3 border-t border-gray-800/50">
             <FiClock className="w-4 h-4 text-blue-400/70" />
-            <span className="text-xs text-gray-400">{location.timezone} Timezone</span>
+            <span className="text-xs text-gray-400">24/7 Global Support</span>
           </div>
-        </div>
-
-        {/* Select Button */}
-        <div className="pt-3">
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={`w-full py-2.5 text-sm font-medium rounded-lg transition-all duration-300 ${
-              activeLocation === location.id
-                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30'
-                : 'bg-gradient-to-br from-gray-800 to-gray-900 text-gray-300 hover:text-white hover:shadow-lg'
-            }`}
-          >
-            {activeLocation === location.id ? '✓ Selected Location' : 'Select Location'}
-          </motion.button>
         </div>
       </div>
     </motion.div>
@@ -162,9 +208,38 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
-      {/* Hero Section */}
+      {submitStatus && (
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4`}
+        >
+          <div className={`p-4 rounded-lg shadow-lg backdrop-blur-lg border ${
+            submitStatus === 'success' 
+              ? 'bg-gradient-to-r from-green-900/40 to-emerald-900/20 border-green-700/30' 
+              : 'bg-gradient-to-r from-red-900/40 to-rose-900/20 border-red-700/30'
+          }`}>
+            <div className="flex items-center gap-3">
+              {submitStatus === 'success' ? (
+                <FiCheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
+              ) : (
+                <FiAlertCircle className="w-6 h-6 text-red-400 flex-shrink-0" />
+              )}
+              <div>
+                <p className={`font-medium ${
+                  submitStatus === 'success' ? 'text-green-200' : 'text-red-200'
+                }`}>
+                  {submitStatus === 'success' ? 'Success!' : 'Error!'}
+                </p>
+                <p className="text-sm text-white mt-1">{submitMessage}</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       <section className="relative overflow-hidden py-20 px-4">
-        {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(8)].map((_, i) => (
             <motion.div
@@ -196,7 +271,6 @@ const ContactPage = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            {/* Badge */}
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -208,7 +282,6 @@ const ContactPage = () => {
               <span className="text-blue-400 text-sm font-medium tracking-wide">GLOBAL REACH</span>
             </motion.div>
             
-            {/* Main Heading */}
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -228,7 +301,6 @@ const ContactPage = () => {
             </motion.p>
           </motion.div>
 
-          {/* Stats Bar */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -264,18 +336,16 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* Main Content */}
       <div className="px-4 pb-20 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Contact Cards */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-1">
             <div className="mb-8">
               <motion.h2 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="text-3xl font-bold text-white mb-3"
               >
-                Our Global Offices
+                Our Contact Details
               </motion.h2>
               <motion.p 
                 initial={{ opacity: 0, x: -20 }}
@@ -283,21 +353,77 @@ const ContactPage = () => {
                 transition={{ delay: 0.1 }}
                 className="text-gray-400 text-lg"
               >
-                Select a location to connect with our regional team
+                Reach out to our global support team
               </motion.p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {locations.map((location, index) => (
-                <ContactCard key={location.id} location={location} index={index} />
-              ))}
-            </div>
+            <ContactInfoCard />
 
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              whileHover={{ scale: 1.01 }}
+              className="mt-6 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-xl border border-gray-800/50 p-6 shadow-xl"
+            >
+              <h3 className="text-lg font-bold text-white mb-5">Connect With Us</h3>
+              <div className="flex justify-center gap-4">
+                <motion.a
+                  href="https://www.linkedin.com/company/104800214/admin/dashboard/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -6, scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="group relative w-14 h-14 rounded-xl flex items-center justify-center 
+                           bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  aria-label="LinkedIn"
+                >
+                  <FaLinkedin className="w-7 h-7" />
+                  <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    LinkedIn
+                  </span>
+                </motion.a>
 
+                <motion.a
+                  href="https://www.facebook.com/p/QualifyLearn-61566245874078/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -6, scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="group relative w-14 h-14 rounded-xl flex items-center justify-center 
+                           bg-gradient-to-br from-blue-700 to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  aria-label="Facebook"
+                >
+                  <FaFacebook className="w-7 h-7" />
+                  <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    Facebook
+                  </span>
+                </motion.a>
+
+                <motion.a
+                  href="https://www.instagram.com/qualifylearn/?hl=en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -6, scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="group relative w-14 h-14 rounded-xl flex items-center justify-center 
+                           bg-gradient-to-br from-pink-600 via-purple-600 to-orange-500 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  aria-label="Instagram"
+                >
+                  <FaInstagram className="w-7 h-7" />
+                  <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    Instagram
+                  </span>
+                </motion.a>
+              </div>
+              
+              <p className="text-center text-gray-400 text-sm mt-8">
+                Follow us for updates, announcements, and educational content
+              </p>
+            </motion.div>
           </div>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -308,25 +434,202 @@ const ContactPage = () => {
               <div className="bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-2xl">
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-white mb-3">
-                    Send Message to {locations.find(l => l.id === activeLocation)?.name}
+                    Send Us a Message
                   </h2>
                   <p className="text-gray-400 text-sm leading-relaxed">
                     Our dedicated team responds within 2 hours during business days
                   </p>
                 </div>
 
-                {/* The ContactForm component already has all the requested fields */}
-                <ContactForm
-                  location={activeLocation}
-                  fields={['name', 'email', 'phone', 'country', 'course', 'message', 'consent']}
-                  buttonText="Submit Application for Expert Guidance"
-                />
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 
+                                 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300
+                                 disabled:opacity-50 disabled:cursor-not-allowed"
+                        placeholder="Enter your full name"
+                      />
+                    </motion.div>
 
-                {/* Quick Response Guarantee */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.15 }}
+                    >
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 
+                                 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300
+                                 disabled:opacity-50 disabled:cursor-not-allowed"
+                        placeholder="Enter your email"
+                      />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Phone Number *
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        required
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 
+                                 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300
+                                 disabled:opacity-50 disabled:cursor-not-allowed"
+                        placeholder="Enter your phone number"
+                      />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.25 }}
+                    >
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Country *
+                      </label>
+                      <input
+                        type="text"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleInputChange}
+                        required
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 
+                                 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300
+                                 disabled:opacity-50 disabled:cursor-not-allowed"
+                        placeholder="Enter your country"
+                      />
+                    </motion.div>
+                  </div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Course Interested In
+                    </label>
+                    <input
+                      type="text"
+                      name="course"
+                      value={formData.course}
+                      onChange={handleInputChange}
+                      disabled={isSubmitting}
+                      className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 
+                               focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300
+                               disabled:opacity-50 disabled:cursor-not-allowed"
+                      placeholder="Which course are you interested in?"
+                    />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35 }}
+                  >
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Message *
+                    </label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      required
+                      rows="4"
+                      disabled={isSubmitting}
+                      className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 
+                               focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300
+                               disabled:opacity-50 disabled:cursor-not-allowed"
+                      placeholder="Tell us about your inquiry..."
+                    />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="flex items-start space-x-3"
+                  >
+                    <input
+                      type="checkbox"
+                      id="consent"
+                      name="consent"
+                      checked={formData.consent}
+                      onChange={handleInputChange}
+                      required
+                      disabled={isSubmitting}
+                      className="mt-1 w-4 h-4 text-blue-600 bg-gray-800 border-gray-700 rounded focus:ring-blue-600 focus:ring-offset-gray-900
+                               disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                    <label htmlFor="consent" className="text-sm text-gray-400">
+                      I agree to receive emails and WhatsApp messages regarding my inquiry and other educational opportunities.
+                    </label>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45 }}
+                  >
+                    <motion.button
+                      type="submit"
+                      disabled={isSubmitting}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-lg 
+                               shadow-lg shadow-blue-500/30 hover:shadow-xl transition-all duration-300
+                               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Sending...
+                        </span>
+                      ) : (
+                        'Submit Application for Expert Guidance'
+                      )}
+                    </motion.button>
+                  </motion.div>
+                </form>
+
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
+                  transition={{ delay: 0.5 }}
                   className="mt-8 p-5 bg-gradient-to-r from-blue-900/20 to-cyan-900/10 rounded-xl border border-blue-500/30"
                 >
                   <div className="flex items-center gap-3 mb-2">
@@ -340,45 +643,10 @@ const ContactPage = () => {
                   </div>
                 </motion.div>
               </div>
-
-              {/* Social Links */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                whileHover={{ scale: 1.01 }}
-                className="mt-6 bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-lg rounded-xl border border-gray-800/50 p-6 shadow-xl"
-              >
-                <h3 className="text-lg font-bold text-white mb-5">Connect With Us</h3>
-                <div className="flex justify-center gap-4">
-                  {[
-                    { icon: FaLinkedin, color: 'from-blue-700 to-blue-800', label: 'LinkedIn' },
-                    { icon: FaTwitter, color: 'from-sky-700 to-sky-800', label: 'Twitter' },
-                    { icon: FaInstagram, color: 'from-pink-700 to-pink-800', label: 'Instagram' },
-                    { icon: FaWhatsapp, color: 'from-green-700 to-green-800', label: 'WhatsApp' }
-                  ].map((social, idx) => (
-                    <motion.a
-                      key={social.label}
-                      href="#"
-                      whileHover={{ y: -4, scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`bg-gradient-to-br ${social.color} w-12 h-12 rounded-xl flex items-center justify-center 
-                               text-white shadow-lg hover:shadow-xl transition-all duration-300`}
-                      aria-label={social.label}
-                    >
-                      <social.icon className="w-6 h-6" />
-                    </motion.a>
-                  ))}
-                </div>
-                <p className="text-center text-gray-400 text-sm mt-5">
-                  Follow us for updates and announcements
-                </p>
-              </motion.div>
             </motion.div>
           </div>
         </div>
 
-        {/* FAQ Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
