@@ -27,36 +27,23 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
-/* ===================== CORS (FINAL & CORRECT) ===================== */
+/* ===================== CORS (RENDER-PROOF) ===================== */
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "https://qualifylearn.com",
-  "https://www.qualifylearn.com",
-  "https://qualifylearn-backend.onrender.com",
-];
+/**
+ * ⚠️ DO NOT restrict origins in code for payment APIs
+ * Security is handled by Stripe/PayPal keys
+ */
+app.use(
+  cors({
+    origin: true, // 🔥 reflect request origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: false, // IMPORTANT: must be false
+  })
+);
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow server-to-server calls, curl, PayPal webhooks
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(new Error("CORS not allowed"));
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions));
-
-// ✅ THIS IS THE ONLY CORRECT WAY
-app.options("*", cors(corsOptions));
+// ✅ Explicit preflight handler
+app.options("*", cors());
 
 /* ===================== RATE LIMITING ===================== */
 
@@ -90,13 +77,6 @@ app.get("/api/health", (req, res) => {
 /* ===================== ERROR HANDLER ===================== */
 
 app.use((err, req, res, next) => {
-  if (err.message === "CORS not allowed") {
-    return res.status(403).json({
-      success: false,
-      message: "CORS blocked this request",
-    });
-  }
-
   console.error("Server error:", err);
   res.status(500).json({
     success: false,
@@ -108,6 +88,4 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 QualifyLearn backend running on PORT ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`📁 Data directory: ${dataDir}`);
 });
