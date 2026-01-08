@@ -2,26 +2,24 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  Lock, 
-  Shield, 
-  CreditCard, 
-  CheckCircle, 
-  XCircle,
-  ArrowLeft,
-  Sparkles,
-  Calendar,
-  Clock,
-  Award,
-  Zap,
-  AlertCircle,
-  Loader2,
-  User,
-  Mail,
-  Phone,
-  Globe,
-  DollarSign,
-  ChevronRight
+  Lock, Shield, CreditCard, CheckCircle, XCircle, ArrowLeft,
+  Sparkles, Calendar, Clock, Award, Zap, AlertCircle,
+  Loader2, User, Mail, Phone, Globe, DollarSign, ChevronRight
 } from 'lucide-react';
+
+/* ✅ BACKEND URL (NO ENV, NO FALLBACK) */
+const API_BASE_URL = "https://qualifylearn-backend.onrender.com";
+
+/* ✅ SAFE JSON PARSER */
+async function safeJson(res) {
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    console.error("❌ RAW RESPONSE (NOT JSON):", text);
+    throw new Error("Server did not return JSON");
+  }
+}
 
 function useQuery() {
   const { search } = useLocation();
@@ -37,14 +35,12 @@ function Payment() {
   const [paymentMethod, setPaymentMethod] = useState('');
 
   const course = query.get('course') || 'QualifyLearn Course Enrollment';
-  const courseId = query.get('id') || '';
   const price = Number(query.get('price') || 99);
   const currency = query.get('currency') || 'USD';
   const originalAmount = query.get('originalAmount') || String(price);
   const month = query.get('month') || 'December';
   const date = query.get('date') || '8';
-  
-  // User details
+
   const name = query.get('name') || '';
   const email = query.get('email') || '';
   const phone = query.get('phone') || '';
@@ -56,47 +52,31 @@ function Payment() {
     'PhD Program': { icon: <Sparkles className="w-5 h-5" />, color: 'from-emerald-500 to-green-500' },
     'MBA (Master)': { icon: <Zap className="w-5 h-5" />, color: 'from-amber-500 to-orange-500' },
     'DBA Program': { icon: <CreditCard className="w-5 h-5" />, color: 'from-rose-500 to-pink-500' },
-    
   };
 
-  const courseDetail = courseDetails[course] || courseDetails['QualifyLearn Course Enrollment'];
+  const courseDetail = courseDetails[course] || courseDetails['Honorary Doctorate'];
 
+  /* ================= PAYPAL RETURN ================= */
   useEffect(() => {
-    const token = query.get('token');
-    const payerId = query.get('PayerID');
-    const statusParam = query.get('status');
-    
-    // PayPal redirects with either 'token' (order ID) or 'PayerID'
-    const orderId = token || payerId;
-    
-    if (statusParam === 'success' && orderId) {
+    const orderId = query.get('token') || query.get('PayerID');
+    if (query.get('status') === 'success' && orderId) {
       setPaymentMethod('PayPal');
       (async () => {
         try {
           setLoading(true);
-          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-          const res = await fetch(`${apiUrl}/api/paypal/capture-order`, {
+          const res = await fetch(`${API_BASE_URL}/api/paypal/capture-order`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orderId: orderId })
+            body: JSON.stringify({ orderId })
           });
 
-          if (!res.ok) {
-            const errorData = await res.json().catch(() => ({ message: `HTTP ${res.status}: ${res.statusText}` }));
-            throw new Error(errorData.message || `Server error: ${res.status}`);
-          }
+          const data = await safeJson(res);
+          if (!res.ok) throw new Error(data.message);
 
-          const data = await res.json();
-          if (data.success) {
-            setMessage('Payment successful! Your enrollment is confirmed.');
-            setStatus('success');
-          } else {
-            setMessage(data.message || 'Failed to complete PayPal payment');
-            setStatus('error');
-          }
+          setMessage('Payment successful! Your enrollment is confirmed.');
+          setStatus('success');
         } catch (e) {
-          console.error('PayPal capture error:', e);
-          setMessage(e.message || 'Network error capturing PayPal payment');
+          setMessage(e.message);
           setStatus('error');
         } finally {
           setLoading(false);
@@ -105,111 +85,57 @@ function Payment() {
     }
   }, [query]);
 
+  /* ================= PAYPAL ================= */
   const handlePayPal = async () => {
     try {
       setLoading(true);
-      setMessage('');
       setPaymentMethod('PayPal');
-      
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      const res = await fetch(`${apiUrl}/api/paypal/create-order`, {
+      setMessage('');
+
+      const res = await fetch(`${API_BASE_URL}/api/paypal/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          amount: price, 
-          currency: 'USD',
-          course,
-          name,
-          email,
-          phone,
-          country
-        })
+        body: JSON.stringify({ amount: price, currency: 'USD', course, name, email, phone, country })
       });
 
-      const data = await res.json();
-      
-      if (!res.ok) {
-        // Server returned an error
-        const errorMessage = data.message || data.error || `Server error: ${res.status} ${res.statusText}`;
-        console.error('PayPal server error:', {
-          status: res.status,
-          statusText: res.statusText,
-          error: data.error,
-          message: data.message,
-          fullResponse: data
-        });
-        throw new Error(errorMessage);
-      }
+      const data = await safeJson(res);
+      if (!res.ok) throw new Error(data.message);
 
-      if (data.success && data.approveUrl) {
-        window.location.href = data.approveUrl;
-      } else {
-        const errorMessage = data.message || data.error || 'Failed to start PayPal checkout';
-        console.error('PayPal response error:', data);
-        setMessage(errorMessage);
-        setStatus('error');
-      }
+      window.location.href = data.approveUrl;
     } catch (e) {
-      console.error('PayPal checkout error:', e);
-      // Show more detailed error message
-      let errorMessage = e.message || 'Network error starting PayPal checkout.';
-      
-      // Add helpful hints based on error
-      if (e.message?.includes('credentials') || e.message?.includes('not configured')) {
-        errorMessage += ' Please check PayPal configuration on the server.';
-      } else if (e.message?.includes('Network') || e.message?.includes('fetch')) {
-        errorMessage += ' Please check your connection and try again.';
-      }
-      
-      setMessage(errorMessage);
+      setMessage(e.message);
       setStatus('error');
     } finally {
       setLoading(false);
     }
   };
 
+  /* ================= STRIPE ================= */
   const handleStripe = async () => {
     try {
       setLoading(true);
-      setMessage('');
       setPaymentMethod('Stripe');
-      
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      const res = await fetch(`${apiUrl}/api/stripe/create-checkout-session`, {
+      setMessage('');
+
+      const res = await fetch(`${API_BASE_URL}/api/stripe/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          course, 
-          price, 
-          currency: 'usd',
-          name,
-          email,
-          phone,
-          country
-        })
+        body: JSON.stringify({ course, price, currency: 'usd', name, email, phone, country })
       });
 
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({ message: `HTTP ${res.status}: ${res.statusText}` }));
-        throw new Error(errorData.message || `Server error: ${res.status}`);
-      }
+      const data = await safeJson(res);
+      if (!res.ok) throw new Error(data.message);
 
-      const data = await res.json();
-      if (data.success && data.url) {
-        window.location.href = data.url;
-      } else {
-        setMessage(data.message || 'Failed to start Stripe checkout');
-        setStatus('error');
-      }
+      window.location.href = data.url;
     } catch (e) {
-      console.error('Stripe checkout error:', e);
-      setMessage(e.message || 'Network error starting Stripe checkout. Please check your connection and try again.');
+      setMessage(e.message);
       setStatus('error');
     } finally {
       setLoading(false);
     }
   };
 
+  /* ================= UI (UNCHANGED) ================= */
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
