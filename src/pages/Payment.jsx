@@ -24,6 +24,28 @@ async function safeJson(res) {
   }
 }
 
+// Helper function to get currency symbol
+const getCurrencySymbol = (currencyCode) => {
+  switch (currencyCode?.toUpperCase()) {
+    case 'USD':
+      return '$';
+    case 'GBP':
+      return '£';
+    case 'EUR':
+      return '€';
+    case 'JPY':
+      return '¥';
+    case 'INR':
+      return '₹';
+    case 'CAD':
+      return 'CA$';
+    case 'AUD':
+      return 'A$';
+    default:
+      return currencyCode ? `${currencyCode} ` : '';
+  }
+};
+
 function useQuery() {
   const { search } = useLocation();
   return useMemo(() => new URLSearchParams(search), [search]);
@@ -98,7 +120,15 @@ function Payment() {
       const res = await fetch(`${API_BASE_URL}/api/paypal/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: price, currency: 'USD', course, name, email, phone, country })
+        body: JSON.stringify({ 
+          amount: price, 
+          currency: currency,  // Changed from 'USD' to use original currency
+          course, 
+          name, 
+          email, 
+          phone, 
+          country 
+        })
       });
 
       const data = await safeJson(res);
@@ -120,10 +150,21 @@ function Payment() {
       setPaymentMethod('Stripe');
       setMessage('');
 
+      // Convert currency code to Stripe format (lowercase)
+      const stripeCurrency = currency.toLowerCase();
+      
       const res = await fetch(`${API_BASE_URL}/api/stripe/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ course, price, currency: 'usd', name, email, phone, country })
+        body: JSON.stringify({ 
+          course, 
+          price, 
+          currency: stripeCurrency,  // Use original currency
+          name, 
+          email, 
+          phone, 
+          country 
+        })
       });
 
       const data = await safeJson(res);
@@ -138,7 +179,7 @@ function Payment() {
     }
   };
 
-  /* ================= UI (UNCHANGED) ================= */
+  /* ================= UI ================= */
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -194,7 +235,6 @@ function Payment() {
                           <p className="font-medium text-slate-900">{name}</p>
                         </div>
                       </div>
-
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 pl-12">
@@ -232,30 +272,27 @@ function Payment() {
                   </div>
                 </div>
 
-                {/* Pricing Summary */}
+                {/* Pricing Summary - UPDATED TO SHOW ORIGINAL CURRENCY ONLY */}
                 <div className="border-t border-slate-100 pt-6">
                   <h3 className="text-sm font-semibold text-slate-900 mb-4">Payment Summary</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-slate-600">Program Fee</span>
                       <div className="text-right">
-                        <span className="text-slate-900 font-medium">${price}</span>
-                        {currency !== 'USD' && (
-                          <div className="text-xs text-slate-400 mt-1">
-                            ≈ {currency === 'GBP' ? '£' : '€'}{originalAmount} {currency}
-                          </div>
-                        )}
+                        <span className="text-slate-900 font-medium">
+                          {getCurrencySymbol(currency)}{price}
+                        </span>
+                        <div className="text-xs text-slate-400 mt-1">{currency}</div>
                       </div>
                     </div>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-slate-600">Processing Fee</span>
-                      <span className="text-slate-900">$0.00</span>
-                    </div>
+                   
                     <div className="border-t border-slate-200 pt-3">
                       <div className="flex justify-between items-center">
                         <span className="font-bold text-slate-900">Total</span>
                         <div className="text-right">
-                          <div className="text-xl font-bold text-slate-900">${price}</div>
+                          <div className="text-xl font-bold text-slate-900">
+                            {getCurrencySymbol(currency)}{price}
+                          </div>
                           <div className="text-xs text-slate-500">One-time payment</div>
                         </div>
                       </div>
@@ -376,11 +413,13 @@ function Payment() {
                   </motion.button>
                 </div>
 
-                {/* Payment Amount Display */}
+                {/* Payment Amount Display - UPDATED TO SHOW ORIGINAL CURRENCY */}
                 <div className="mt-8 pt-6 border-t border-slate-100">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-slate-600">Amount to pay</span>
-                    <span className="text-lg font-bold text-slate-900">${price}</span>
+                    <span className="text-lg font-bold text-slate-900">
+                      {getCurrencySymbol(currency)}{price}
+                    </span>
                   </div>
                   <p className="text-xs text-slate-400 text-center">
                     You'll be redirected to the secure payment page

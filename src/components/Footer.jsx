@@ -4,7 +4,7 @@
  */
 
 import { Link } from 'react-router-dom';
-import logoImage from '../assets/logo.jpeg';
+import logoImage from '../assets/logo.png';
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from 'lucide-react';
 
 function Footer() {
@@ -35,14 +35,16 @@ function Footer() {
         {/* Main Footer Grid - 4 columns layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
 
-          {/* Column 1: Brand Logo and Description */}
+          {/* Column 1: Brand Logo and Description - ENLARGED LOGO */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <img
-                src={logoImage}
-                alt="Quality Learning Logo"
-                className="h-20 w-auto brightness-110 contrast-125"
-              />
+              <div className="flex items-center">
+                <img
+                  src={logoImage}
+                  alt="Quality Learning Logo"
+                  className="h-48 w-auto brightness-110 contrast-125 object-contain max-w-full"
+                />
+              </div>
 
               <p className="text-gray-400 text-sm leading-relaxed">
                 Quality Learn envisions a world where education knows no boundaries.

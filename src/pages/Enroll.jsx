@@ -23,11 +23,15 @@ function useQuery() {
   return useMemo(() => new URLSearchParams(search), [search]);
 }
 
-// Currency exchange rates (approximate, you can update these or fetch from an API)
-const EXCHANGE_RATES = {
-  USD: 1,
-  GBP: 0.79,
-  EUR: 0.92
+// Currency symbols
+const CURRENCY_SYMBOLS = {
+  USD: '$',
+  GBP: '£',
+  EUR: '€',
+  JPY: '¥',
+  INR: '₹',
+  CAD: 'CA$',
+  AUD: 'A$'
 };
 
 // Program options
@@ -58,13 +62,6 @@ function Enroll() {
   const [currency, setCurrency] = useState('USD');
   const [amount, setAmount] = useState(Number.isFinite(suggestedPrice) ? suggestedPrice : 99);
   const [error, setError] = useState('');
-
-  // Calculate USD equivalent
-  const usdAmount = useMemo(() => {
-    const numericAmount = Number(amount);
-    if (!Number.isFinite(numericAmount) || numericAmount <= 0) return 0;
-    return (numericAmount / EXCHANGE_RATES[currency]).toFixed(2);
-  }, [amount, currency]);
 
   const handlePay = () => {
     // Validation
@@ -100,19 +97,19 @@ function Enroll() {
     // Get selected program label
     const selectedProgram = PROGRAM_OPTIONS.find(p => p.value === program)?.label || program;
 
-    // Pass all details to payment page
+    // FIXED: Pass the ORIGINAL amount, not USD-converted amount
     const payUrl = `/pay?course=${encodeURIComponent(course || selectedProgram)}` +
       `&id=${encodeURIComponent(courseId)}` +
       `&month=${encodeURIComponent(month)}` +
       `&date=${encodeURIComponent(date)}` +
-      `&price=${encodeURIComponent(String(usdAmount))}` +
+      `&price=${encodeURIComponent(String(amount))}` + // Pass original amount
       `&name=${encodeURIComponent(name)}` +
       `&email=${encodeURIComponent(email)}` +
       `&phone=${encodeURIComponent(phone)}` +
       `&country=${encodeURIComponent(country)}` +
       `&program=${encodeURIComponent(program)}` +
       `&currency=${encodeURIComponent(currency)}` +
-      `&originalAmount=${encodeURIComponent(String(amount))}`;
+      `&originalAmount=${encodeURIComponent(String(amount))}`; // Same as price
 
     navigate(payUrl);
   };
@@ -320,10 +317,9 @@ function Enroll() {
                         key={curr}
                         onClick={() => {
                           setCurrency(curr);
-                          // Convert current amount to new currency
-                          const currentUSD = Number(usdAmount);
-                          const newAmount = (currentUSD * EXCHANGE_RATES[curr]).toFixed(2);
-                          setAmount(newAmount);
+                          // When switching currencies, keep the same numeric value
+                          // (e.g., 100 USD becomes 100 EUR, not converted)
+                          setAmount(amount);
                         }}
                         className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                           currency === curr
@@ -345,7 +341,7 @@ function Enroll() {
                     <div className="relative flex-1">
                       <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                         <span className="text-slate-500 font-medium">
-                          {currency === 'USD' ? '$' : currency === 'GBP' ? '£' : '€'}
+                          {CURRENCY_SYMBOLS[currency] || currency}
                         </span>
                       </div>
                       <input
@@ -360,9 +356,6 @@ function Enroll() {
                       />
                     </div>
                   </div>
-                  
-                  {/* USD Equivalent */}
-                  
                 </div>
 
                 {error && (
@@ -419,11 +412,6 @@ function Enroll() {
                       <div className="text-xs text-slate-500 mt-0.5">PayPal & Credit/Debit Cards</div>
                     </div>
                   </div>
-
-                  <div className="flex items-start gap-3">
-                    
-                    
-                  </div>
                 </div>
               </div>
 
@@ -445,7 +433,6 @@ function Enroll() {
                       onClick={() => setProgram(programOption.value)}
                     >
                       <div className="font-medium text-slate-900">{programOption.label}</div>
-                      
                     </div>
                   ))}
                 </div>

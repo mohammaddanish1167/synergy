@@ -7,7 +7,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import logo from '../assets/logo.jpeg';
+import logo from '../assets/logo.png';
 import { 
   ChevronDown, 
   ChevronUp, 
@@ -152,8 +152,8 @@ function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
-            {/* Logo - Clean and minimal with increased size */}
+          <div className="flex justify-between items-center h-28">
+            {/* Logo - Significantly increased size */}
             <Link to="/" className="group">
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -163,16 +163,16 @@ function Navbar() {
               >
                 {logoError ? (
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
-                      <span className="text-xl font-bold text-white">QL</span>
+                    <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
+                      <span className="text-3xl font-bold text-white">QL</span>
                     </div>
-                    <span className="text-2xl font-bold text-blue-800 hidden sm:block">QualifyLearn</span>
+                    <span className="text-3xl font-bold text-blue-800 hidden sm:block">QualifyLearn</span>
                   </div>
                 ) : (
                   <img 
                     src={logo} 
                     alt="Qualify Learn" 
-                    className="h-16 w-auto transition-all duration-300 group-hover:opacity-90"
+                    className="h-28 w-auto transition-all duration-300 group-hover:opacity-90"
                     onError={handleLogoError}
                     onLoad={() => setLogoError(false)}
                   />
@@ -446,21 +446,21 @@ function Navbar() {
               className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-gradient-to-b from-white via-blue-50/20 to-white shadow-2xl z-50 md:hidden overflow-y-auto"
             >
               <div className="flex flex-col h-full">
-                {/* Mobile menu header */}
+                {/* Mobile menu header - Increased logo size */}
                 <div className="p-6 border-b border-blue-100 bg-gradient-to-r from-white to-blue-50/30">
                   <div className="flex items-center justify-between mb-6">
                     <Link to="/" onClick={() => setIsOpen(false)}>
                       {logoError ? (
                         <div className="flex items-center gap-2">
-                          <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
-                            <span className="text-xl font-bold text-white">QL</span>
+                          <div className="w-24 h-24 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
+                            <span className="text-4xl font-bold text-white">QL</span>
                           </div>
                         </div>
                       ) : (
                         <img 
                           src={logo} 
                           alt="Qualify Learn" 
-                          className="h-16 w-auto"
+                          className="h-28 w-auto"
                           onError={handleLogoError}
                         />
                       )}
