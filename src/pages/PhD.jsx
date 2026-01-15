@@ -647,7 +647,7 @@ function PhD() {
               {/* Web3Forms Form */}
               <form onSubmit={handleSubmit} className="space-y-6" id="phdApplicationForm">
                 {/* Web3Forms Hidden Inputs */}
-                <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                <input type="hidden" name="access_key" value="3a244af2-b695-4c44-939a-c4411ee35f37" />
                 <input type="hidden" name="subject" value="New PhD Program Application" />
                 <input type="hidden" name="from_name" value="PhD Program Website" />
                 <input type="hidden" name="redirect" value="true" />

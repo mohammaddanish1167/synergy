@@ -144,7 +144,7 @@ function HonoraryProfessorship() {
       const formDataObj = new FormData();
       
       // Add Web3Forms required fields
-      formDataObj.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
+      formDataObj.append('access_key', '3a244af2-b695-4c44-939a-c4411ee35f37');
       formDataObj.append('subject', 'New Honorary Professorship Application');
       formDataObj.append('from_name', 'QualifyLearn Website');
       formDataObj.append('honeypot', '');

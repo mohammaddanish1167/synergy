@@ -551,7 +551,6 @@ function MBA() {
           </div>
         </section>
       </div>
-
       {/* Program Formats Section */}
       <section className="py-20 bg-gradient-to-b from-blue-50/50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -561,48 +560,7 @@ function MBA() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 text-sm font-semibold mb-6">
-              <Settings className="w-5 h-5" />
-              FLEXIBLE PROGRAM FORMATS
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Choose Your <span className="text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text">Learning Path</span>
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Select the MBA format that aligns with your career stage and lifestyle.
-            </p>
           </motion.div>
-
-          {/* Program Formats Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            {programFormats.map((format, index) => (
-              <motion.div
-                key={format.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.2 } }}
-                className="relative group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
-                <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-slate-100 group-hover:shadow-2xl transition-all duration-300">
-                  <div className="text-4xl mb-4">{format.icon}</div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">{format.title}</h3>
-                  <p className="text-slate-600 mb-6">{format.description}</p>
-                  <div className="space-y-2">
-                    {format.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-sm text-slate-600">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
           {/* Specialization Tracks */}
           <div>
             <h3 className="text-2xl font-bold text-slate-900 text-center mb-8">Specialization Tracks</h3>
@@ -747,7 +705,6 @@ function MBA() {
                   className="relative"
                 >
                   {/* Timeline Node */}
-                  <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-gradient-to-r ${step.gradient} shadow-lg hidden lg:block z-10`} />
                   
                   <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-slate-100 hover:border-blue-200 transition-all duration-300 group">
                     <div className={`absolute -top-4 -left-4 w-14 h-14 rounded-2xl bg-gradient-to-r ${step.gradient} flex items-center justify-center text-white font-bold text-xl shadow-lg`}>

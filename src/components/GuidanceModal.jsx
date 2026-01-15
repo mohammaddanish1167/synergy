@@ -11,21 +11,93 @@ import {
   FiCheck,
   FiGlobe,
   FiAward,
-  FiAlertCircle
+  FiAlertCircle,
+  FiMapPin,
+  FiFlag,
+  FiChevronDown
 } from 'react-icons/fi';
+
+// Import country data
+import countryList from 'react-select-country-list';
 
 function GuidanceModal({ open, onClose, defaultCourse = '' }) {
   const [form, setForm] = useState({
     name: '',
     email: '',
     phone: '',
+    countryCode: '+1', // Default to US
+    phoneNumber: '',
     country: '',
+    state: '',
     course: defaultCourse || '',
     message: '',
     consent: false,
   });
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+  const [countries, setCountries] = useState([]);
+  const [countryCodes, setCountryCodes] = useState([]);
+  const [showCountryCodeDropdown, setShowCountryCodeDropdown] = useState(false);
+  const [filteredCountryCodes, setFilteredCountryCodes] = useState([]);
+
+  // Initialize country data
+  useEffect(() => {
+    // Get all countries
+    const countryOptions = countryList().getData();
+    setCountries(countryOptions);
+    
+    // Common country codes
+    const codes = [
+      { code: '+1', country: 'United States', flag: '🇺🇸' },
+      { code: '+44', country: 'United Kingdom', flag: '🇬🇧' },
+      { code: '+91', country: 'India', flag: '🇮🇳' },
+      { code: '+61', country: 'Australia', flag: '🇦🇺' },
+      { code: '+49', country: 'Germany', flag: '🇩🇪' },
+      { code: '+33', country: 'France', flag: '🇫🇷' },
+      { code: '+86', country: 'China', flag: '🇨🇳' },
+      { code: '+81', country: 'Japan', flag: '🇯🇵' },
+      { code: '+82', country: 'South Korea', flag: '🇰🇷' },
+      { code: '+971', country: 'United Arab Emirates', flag: '🇦🇪' },
+      { code: '+65', country: 'Singapore', flag: '🇸🇬' },
+      { code: '+60', country: 'Malaysia', flag: '🇲🇾' },
+      { code: '+966', country: 'Saudi Arabia', flag: '🇸🇦' },
+      { code: '+27', country: 'South Africa', flag: '🇿🇦' },
+      { code: '+55', country: 'Brazil', flag: '🇧🇷' },
+      { code: '+34', country: 'Spain', flag: '🇪🇸' },
+      { code: '+39', country: 'Italy', flag: '🇮🇹' },
+      { code: '+31', country: 'Netherlands', flag: '🇳🇱' },
+      { code: '+41', country: 'Switzerland', flag: '🇨🇭' },
+      { code: '+46', country: 'Sweden', flag: '🇸🇪' },
+      { code: '+47', country: 'Norway', flag: '🇳🇴' },
+      { code: '+45', country: 'Denmark', flag: '🇩🇰' },
+      { code: '+358', country: 'Finland', flag: '🇫🇮' },
+      { code: '+7', country: 'Russia', flag: '🇷🇺' },
+      { code: '+20', country: 'Egypt', flag: '🇪🇬' },
+      { code: '+234', country: 'Nigeria', flag: '🇳🇬' },
+      { code: '+254', country: 'Kenya', flag: '🇰🇪' },
+      { code: '+92', country: 'Pakistan', flag: '🇵🇰' },
+      { code: '+880', country: 'Bangladesh', flag: '🇧🇩' },
+      { code: '+94', country: 'Sri Lanka', flag: '🇱🇰' },
+      { code: '+62', country: 'Indonesia', flag: '🇮🇩' },
+      { code: '+63', country: 'Philippines', flag: '🇵🇭' },
+      { code: '+84', country: 'Vietnam', flag: '🇻🇳' },
+      { code: '+66', country: 'Thailand', flag: '🇹🇭' },
+      { code: '+64', country: 'New Zealand', flag: '🇳🇿' },
+      { code: '+52', country: 'Mexico', flag: '🇲🇽' },
+      { code: '+1', country: 'Canada', flag: '🇨🇦' },
+      { code: '+90', country: 'Turkey', flag: '🇹🇷' },
+      { code: '+39', country: 'Italy', flag: '🇮🇹' },
+      { code: '+34', country: 'Spain', flag: '🇪🇸' },
+      { code: '+351', country: 'Portugal', flag: '🇵🇹' },
+      { code: '+48', country: 'Poland', flag: '🇵🇱' },
+      { code: '+420', country: 'Czech Republic', flag: '🇨🇿' },
+      { code: '+36', country: 'Hungary', flag: '🇭🇺' },
+      { code: '+40', country: 'Romania', flag: '🇷🇴' },
+      { code: '+30', country: 'Greece', flag: '🇬🇷' },
+    ];
+    setCountryCodes(codes);
+    setFilteredCountryCodes(codes);
+  }, []);
 
   useEffect(() => {
     const onEsc = (e) => {
@@ -57,21 +129,46 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
     setForm((f) => ({ ...f, consent: !f.consent }));
   };
 
+  const handleCountryCodeChange = (value) => {
+    setForm((f) => ({ ...f, countryCode: value }));
+    setShowCountryCodeDropdown(false);
+  };
+
+  const handleCountryCodeInput = (value) => {
+    setForm((f) => ({ ...f, countryCode: value }));
+    
+    // Filter country codes based on input
+    if (value) {
+      const filtered = countryCodes.filter(item => 
+        item.code.includes(value) || 
+        item.country.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredCountryCodes(filtered);
+    } else {
+      setFilteredCountryCodes(countryCodes);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     setStatus(null);
     
     try {
-      // Prepare data for Web3Forms
-      const formDataObject = {
-        access_key: '57f7ee33-9ae4-4e3e-ae91-018650618fcb',
+      // Combine country code and phone number
+      const fullPhone = form.countryCode + ' ' + form.phoneNumber;
+      
+      // Prepare base data
+      const baseData = {
         subject: `Academic Consultation Request - ${form.course || 'General Inquiry'}`,
         from_name: 'QualifyLearn Website',
         name: form.name,
         email: form.email,
-        phone: form.phone,
+        phone: fullPhone,
+        country_code: form.countryCode,
+        phone_number: form.phoneNumber,
         country: form.country,
+        state: form.state,
         course: form.course,
         message: form.message,
         consent: form.consent ? 'Agreed' : 'Not agreed',
@@ -83,24 +180,44 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
       };
 
       // Remove undefined/null values
-      Object.keys(formDataObject).forEach(key => {
-        if (formDataObject[key] === undefined || formDataObject[key] === null) {
-          delete formDataObject[key];
+      Object.keys(baseData).forEach(key => {
+        if (baseData[key] === undefined || baseData[key] === null) {
+          delete baseData[key];
         }
       });
 
-      const res = await fetch('https://api.web3forms.com/submit', {
+      // Create promises for both API submissions
+      const submission1 = fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify(formDataObject)
+        body: JSON.stringify({
+          ...baseData,
+          access_key: '3a244af2-b695-4c44-939a-c4411ee35f37'
+        })
       });
-      
-      const json = await res.json();
 
-      if (json.success) {
+      const submission2 = fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          ...baseData,
+          access_key: '39abe0c3-8f53-46e1-831e-74da0d049d2d'
+        })
+      });
+
+      // Send both requests in parallel
+      const [res1, res2] = await Promise.all([submission1, submission2]);
+      const json1 = await res1.json();
+      const json2 = await res2.json();
+
+      // Check if at least one submission succeeded
+      if (json1.success || json2.success) {
         setStatus({ 
           type: 'success', 
           title: 'Success!',
@@ -111,8 +228,10 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
         setForm({ 
           name: '', 
           email: '', 
-          phone: '', 
-          country: '',
+          phoneNumber: '', 
+          countryCode: '+1',
+          country: '', 
+          state: '',
           course: defaultCourse || '', 
           message: '', 
           consent: false,
@@ -121,9 +240,10 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
         setStatus({ 
           type: 'error', 
           title: 'Submission Failed',
-          message: json.message || 'Please try again or contact us directly.',
+          message: json1.message || json2.message || 'Please try again or contact us directly.',
         });
-        console.error('Web3Forms Error:', json);
+        console.error('Web3Forms Error 1:', json1);
+        console.error('Web3Forms Error 2:', json2);
       }
     } catch (err) {
       setStatus({ 
@@ -144,19 +264,6 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
     'MBA (Master)',
     'DBA Program',
     'Executive Education',
-  ];
-
-  const countryOptions = [
-    'United States',
-    'United Kingdom',
-    'Canada',
-    'Australia',
-    'Germany',
-    'France',
-    'India',
-    'United Arab Emirates',
-    'Singapore',
-    'Other'
   ];
 
   // Color mapping for course tags only
@@ -303,25 +410,94 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                     </div>
                   </div>
 
-                  {/* Phone and Country */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-800">
-                        Phone Number
-                      </label>
-                      <div className="relative group">
+                  {/* Phone Number with Country Code */}
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-800">
+                      Phone Number <span className="text-red-500">*</span>
+                    </label>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {/* Country Code - Custom input with dropdown */}
+                      <div className="relative">
+                        <div className="relative group">
+                          <FiFlag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-blue-500 transition-colors z-10" />
+                          <input
+                            type="text"
+                            name="countryCode"
+                            value={form.countryCode}
+                            onChange={(e) => handleCountryCodeInput(e.target.value)}
+                            onFocus={() => setShowCountryCodeDropdown(true)}
+                            required
+                            disabled={submitting}
+                            className="w-full pl-11 pr-10 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                            placeholder="+1"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowCountryCodeDropdown(!showCountryCodeDropdown)}
+                            disabled={submitting}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                          >
+                            <FiChevronDown className={`w-5 h-5 transition-transform ${showCountryCodeDropdown ? 'rotate-180' : ''}`} />
+                          </button>
+                        </div>
+                        
+                        {/* Dropdown for country codes */}
+                        {showCountryCodeDropdown && (
+                          <div className="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+                            <div className="p-2">
+                              <input
+                                type="text"
+                                placeholder="Search country or code..."
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                onChange={(e) => handleCountryCodeInput(e.target.value)}
+                                autoFocus
+                              />
+                            </div>
+                            {filteredCountryCodes.length > 0 ? (
+                              filteredCountryCodes.map((item) => (
+                                <button
+                                  key={`${item.code}-${item.country}`}
+                                  type="button"
+                                  onClick={() => handleCountryCodeChange(item.code)}
+                                  className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100 last:border-b-0"
+                                >
+                                  <span className="text-lg">{item.flag}</span>
+                                  <div className="flex-1">
+                                    <div className="font-medium text-gray-900">{item.country}</div>
+                                    <div className="text-sm text-gray-500">{item.code}</div>
+                                  </div>
+                                  {form.countryCode === item.code && (
+                                    <FiCheck className="w-5 h-5 text-blue-600" />
+                                  )}
+                                </button>
+                              ))
+                            ) : (
+                              <div className="px-4 py-3 text-center text-gray-500">
+                                No country codes found
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Phone Number */}
+                      <div className="relative group md:col-span-2">
                         <FiPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-blue-500 transition-colors" />
                         <input 
-                          name="phone" 
-                          value={form.phone} 
+                          name="phoneNumber" 
+                          value={form.phoneNumber} 
                           onChange={handleChange} 
+                          required
                           disabled={submitting}
                           className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
-                          placeholder="+1 (555) 123-4567"
+                          placeholder="(555) 123-4567"
                         />
                       </div>
                     </div>
-                    
+                  </div>
+
+                  {/* Country and State */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-2">
                       <label className="block text-sm font-semibold text-gray-800">
                         Country <span className="text-red-500">*</span>
@@ -337,12 +513,30 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                           className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <option value="" className="text-gray-400">Select your country</option>
-                          {countryOptions.map((country) => (
-                            <option key={country} value={country} className="text-gray-800 bg-white">
-                              {country}
+                          {countries.map((country) => (
+                            <option key={country.value} value={country.label} className="text-gray-800 bg-white">
+                              {country.label}
                             </option>
                           ))}
                         </select>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <label className="block text-sm font-semibold text-gray-800">
+                        State/Province <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative group">
+                        <FiMapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-blue-500 transition-colors" />
+                        <input 
+                          name="state" 
+                          value={form.state} 
+                          onChange={handleChange} 
+                          required
+                          disabled={submitting}
+                          className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                          placeholder="California / Maharashtra / etc."
+                        />
                       </div>
                     </div>
                   </div>
@@ -350,7 +544,7 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                   {/* Course Selection */}
                   <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-800">
-                      Program Interest
+                      Program Interest <span className="text-red-500">*</span>
                     </label>
                     <div className="relative group">
                       <FiBookOpen className="absolute left-3 top-4 transform text-gray-400 w-5 h-5 group-focus-within:text-blue-500 transition-colors" />
@@ -358,6 +552,7 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
                         name="course" 
                         value={form.course} 
                         onChange={handleChange}
+                        required
                         disabled={submitting}
                         className="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-3 focus:ring-blue-100 outline-none transition-all bg-white hover:border-gray-300 text-gray-900 appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       >

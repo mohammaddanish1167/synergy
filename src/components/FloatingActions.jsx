@@ -1,16 +1,12 @@
 import { motion } from 'framer-motion';
 import { MessageCircle, Phone } from 'lucide-react';
 
-
-const WHATSAPP_NUMBER = '1234567890';
-const WHATSAPP_TEXT = 'Hi%20QualifyLearn%2C%20I%20need%20guidance.';
-
 function FloatingActions() {
   return (
     <div className="fixed bottom-4 right-4 z-[200]">
       {/* WhatsApp button */}
       <motion.a
-        href={`https://wa.me/+44 7457417703 ?text=+44 7457417703 `}
+        href={`https://wa.me/447457417703?text=Hi%20QualifyLearn%2C%20I%20need%20guidance.`}
         target="_blank"
         rel="noreferrer"
         initial={{ opacity: 0, scale: 0 }}
@@ -42,7 +38,6 @@ function FloatingActions() {
           <div className="absolute inset-0 bg-green-400 rounded-full animate-ping opacity-60" />
         </div>
       </motion.a>
-      
     </div>
   );
 }

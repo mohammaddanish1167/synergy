@@ -47,7 +47,7 @@ const ContactPage = () => {
     try {
       // Prepare the data object for Web3Forms
       const formDataObject = {
-        access_key: '57f7ee33-9ae4-4e3e-ae91-018650618fcb',
+        access_key: '3a244af2-b695-4c44-939a-c4411ee35f37',
         subject: 'New Contact Message from QualifyLearn',
         from_name: 'QualifyLearn Website',
         name: formData.name,
