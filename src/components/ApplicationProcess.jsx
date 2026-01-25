@@ -17,63 +17,63 @@ function ApplicationProcess() {
   const steps = [
     {
       icon: FileText,
-      title: 'Share Your Profile',
-      subtitle: 'Submit CV/Resume or LinkedIn profile for initial assessment',
-      color: '#3B82F6',
-      gradient: 'from-blue-500 to-cyan-400',
+      title: 'Submit Your Credentials',
+      subtitle: 'Share your professional profile and academic achievements for comprehensive evaluation',
+      color: '#6366f1',
+      gradient: 'from-indigo-600 to-indigo-500',
       details: [
-        'Share your CV/Resume document',
-        'Submit LinkedIn profile link',
-        'Provide academic transcripts',
-        'Share professional achievements'
+        'Upload comprehensive CV/Resume',
+        'Provide LinkedIn professional profile',
+        'Submit academic transcripts and certifications',
+        'Share notable professional accomplishments'
       ],
-      duration: 'Quick submission',
-      iconBg: 'bg-blue-50'
+      duration: '5 minutes',
+      iconBg: 'bg-indigo-50'
     },
     {
       icon: Users,
-      title: 'DRC Review Process',
-      subtitle: 'Doctoral Review Committee evaluates your profile',
-      color: '#8B5CF6',
-      gradient: 'from-purple-500 to-pink-400',
+      title: 'Expert Committee Review',
+      subtitle: 'Our distinguished academic panel conducts thorough profile assessment',
+      color: '#8b5cf6',
+      gradient: 'from-purple-600 to-pink-500',
       details: [
-        'Academic background evaluation',
-        'Research potential assessment',
-        'Professional experience review',
-        'Overall profile analysis'
+        'Comprehensive academic credentials analysis',
+        'Research excellence and potential evaluation',
+        'Professional trajectory and impact assessment',
+        'Holistic profile strength determination'
       ],
-      duration: '3-5 business days',
+      duration: '2-4 business days',
       iconBg: 'bg-purple-50'
     },
     {
       icon: BarChart3,
-      title: 'Program & Scholarship',
-      subtitle: 'Receive personalized recommendations',
-      color: '#10B981',
-      gradient: 'from-emerald-500 to-teal-400',
+      title: 'Personalized Program Matching',
+      subtitle: 'Receive tailored recommendations aligned with your career objectives',
+      color: '#ec4899',
+      gradient: 'from-pink-500 to-rose-500',
       details: [
-        'Suitable doctoral programme recommendation',
-        'University partnership suggestions',
-        'Scholarship eligibility details',
-        'Personalized pathway planning'
+        'Optimal program pathway identification',
+        'Prestigious university partnership options',
+        'Scholarship and funding opportunity analysis',
+        'Customized academic roadmap development'
       ],
-      duration: 'Comprehensive review',
-      iconBg: 'bg-emerald-50'
+      duration: 'Detailed assessment',
+      iconBg: 'bg-pink-50'
     },
     {
       icon: PhoneCall,
-      title: 'Next Steps Guidance',
-      subtitle: 'Complete guidance for application process',
-      color: '#F59E0B',
-      gradient: 'from-amber-500 to-orange-400',
+      title: 'Comprehensive Application Support',
+      subtitle: 'Receive end-to-end guidance throughout your application journey',
+      color: '#6366f1',
+      gradient: 'from-indigo-500 to-purple-500',
       details: [
-        'Detailed application process walkthrough',
-        'Documentation requirements',
-        'Timeline and deadlines',
-        'Ongoing support commitment'
+        'Complete application process navigation',
+        'Essential documentation preparation',
+        'Strategic timeline and deadline management',
+        'Continuous mentorship and support'
       ],
-      duration: 'Ongoing support',
-      iconBg: 'bg-amber-50'
+      duration: 'Dedicated assistance',
+      iconBg: 'bg-indigo-50'
     }
   ];
 
@@ -89,13 +89,13 @@ function ApplicationProcess() {
     <section className="relative py-20 md:py-32 overflow-hidden bg-white">
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="h-full w-full bg-[linear-gradient(to_right,#3b82f6_1px,transparent_1px),linear-gradient(to_bottom,#3b82f6_1px,transparent_1px)] bg-[size:100px_100px]" />
+        <div className="h-full w-full bg-[linear-gradient(to_right,#6366f1_1px,transparent_1px),linear-gradient(to_bottom,#6366f1_1px,transparent_1px)] bg-[size:100px_100px]" />
       </div>
 
       {/* Floating Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-100 rounded-full blur-3xl"
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-100 rounded-full blur-3xl"
           animate={{
             y: [0, -40, 0],
             scale: [1, 1.1, 1],
@@ -107,7 +107,7 @@ function ApplicationProcess() {
           }}
         />
         <motion.div
-          className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-100 rounded-full blur-3xl"
+          className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-pink-100 rounded-full blur-3xl"
           animate={{
             y: [0, 40, 0],
             scale: [1, 1.1, 1],
@@ -128,11 +128,11 @@ function ApplicationProcess() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full border border-blue-100 mb-8"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-100/80 to-purple-100/80 rounded-full border border-indigo-200/50 shadow-luxury mb-8"
           >
-            <Sparkles className="w-4 h-4 text-blue-500" />
-            <span className="text-sm font-semibold text-blue-700 uppercase tracking-wider">
-              Doctoral Application Journey
+            <Sparkles className="w-4 h-4 text-indigo-600" />
+            <span className="text-sm font-semibold text-indigo-700 uppercase tracking-wider">
+              Elite Application Pathway
             </span>
           </motion.div>
 
@@ -140,11 +140,12 @@ function ApplicationProcess() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6"
+            className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6"
+            style={{ fontFamily: 'Playfair Display, serif' }}
           >
-            <span className="block">Streamlined</span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600">
-              Doctoral Admission Process
+            <span className="block">Simplified</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+              Admission Excellence
             </span>
           </motion.h1>
 
@@ -153,9 +154,9 @@ function ApplicationProcess() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto"
+            className="text-xl md:text-2xl text-slate-700 max-w-3xl mx-auto"
           >
-            Four structured steps to guide you through your doctoral journey with personalized support
+            A refined four-step pathway designed to streamline your journey toward academic distinction with dedicated expert guidance
           </motion.p>
         </div>
 
@@ -163,9 +164,9 @@ function ApplicationProcess() {
         <div className="hidden lg:block">
           <div className="relative">
             {/* Connecting Line */}
-            <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-emerald-200 transform -translate-y-1/2">
+            <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 transform -translate-y-1/2">
               <motion.div
-                className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500"
+                className="absolute top-0 left-0 h-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500"
                 animate={{
                   width: ["0%", "100%"],
                 }}
@@ -202,7 +203,7 @@ function ApplicationProcess() {
                   </motion.div>
 
                   {/* Step Card */}
-                  <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mt-8">
+                  <div className="bg-white rounded-2xl shadow-luxury border border-gray-200/50 overflow-hidden mt-8 hover:shadow-luxury-lg transition-all duration-300">
                     {/* Header */}
                     <div className="p-6 border-b border-gray-100">
                       <div className="text-center">
@@ -249,9 +250,9 @@ function ApplicationProcess() {
                           }}
                           transition={{ duration: 1.5, repeat: Infinity }}
                         >
-                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
-                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
-                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600" />
                         </motion.div>
                       </div>
                     </div>
@@ -272,7 +273,7 @@ function ApplicationProcess() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden"
+                className="bg-white rounded-2xl shadow-luxury border border-gray-200/50 overflow-hidden hover:shadow-luxury-lg transition-all duration-300"
               >
                 {/* Step Header */}
                 <div className={`p-6 ${step.iconBg} border-b border-gray-100`}>
@@ -324,7 +325,7 @@ function ApplicationProcess() {
                 {/* Active Indicator */}
                 {activeIndex === index && (
                   <motion.div
-                    className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500"
+                    className="h-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 0.5 }}
@@ -341,10 +342,10 @@ function ApplicationProcess() {
           whileInView={{ opacity: 1, scaleX: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.5 }}
-          className="relative h-1 bg-gradient-to-r from-blue-200 via-purple-200 to-emerald-200 rounded-full max-w-md mx-auto mt-16"
+          className="relative h-1 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 rounded-full max-w-md mx-auto mt-16"
         >
           <motion.div
-            className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 rounded-full"
+            className="absolute top-0 left-0 h-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-full"
             animate={{
               width: ["0%", "100%"],
             }}

@@ -384,7 +384,7 @@ function MBA() {
       const web3formsData = new FormData();
       
       // Add Web3Forms access key
-      web3formsData.append('access_key', '57f7ee33-9ae4-4e3e-ae91-018650618fcb');
+      web3formsData.append('access_key', '20396432-2a2f-49ed-b82d-c598bfaf2238');
       
       // Add form data with proper field names
       web3formsData.append('name', formData.name);
@@ -772,7 +772,7 @@ function MBA() {
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Web3Forms Hidden Inputs */}
-                <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                <input type="hidden" name="access_key" value="20396432-2a2f-49ed-b82d-c598bfaf2238" />
                 <input type="hidden" name="subject" value="MBA Program Application" />
                 
                 <div className="grid md:grid-cols-2 gap-6">

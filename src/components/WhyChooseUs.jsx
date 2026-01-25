@@ -52,7 +52,7 @@ export default function WhyChooseUs() {
   }, []);
 
   return (
-    <section className="relative py-24 bg-gradient-to-b from-gray-900 via-black to-gray-900 overflow-hidden">
+    <section className="relative py-24 bg-gradient-to-b from-white via-indigo-50/10 to-purple-50/10 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid opacity-20"></div>
       
@@ -65,171 +65,27 @@ export default function WhyChooseUs() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 backdrop-blur-sm border border-gray-800 rounded-full mb-8">
-            <Shield className="w-5 h-5 text-green-500" />
-            <span className="text-sm text-gray-300 font-medium">
-              Trusted by Professionals Worldwide
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-100/80 backdrop-blur-sm border border-indigo-200/50 rounded-full mb-8 shadow-luxury">
+            <Shield className="w-5 h-5 text-indigo-600" />
+            <span className="text-sm text-indigo-700 font-medium">
+              Trusted by Elite Professionals Worldwide
             </span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
             Why Choose{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent animate-gradient">
-              QualifyLearn
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent animate-gradient">
+              Synergy Scholars Academia
             </span>
           </h2>
 
-          <p className="text-gray-400 text-xl max-w-3xl mx-auto">
-            Join thousands of successful professionals who transformed their careers with our globally recognized programs.
+          <p className="text-slate-700 text-xl max-w-3xl mx-auto">
+            Join an elite community of accomplished professionals who transformed their careers through our world-class programs and exceptional mentorship.
           </p>
         </motion.div>
 
         {/* ================= TRUSTPILOT PROMINENT SECTION ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <div className="bg-gradient-to-r from-emerald-900/30 to-emerald-800/20 border-2 border-emerald-600/30 rounded-3xl p-8 md:p-12 backdrop-blur-sm">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
-              
-              {/* Trustpilot Logo & Rating - Left Side */}
-              <div className="text-center lg:text-left lg:w-1/2">
-                <div className="mb-8">
-                  {/* Trustpilot Logo */}
-                  <div className="w-full max-w-sm mx-auto lg:mx-0 mb-8">
-                    <div className="text-white text-3xl font-bold">
-                      {/* Trustpilot Logo SVG */}
-                      <svg 
-                        width="300" 
-                        height="60" 
-                        viewBox="0 0 300 60"
-                        className="mx-auto lg:mx-0"
-                      >
-                        <defs>
-                          <linearGradient id="trustpilotGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#00b67a" />
-                            <stop offset="100%" stopColor="#5cb85c" />
-                          </linearGradient>
-                        </defs>
-                        <text 
-                          x="150" 
-                          y="40" 
-                          textAnchor="middle" 
-                          fill="url(#trustpilotGradient)" 
-                          fontFamily="Arial, sans-serif" 
-                          fontSize="42" 
-                          fontWeight="bold"
-                        >
-                          Trustpilot
-                        </text>
-                      </svg>
-                    </div>
-                  </div>
-                  
-                  {/* Rating Display */}
-                  <div className="flex flex-col items-center lg:items-start gap-6">
-                    <div className="flex items-center gap-4">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className="w-10 h-10 text-emerald-400 fill-emerald-400"
-                          />
-                        ))}
-                      </div>
-                      <div className="text-left">
-                        <div className="text-6xl font-bold text-white">4.7</div>
-                        <div className="text-emerald-300 font-semibold text-xl">Excellent</div>
-                      </div>
-                    </div>
-
-                    <a
-                      href="https://www.trustpilot.com/review/qualifylearn.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-3 px-10 py-5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-all duration-300 hover:scale-105 shadow-lg shadow-emerald-600/30"
-                    >
-                      <span className="text-lg">View Our Trustpilot</span>
-                      <ChevronRight className="w-5 h-5" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Google & Student Ratings - Right Side */}
-              <div className="lg:w-1/2">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  
-                  {/* Google Reviews */}
-                  <div className="bg-black/40 border border-gray-800 rounded-2xl p-8">
-                    <div className="flex flex-col items-center">
-                      {/* Google Logo */}
-                      <div className="w-40 h-12 mb-6">
-                        <svg 
-                          width="160" 
-                          height="48" 
-                          viewBox="0 0 160 48"
-                          className="mx-auto"
-                        >
-                          <text 
-                            x="80" 
-                            y="32" 
-                            textAnchor="middle" 
-                            fill="white" 
-                            fontFamily="Arial, sans-serif" 
-                            fontSize="32" 
-                            fontWeight="bold"
-                            className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent"
-                          >
-                            Google
-                          </text>
-                        </svg>
-                      </div>
-                      
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-6 h-6 text-amber-400 fill-amber-400" />
-                          ))}
-                        </div>
-                        <div className="text-left">
-                          <div className="text-3xl font-bold text-white">4.7</div>
-                        </div>
-                      </div>
-                      <p className="text-gray-400 text-sm">Professional Reviews</p>
-                    </div>
-                  </div>
-
-                  {/* Student Satisfaction */}
-                  <div className="bg-black/40 border border-gray-800 rounded-2xl p-8">
-                    <div className="flex flex-col items-center">
-                      {/* Student Icon */}
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600/20 to-purple-800/20 flex items-center justify-center mb-6">
-                        <Users className="w-8 h-8 text-purple-400" />
-                      </div>
-                      
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-6 h-6 text-purple-400 fill-purple-400" />
-                          ))}
-                        </div>
-                        <div className="text-left">
-                          <div className="text-3xl font-bold text-white">4.7</div>
-                        </div>
-                      </div>
-                      <p className="text-gray-400 text-sm">Student Satisfaction</p>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
+        
         {/* ================= FEATURES ================= */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
           {/* Rotating Feature Card */}
@@ -242,15 +98,15 @@ export default function WhyChooseUs() {
                   scale: activeIndex === index ? 1 : 0.95,
                 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-10 shadow-2xl"
+                className="absolute inset-0 bg-white/90 backdrop-blur-xl border border-gray-200/50 rounded-3xl p-10 shadow-luxury-lg"
               >
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center mb-8 text-blue-400">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-indigo-100 to-purple-100 flex items-center justify-center mb-8 text-indigo-600">
                   {feature.icon}
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
                   {feature.title}
                 </h3>
-                <p className="text-gray-400 text-lg">{feature.description}</p>
+                <p className="text-slate-700 text-lg">{feature.description}</p>
                 
                 {/* Indicator Dots */}
                 <div className="absolute bottom-8 left-10 flex gap-2">
@@ -258,7 +114,7 @@ export default function WhyChooseUs() {
                     <div
                       key={dotIndex}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        activeIndex === dotIndex ? 'bg-blue-500 w-8' : 'bg-gray-700'
+                        activeIndex === dotIndex ? 'bg-indigo-600 w-8' : 'bg-gray-300'
                       }`}
                     />
                   ))}
@@ -269,25 +125,25 @@ export default function WhyChooseUs() {
 
           {/* Benefits List */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-white mb-8">What You'll Get</h3>
+            <h3 className="text-2xl font-bold text-slate-900 mb-8" style={{ fontFamily: 'Playfair Display, serif' }}>What You'll Get</h3>
             {[
-              "Industry-aligned curriculum with latest trends",
-              "1:1 Mentorship from industry professionals",
-              "Flexible learning schedule (learn at your pace)",
-              "Career-focused programs with job placement support",
-              "Globally recognized certificates and accreditation",
+              "Industry-leading curriculum aligned with cutting-edge trends",
+              "Elite 1:1 Mentorship from distinguished industry leaders",
+              "Flexible learning schedule designed for ambitious professionals",
+              "Career-accelerating programs with executive placement support",
+              "Globally recognized credentials from prestigious institutions",
             ].map((text, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="flex items-center gap-5 bg-gray-900/40 border border-gray-800 rounded-xl p-6 hover:bg-gray-900/60 transition-all duration-300"
+                className="flex items-center gap-5 bg-white/80 border border-gray-200/50 rounded-xl p-6 hover:bg-white hover:shadow-luxury transition-all duration-300"
               >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 flex items-center justify-center flex-shrink-0">
+                  <Check className="w-5 h-5 text-indigo-600" />
                 </div>
-                <p className="text-gray-300 text-lg">{text}</p>
+                <p className="text-slate-700 text-lg">{text}</p>
               </motion.div>
             ))}
           </div>
@@ -308,13 +164,13 @@ export default function WhyChooseUs() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="bg-gradient-to-br from-gray-900/60 to-black/60 border border-gray-800 rounded-2xl p-8 text-center hover:border-blue-500/30 transition-all duration-300"
+              className="bg-white/80 backdrop-blur-xl border border-gray-200/50 rounded-2xl p-8 text-center hover:border-indigo-300/50 hover:shadow-luxury transition-all duration-300"
             >
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center mx-auto mb-4 text-blue-400">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-indigo-100 to-purple-100 flex items-center justify-center mx-auto mb-4 text-indigo-600">
                 {stat.icon}
               </div>
-              <div className="text-4xl font-bold text-white mb-2">{stat.value}</div>
-              <p className="text-gray-400">{stat.label}</p>
+              <div className="text-4xl font-bold text-slate-900 mb-2">{stat.value}</div>
+              <p className="text-slate-600">{stat.label}</p>
             </div>
           ))}
         </motion.div>

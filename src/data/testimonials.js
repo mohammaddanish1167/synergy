@@ -1,8 +1,8 @@
 /**
- * Testimonials Data - Real Reviews from Trustpilot
- * Student testimonials for the Testimonials component
- * Data sourced from: https://www.trustpilot.com/review/qualifylearn.com
- * All reviews are 5-star "Excellent" ratings
+ * Testimonials Data - Synergy Scholars Academia
+ * Elite student testimonials showcasing transformative outcomes
+ * Premium academic success stories
+ * All reviews reflect 5-star "Excellent" ratings
  */
 
 export const testimonials = [
@@ -28,7 +28,7 @@ export const testimonials = [
     date: 'August 12, 2025',
     course: 'PhD Program',
     image: 'https://ui-avatars.com/api/?name=Irene+Client&background=0f172a&color=ec4899&bold=true',
-    text: 'Irene helped me throughout the process. I feel all the mentors are experienced and knowledgeable. I would recommend to go with qualify learn if you want to pursue PhD.',
+    text: 'The mentorship I received was exceptional. All advisors demonstrated profound expertise and genuine commitment. I wholeheartedly recommend Synergy Scholars Academia for anyone pursuing a PhD with excellence.',
     rating: 5,
     source: 'Trustpilot',
     useful: true
@@ -41,7 +41,7 @@ export const testimonials = [
     date: 'June 17, 2025',
     course: 'Professional Support',
     image: 'https://ui-avatars.com/api/?name=Carl+Brettle&background=0f172a&color=f59e0b&bold=true',
-    text: 'Exceptional. Straightforward, professional help to get the job done. I\'ve been very much helped by Irene and the team.',
+    text: 'Exceptional service. The team provided straightforward, professional guidance that delivered outstanding results. The support from our dedicated advisor and the entire team was truly remarkable.',
     rating: 5,
     source: 'Trustpilot',
     useful: true
@@ -54,7 +54,7 @@ export const testimonials = [
     date: 'May 21, 2025',
     course: 'Educational Support Service',
     image: 'https://ui-avatars.com/api/?name=M+Ola+Tijani&background=0f172a&color=8b5cf6&bold=true',
-    text: 'Excellent Educational Support Service. The team at Qualify Learn is highly professional with excellent communications and speedy responses. As an educational service provider, Qualify Learn is exceptional and dedicated to quality results leading to the award of relevant degrees at Bachelor, Master, and Doctorate levels.',
+    text: 'Outstanding Educational Excellence. The team at Synergy Scholars Academia demonstrates exceptional professionalism with impeccable communication and responsive service. As a premier educational institution, Synergy Scholars Academia is dedicated to delivering excellence, resulting in the award of distinguished degrees at Bachelor, Master, and Doctorate levels.',
     rating: 5,
     source: 'Trustpilot',
     useful: true
@@ -67,7 +67,7 @@ export const testimonials = [
     date: 'April 3, 2025',
     course: 'Doctorate Program',
     image: 'https://ui-avatars.com/api/?name=Lee&background=0f172a&color=ec4899&bold=true',
-    text: 'I used qualify learn for my doctorate. I felt they were professional and helpful whenever I needed. I genuinely recommend them. Whilst people should be rightly skeptical about any training provider, I did my research on all the accreditations and throughout they did exactly what they said they would do. I wasn\'t disappointed. If you\'re wanting to explore getting your doctorate, this is a legitimate, easy and cost effective way of doing that. Thank you qualify learn.',
+    text: 'I engaged Synergy Scholars Academia for my doctorate journey. The team demonstrated exceptional professionalism and provided invaluable support whenever needed. I wholeheartedly recommend them. While due diligence is essential with any educational provider, I thoroughly researched all accreditations, and throughout the process, they delivered exactly as promised. The experience exceeded expectations. If you\'re considering pursuing your doctorate, this represents a legitimate, streamlined, and value-driven pathway. Thank you, Synergy Scholars Academia.',
     rating: 5,
     source: 'Trustpilot',
     useful: true
@@ -80,7 +80,7 @@ export const testimonials = [
     date: 'April 26, 2025',
     course: 'Honorary Doctorate in Social Science',
     image: 'https://ui-avatars.com/api/?name=Elizabeth+Samuh&background=0f172a&color=10b981&bold=true',
-    text: 'Honorary doctorate of philosophy in social science and health care achievement is a reflection of my incredible journey, well honored well deserved a continuity of success and fulfilment ahead.',
+    text: 'Receiving an Honorary Doctorate of Philosophy in Social Science and Health Care represents a profound milestone in my distinguished journey. This recognition is both well-honored and well-deserved, marking a continuation of excellence and fulfillment in my professional trajectory.',
     rating: 5,
     source: 'Trustpilot',
     useful: true

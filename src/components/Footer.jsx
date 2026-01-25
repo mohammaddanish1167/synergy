@@ -1,6 +1,6 @@
 /**
- * Compact Footer Component with Social Media Icons
- * Format structured like the image but with original Quality Learn content
+ * Premium Footer Component - Synergy Scholars Academia
+ * Luxury design with elite academic branding and comprehensive information
  */
 
 import { Link } from 'react-router-dom';
@@ -29,7 +29,7 @@ function Footer() {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-gray-300">
+    <footer className="bg-gradient-to-b from-slate-50 via-white to-cream-50 text-slate-700 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         {/* Main Footer Grid - 4 columns layout */}
@@ -38,18 +38,23 @@ function Footer() {
           {/* Column 1: Brand Logo and Description - ENLARGED LOGO */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <div className="flex items-center">
+              <div className="flex items-center mb-4">
                 <img
                   src={logoImage}
-                  alt="Quality Learning Logo"
+                  alt="Synergy Scholars Academia Logo"
                   className="h-48 w-auto brightness-110 contrast-125 object-contain max-w-full"
                 />
               </div>
+              <div className="mb-4">
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+                  Synergy Scholars Academia
+                </h3>
+              </div>
 
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Quality Learn envisions a world where education knows no boundaries.
-                Our mission is to break down barriers and provide equitable access to
-                exceptional learning experiences.
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Synergy Scholars Academia represents the pinnacle of elite education, where academic excellence meets transformative mentorship. 
+                We empower ambitious professionals to achieve extraordinary career outcomes through world-class programs, personalized guidance, 
+                and a commitment to unparalleled excellence.
               </p>
 
               <div className="flex gap-4 pt-2">
@@ -59,7 +64,7 @@ function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-white transition transform hover:scale-110"
+                    className="text-slate-600 hover:text-indigo-700 transition transform hover:scale-110"
                     aria-label={social.name}
                   >
                     {social.icon}
@@ -71,7 +76,7 @@ function Footer() {
 
           {/* Column 2: Quick Links */}
           <div className="space-y-6">
-            <h3 className="text-white font-bold text-lg uppercase tracking-wide">
+            <h3 className="text-slate-900 font-bold text-lg uppercase tracking-wide mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               Quick Links
             </h3>
             <div className="space-y-4">
@@ -83,7 +88,7 @@ function Footer() {
                 <Link
                   key={link.label}
                   to={link.to}
-                  className="text-gray-400 hover:text-white text-base block transition hover:translate-x-2 hover:font-medium"
+                  className="text-slate-600 hover:text-indigo-700 text-base block transition hover:translate-x-2 hover:font-medium"
                 >
                   {link.label}
                 </Link>
@@ -93,8 +98,8 @@ function Footer() {
 
           {/* Column 3: Programs */}
           <div className="space-y-6">
-            <h3 className="text-white font-bold text-lg uppercase tracking-wide">
-              Our Programs
+            <h3 className="text-slate-900 font-bold text-lg uppercase tracking-wide mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Elite Programs
             </h3>
             <div className="space-y-4">
               {[
@@ -107,7 +112,7 @@ function Footer() {
                 <Link
                   key={course.slug}
                   to={`/${course.slug}`}
-                  className="text-gray-400 hover:text-white text-base block transition hover:translate-x-2 hover:font-medium"
+                  className="text-slate-600 hover:text-indigo-700 text-base block transition hover:translate-x-2 hover:font-medium"
                 >
                   {course.name}
                 </Link>
@@ -117,7 +122,7 @@ function Footer() {
 
           {/* Column 4: Contact Information */}
           <div className="space-y-6">
-            <h3 className="text-white font-bold text-lg uppercase tracking-wide">
+            <h3 className="text-slate-900 font-bold text-lg uppercase tracking-wide mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               Contact Info
             </h3>
 
@@ -128,9 +133,9 @@ function Footer() {
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-gray-300 text-sm">UNITED KINGDOM</p>
-                    <p className="text-gray-400 text-sm leading-relaxed mt-1">
-                      Quality Learn Limited<br />
+                    <p className="font-semibold text-slate-800 text-sm">UNITED KINGDOM</p>
+                    <p className="text-slate-600 text-sm leading-relaxed mt-1">
+                      Synergy Scholars Academia Limited<br />
                       124 City Road, London<br />
                       EC1V 2NX
                     </p>
@@ -143,9 +148,9 @@ function Footer() {
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-gray-300 text-sm">UNITED STATES</p>
-                    <p className="text-gray-400 text-sm leading-relaxed mt-1">
-                      Quality Learn LLC<br />
+                    <p className="font-semibold text-slate-800 text-sm">UNITED STATES</p>
+                    <p className="text-slate-600 text-sm leading-relaxed mt-1">
+                      Synergy Scholars Academia LLC<br />
                       30 N Gould St Ste R<br />
                       Sheridan WY 82801
                     </p>
@@ -154,23 +159,20 @@ function Footer() {
               </div>
 
               {/* Contact Details */}
-              <div className="space-y-4 pt-4 border-t border-gray-700/30">
+              <div className="space-y-4 pt-4 border-t border-gray-200/50">
                 <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                  <Phone className="w-5 h-5 text-indigo-600 flex-shrink-0" />
                   <div>
-                    <a href="tel:+447457417703" className="text-gray-400 hover:text-white text-sm transition block">
-                      +44-745-741-7703
-                    </a>
-                    <a href="tel:+13073929112" className="text-gray-400 hover:text-white text-sm transition block mt-1">
-                      +1 (307) 392-9112
+                    <a href="tel:+19177304763" className="text-slate-600 hover:text-indigo-700 text-sm transition block">
+                      +1 9177304763
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                  <a href="mailto:info@qualitylearn.com" className="text-gray-400 hover:text-white text-sm transition">
-                    info@qualifylearn.com
+                  <Mail className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                  <a href="mailto:info@synergyscholars.com" className="text-slate-600 hover:text-indigo-700 text-sm transition">
+                    info@synergyscholars.com
                   </a>
                 </div>
               </div>
@@ -179,9 +181,9 @@ function Footer() {
               <div className="pt-4">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium hover:gap-3 transition-all"
+                  className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 text-sm font-medium hover:gap-3 transition-all"
                 >
-                  Need assistance? Contact our team →
+                  Need assistance? Contact our elite team →
                 </Link>
               </div>
             </div>
@@ -190,18 +192,18 @@ function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-800 mb-8"></div>
+        <div className="border-t border-gray-200 mb-8"></div>
 
         {/* Bottom Bar */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <p className="text-gray-500 text-sm">
-            &copy; {currentYear} Quality Learn. All rights reserved.
+          <p className="text-slate-600 text-sm">
+            &copy; {currentYear} Synergy Scholars Academia. All rights reserved.
           </p>
 
           <div className="flex flex-wrap gap-6 text-sm justify-end">
-            <Link to="/privacy-policy" className="text-gray-400 hover:text-gray-300 transition hover:font-medium">Privacy Policy</Link>
-            <Link to="/terms" className="text-gray-400 hover:text-gray-300 transition hover:font-medium">Terms & Conditions</Link>
-            <Link to="/refund-policy" className="text-gray-400 hover:text-gray-300 transition hover:font-medium">Refund Policy</Link>
+            <Link to="/privacy-policy" className="text-slate-600 hover:text-indigo-700 transition hover:font-medium">Privacy Policy</Link>
+            <Link to="/terms-and-conditions" className="text-slate-600 hover:text-indigo-700 transition hover:font-medium">Terms & Conditions</Link>
+            <Link to="/refund-policy" className="text-slate-600 hover:text-indigo-700 transition hover:font-medium">Refund Policy</Link>
           </div>
         </div>
 

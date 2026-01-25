@@ -1,33 +1,41 @@
 /**
- * Global Styles - Premium Dark Theme
- * Tailwind CSS imports and custom dark theme styles
- * Color palette: #0f172a (darkest), #1e293b (cards), #3b82f6 (primary), #6366f1 (secondary)
+ * Global Styles - Premium Light Luxury Theme
+ * Synergy Scholars Academia - Elite Academic Branding
+ * Color palette: White, Cream (#FEFBF6), Soft Grey (#F5F5F0), Pastels, Premium Blues
  */
 
 @import "tailwindcss";
 
-/* Dark theme base */
+/* Premium Light Theme Base */
 body {
-  background-color: #0f172a;
-  color: #f8fafc;
+  background-color: #FEFBF6;
+  color: #1a1a1a;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Custom scrollbar styling for dark theme */
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Custom scrollbar styling for light luxury theme */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #F5F5F0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 4px;
+  background: linear-gradient(to bottom, #6366f1, #4f46e5);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6366f1;
+  background: linear-gradient(to bottom, #818cf8, #6366f1);
 }
 
 /* Smooth scrolling */
@@ -35,22 +43,22 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Focus styles for accessibility - premium blue glow */
+/* Focus styles for accessibility - premium purple glow */
 *:focus {
   outline: 2px solid #6366f1;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
 }
 
-/* Selection color for dark theme */
+/* Selection color for light theme */
 ::selection {
-  background-color: #6366f1;
-  color: #f8fafc;
+  background-color: rgba(99, 102, 241, 0.2);
+  color: #1a1a1a;
 }
 
 /* Smooth page transitions */
 .page-transition {
-  animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.6s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -64,23 +72,29 @@ html {
   }
 }
 
-/* Glassmorphism utility */
+/* Premium Glassmorphism utility */
 .glass {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
-/* Gradient text utility */
+/* Gradient text utility - Premium Purple/Blue */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Marquee animation for subtle horizontal scroll of course names */
+/* Luxury accent gradient */
+.luxury-gradient {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+}
+
+/* Marquee animation for subtle horizontal scroll */
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -94,45 +108,43 @@ html {
   animation: marquee 30s linear infinite;
 }
 
-/* Hide scrollbar for horizontal scrollers in a11y-friendly way */
+/* Hide scrollbar for horizontal scrollers */
 .no-scrollbar {
   scrollbar-width: none;
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
+
+/* Premium shadow utilities */
+.shadow-luxury {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.04);
 }
 
-::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.8);
+.shadow-luxury-lg {
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.12), 0 16px 40px rgba(0, 0, 0, 0.06);
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #3B82F6, #1D4ED8);
-  border-radius: 5px;
+/* Smooth animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #60A5FA, #3B82F6);
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 
-/* Selection Styling */
-::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: white;
+/* Premium button hover effects */
+.btn-luxury {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Glass Morphism */
-.glass {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+.btn-luxury:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.25);
 }

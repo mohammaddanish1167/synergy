@@ -1,6 +1,6 @@
 /**
- * Premium Animated About Page
- * Showcases QualifyLearn's story with sophisticated animations
+ * Premium Animated About Page - Synergy Scholars Academia
+ * Showcases our elite academic mission with sophisticated animations and luxury design
  */
 
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
@@ -59,35 +59,35 @@ function About() {
   const coreValues = [
     {
       id: 0,
-      title: 'Student Success First',
-      description: 'Every decision centers on student outcomes. We measure success by achievements.',
-      icon: FiTarget,
-      color: 'from-blue-600 to-cyan-500',
-      stats: ['98%', 'Satisfaction Rate']
+      title: 'Uncompromising Quality',
+      description: 'We maintain the highest academic standards, ensuring every program meets rigorous international benchmarks and delivers exceptional value to our scholars.',
+      icon: FiAward,
+      color: 'from-indigo-600 to-purple-600',
+      stats: ['100%', 'Accreditation Rate']
     },
     {
       id: 1,
-      title: 'Excellence in Education',
-      description: 'Highest standards in curriculum design, instructors, and learning experiences.',
-      icon: FiStar,
-      color: 'from-amber-500 to-orange-500',
-      stats: ['4.9/5', 'Student Rating']
+      title: 'Personalized Mentorship',
+      description: 'Each scholar receives dedicated guidance from industry experts, creating tailored pathways that align with individual career aspirations and professional goals.',
+      icon: FiUsers,
+      color: 'from-purple-600 to-pink-500',
+      stats: ['1:1', 'Mentor Ratio']
     },
     {
       id: 2,
-      title: 'Community Empowerment',
-      description: 'We believe in lifting each other up. Peer support is integral to our success.',
-      icon: FiUsers,
-      color: 'from-emerald-500 to-green-500',
-      stats: ['10K+', 'Global Community']
+      title: 'Global Recognition',
+      description: 'Our credentials are recognized by leading institutions and employers worldwide, opening doors to prestigious opportunities across international markets.',
+      icon: FiGlobe,
+      color: 'from-indigo-500 to-cyan-500',
+      stats: ['75+', 'Countries']
     },
     {
       id: 3,
-      title: 'Innovation & Growth',
-      description: 'Continuously evolving based on industry trends and student feedback.',
+      title: 'Career Acceleration',
+      description: 'We focus on delivering tangible career outcomes, with programs designed to enhance professional standing, expand networks, and unlock executive opportunities.',
       icon: FiTrendingUp,
-      color: 'from-purple-500 to-pink-500',
-      stats: ['200+', 'Updated Courses']
+      color: 'from-pink-500 to-rose-500',
+      stats: ['92%', 'Advancement Rate']
     }
   ];
 
@@ -118,29 +118,29 @@ function About() {
 
   // Impact stats
   const impactStats = [
-    { value: '10,000+', label: 'Students Transformed', icon: '👨‍🎓', color: 'text-blue-400' },
-    { value: '50+', label: 'Countries Reached', icon: '🌍', color: 'text-emerald-400' },
-    { value: '85%', label: 'Career Advancement', icon: '🚀', color: 'text-amber-400' },
-    { value: '4.9/5', label: 'Student Rating', icon: '⭐', color: 'text-purple-400' }
+    { value: '15,000+', label: 'Elite Professionals', icon: '👨‍🎓', color: 'text-indigo-600' },
+    { value: '75+', label: 'Global Presence', icon: '🌍', color: 'text-purple-600' },
+    { value: '92%', label: 'Career Transformation', icon: '🚀', color: 'text-pink-600' },
+    { value: '4.8/5', label: 'Excellence Rating', icon: '⭐', color: 'text-indigo-600' }
   ];
 
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black overflow-hidden">
+    <div ref={containerRef} className="relative min-h-screen bg-gradient-to-b from-white via-indigo-50/10 to-purple-50/10 overflow-hidden">
       
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Gradient mesh */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+          <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-200/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-pink-200/20 rounded-full blur-3xl" />
         </div>
 
         {/* Floating particles */}
         {Array.from({ length: 30 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-blue-400/20 rounded-full"
+            className="absolute w-1 h-1 bg-indigo-400/20 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -162,7 +162,7 @@ function About() {
           <svg className="w-full h-full">
             <defs>
               <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#3B82F6" strokeWidth="1" />
+                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#6366f1" strokeWidth="1" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
@@ -181,7 +181,7 @@ function About() {
         <div className="absolute inset-0">
           {/* Animated rings */}
           <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-blue-500/20 rounded-full"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-indigo-300/20 rounded-full"
             animate={{
               scale: [1, 1.2, 1],
               rotate: 360,
@@ -192,7 +192,7 @@ function About() {
             }}
           />
           <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-emerald-500/20 rounded-full"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-purple-300/20 rounded-full"
             animate={{
               scale: [1.2, 1, 1.2],
               rotate: -360,
@@ -213,7 +213,7 @@ function About() {
             className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 mb-8 group"
           >
             <motion.div
-              className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-emerald-500"
+              className="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600"
               animate={{
                 scale: [1, 1.5, 1],
                 boxShadow: [
@@ -224,10 +224,10 @@ function About() {
               }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <span className="text-sm font-semibold text-white tracking-wider">
-              OUR STORY & MISSION
+            <span className="text-sm font-semibold text-slate-700 tracking-wider">
+              OUR LEGACY & COMMITMENT
             </span>
-            <FiStar className="w-4 h-4 text-blue-400" />
+            <FiStar className="w-4 h-4 text-indigo-600" />
           </motion.div>
 
           {/* Main heading */}
@@ -237,10 +237,10 @@ function About() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mb-8"
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
-              <span className="text-white">We're Building </span>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+              <span className="text-slate-900">Where Ambition Meets </span>
               <motion.span
-                className="inline-block bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent"
+                className="inline-block bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent"
                 animate={{
                   backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
                 }}
@@ -250,11 +250,11 @@ function About() {
                   ease: "linear"
                 }}
               >
-                Futures
+                Achievement
               </motion.span>
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Transforming education through innovation, accessibility, and results-driven learning experiences.
+            <p className="text-xl text-slate-700 max-w-3xl mx-auto">
+              Empowering visionary leaders and ambitious professionals to unlock their full potential through distinguished academic programs, personalized mentorship, and strategic career advancement.
             </p>
           </motion.div>
 
@@ -277,7 +277,7 @@ function About() {
                 <div className={`text-4xl font-bold mb-2 ${stat.color}`}>
                   {stat.value}
                 </div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
+                <div className="text-sm text-slate-600">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -290,7 +290,7 @@ function About() {
             className="mt-16"
           >
             <motion.div
-              className="w-6 h-10 mx-auto border-2 border-blue-500/50 rounded-full flex justify-center"
+              className="w-6 h-10 mx-auto border-2 border-indigo-500/50 rounded-full flex justify-center"
               animate={{
                 y: [0, 10, 0],
               }}
@@ -301,7 +301,7 @@ function About() {
               }}
             >
               <motion.div
-                className="w-1 h-3 bg-blue-500 rounded-full mt-2"
+                className="w-1 h-3 bg-indigo-600 rounded-full mt-2"
                 animate={{
                   y: [0, 4, 0],
                 }}
@@ -325,11 +325,11 @@ function About() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 rounded-full border border-blue-500/30 mb-4">
-              <span className="text-sm font-medium text-blue-400">OUR JOURNEY</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100/80 rounded-full border border-indigo-200/50 mb-4">
+              <span className="text-sm font-medium text-indigo-700">OUR FOUNDATION</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              From Vision to <span className="text-blue-400">Global Impact</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Pioneering <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">Academic Innovation</span>
             </h2>
           </motion.div>
 
@@ -342,13 +342,13 @@ function About() {
               className="space-y-6"
             >
               <div className="relative">
-                <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                  QualifyLearn was born from a simple yet powerful idea: <strong className="text-blue-400">education should be accessible to everyone, everywhere.</strong> In a world where opportunities are often limited by geography, financial constraints, or traditional barriers, we saw a need to create a bridge to quality education.
+                <p className="text-lg text-slate-700 leading-relaxed mb-6">
+                  Synergy Scholars Academia emerged from a profound commitment to academic distinction: <strong className="text-indigo-700">we believe that exceptional talent deserves exceptional opportunities.</strong> Our institution was conceived to serve as a catalyst for professional transformation, connecting ambitious individuals with prestigious academic pathways, industry-leading mentors, and career-defining experiences that shape tomorrow's leaders.
                 </p>
                 
                 {/* Animated highlight */}
                 <motion.div
-                  className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-blue-500 to-emerald-500"
+                  className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-indigo-600 via-purple-600 to-pink-500"
                   initial={{ scaleY: 0 }}
                   whileInView={{ scaleY: 1 }}
                   viewport={{ once: true }}
@@ -362,14 +362,14 @@ function About() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
-                  className="flex items-start gap-4 p-4 bg-white/5 rounded-xl border border-white/10"
+                  className="flex items-start gap-4 p-4 bg-white/80 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-luxury"
                 >
-                  <div className="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                    <FiGlobe className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                    <FiGlobe className="w-6 h-6 text-indigo-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Global Reach</h3>
-                    <p className="text-gray-400">Serving students across 50+ countries with localized learning experiences.</p>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-2">International Prestige</h3>
+                    <p className="text-slate-700">Delivering unparalleled academic excellence to distinguished professionals across 75+ nations, each journey uniquely crafted for transformative success.</p>
                   </div>
                 </motion.div>
 
@@ -378,14 +378,14 @@ function About() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.4 }}
-                  className="flex items-start gap-4 p-4 bg-white/5 rounded-xl border border-white/10"
+                  className="flex items-start gap-4 p-4 bg-white/80 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-luxury"
                 >
-                  <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                    <FiTarget className="w-6 h-6 text-emerald-400" />
+                  <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                    <FiTarget className="w-6 h-6 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Mission Driven</h3>
-                    <p className="text-gray-400">Every decision centers on student success and measurable outcomes.</p>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-2">Results-Oriented Excellence</h3>
+                    <p className="text-slate-700">Our strategic approach ensures every interaction, program, and mentorship opportunity is designed to deliver measurable career advancement and lasting impact.</p>
                   </div>
                 </motion.div>
               </div>
@@ -404,11 +404,11 @@ function About() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Core Values</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">Core Values</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              The principles that guide every decision and interaction at QualifyLearn
+            <p className="text-xl text-slate-700 max-w-3xl mx-auto">
+              The foundational pillars that shape our commitment to academic distinction and professional transformation
             </p>
           </motion.div>
 
@@ -421,8 +421,8 @@ function About() {
                   onClick={() => setActiveValue(value.id)}
                   className={`absolute left-0 right-0 p-6 rounded-2xl border backdrop-blur-sm transition-all duration-300 ${
                     activeValue === value.id
-                      ? 'bg-white/10 border-blue-500/50 shadow-2xl shadow-blue-500/20 z-10'
-                      : 'bg-white/5 border-white/10 hover:border-white/20'
+                      ? 'bg-white/90 border-indigo-300/50 shadow-luxury-lg z-10'
+                      : 'bg-white/60 border-gray-200/50 hover:border-indigo-200/50'
                   }`}
                   style={{ top: `${idx * 100}px` }}
                   whileHover={{ scale: activeValue === value.id ? 1 : 1.05 }}
@@ -435,8 +435,8 @@ function About() {
                       <value.icon className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-left">
-                      <h3 className="text-lg font-bold text-white">{value.title}</h3>
-                      <p className="text-gray-400 text-sm mt-1">{value.description}</p>
+                      <h3 className="text-lg font-bold text-slate-900">{value.title}</h3>
+                      <p className="text-slate-700 text-sm mt-1">{value.description}</p>
                     </div>
                     {activeValue === value.id && (
                       <motion.div
@@ -444,7 +444,7 @@ function About() {
                         animate={{ rotate: 360 }}
                         transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                       >
-                        <FiChevronRight className="w-5 h-5 text-blue-400" />
+                        <FiChevronRight className="w-5 h-5 text-indigo-600" />
                       </motion.div>
                     )}
                   </div>
@@ -458,7 +458,7 @@ function About() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-xl rounded-2xl border border-white/10 p-8"
+              className="bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-200/50 p-8 shadow-luxury-lg"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -472,20 +472,20 @@ function About() {
                     {(() => { const Icon = coreValues[activeValue].icon; return <Icon className="w-10 h-10 text-white" />; })()}
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                  <h3 className="text-2xl font-bold text-slate-900 text-center mb-4">
                     {coreValues[activeValue].title}
                   </h3>
                   
-                  <p className="text-gray-300 text-center mb-8 leading-relaxed">
+                  <p className="text-slate-700 text-center mb-8 leading-relaxed">
                     {coreValues[activeValue].description}
                   </p>
                   
                   {/* Stats display */}
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-2">
+                    <div className="text-4xl font-bold text-slate-900 mb-2">
                       {coreValues[activeValue].stats[0]}
                     </div>
-                    <div className="text-gray-400">
+                    <div className="text-slate-600">
                       {coreValues[activeValue].stats[1]}
                     </div>
                   </div>
@@ -509,8 +509,9 @@ function About() {
                         />
                         <defs>
                           <linearGradient id={`value-gradient-${activeValue}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#3B82F6" />
-                            <stop offset="100%" stopColor="#10B981" />
+                            <stop offset="0%" stopColor="#6366f1" />
+                            <stop offset="100%" stopColor="#8b5cf6" />
+                            <stop offset="100%" stopColor="#ec4899" />
                           </linearGradient>
                         </defs>
                       </svg>
@@ -531,7 +532,7 @@ function About() {
         <div className="absolute inset-0">
           {/* Animated gradient background */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-emerald-600/20"
+            className="absolute inset-0 bg-gradient-to-r from-indigo-100/40 via-purple-100/40 to-pink-100/40"
             animate={{
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
             }}
@@ -546,7 +547,7 @@ function About() {
           {Array.from({ length: 12 }).map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-white rounded-full"
+              className="absolute w-2 h-2 bg-indigo-300/30 rounded-full"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -571,11 +572,11 @@ function About() {
             viewport={{ once: true }}
             className="mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Begin <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Your Journey?</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Transform Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">Professional Future</span>
             </h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join thousands of successful graduates who transformed their careers with QualifyLearn
+            <p className="text-xl text-slate-700 mb-8 max-w-2xl mx-auto">
+              Become part of an elite community of leaders, innovators, and visionaries who chose Synergy Scholars Academia as their pathway to distinction
             </p>
           </motion.div>
 
@@ -591,9 +592,9 @@ function About() {
               href="/contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:border-white/40 transition-all"
+              className="px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 backdrop-blur-sm text-white font-semibold rounded-xl border border-indigo-300/30 hover:border-indigo-400/50 transition-all shadow-luxury-lg hover:shadow-luxury-lg"
             >
-              Speak with an Advisor
+              Join the Elite
             </motion.a>
           </motion.div>
         </div>

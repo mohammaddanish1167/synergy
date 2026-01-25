@@ -195,7 +195,7 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
         },
         body: JSON.stringify({
           ...baseData,
-          access_key: '3a244af2-b695-4c44-939a-c4411ee35f37'
+          access_key: '20396432-2a2f-49ed-b82d-c598bfaf2238'
         })
       });
 
@@ -207,7 +207,7 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
         },
         body: JSON.stringify({
           ...baseData,
-          access_key: '39abe0c3-8f53-46e1-831e-74da0d049d2d'
+          access_key: '20396432-2a2f-49ed-b82d-c598bfaf2238'
         })
       });
 
@@ -364,7 +364,7 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Web3Forms hidden fields */}
-                  <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                  <input type="hidden" name="access_key" value="20396432-2a2f-49ed-b82d-c598bfaf2238" />
                   <input type="hidden" name="subject" value={`Academic Consultation Request - ${form.course || 'General Inquiry'}`} />
                   <input type="hidden" name="from_name" value="QualifyLearn Website" />
                   <input type="hidden" name="honeypot" value="" />

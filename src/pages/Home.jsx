@@ -1,7 +1,7 @@
 /**
- * Home Page - Premium Dark Theme
- * Landing page with hero, featured courses, testimonials, and FAQs
- * All sections use dark theme with smooth animations
+ * Home Page - Synergy Scholars Academia
+ * Premium light luxury theme with modern layout and original content
+ * Redesigned structure for optimal user experience and conversion
  */
 
 import Hero from '../components/Hero';
@@ -19,40 +19,33 @@ import ApplicationProcess from '../components/ApplicationProcess.jsx';
 function Home() {
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <Hero
-        title="Your Path to Academic Excellence Starts Here"
-        subtitle="Expert guidance for your educational journey from undergraduate to PhD programs"
-        secondaryAction={{ path: '/contact', label: 'Get Started' }}
-        image="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800"
-      />
+    <div className="min-h-screen bg-gradient-to-br from-white via-indigo-50/5 to-purple-50/5">
+      {/* Hero Section - Premium Introduction */}
+      <Hero />
 
+      {/* Featured Programs - Elite Academic Pathways */}
+      <FeaturedCourses/>
 
-
-
-    <FeaturedCourses/>
-
-
+      {/* Why Choose Us - Distinguished Advantages */}
       <WhyChooseUs/>
 
-      <PartnerOrbit />
-
-
-      <HiringPartners />
+      {/* Application Process - Streamlined Journey */}
       <ApplicationProcess/>
 
-      
+      {/* Partner Institutions - Global Network */}
+      <PartnerOrbit />
 
+      {/* Hiring Partners - Career Connections */}
+      <HiringPartners />
 
-
+      {/* Success Stories - Transformative Outcomes */}
       <Testimonials testimonials={testimonials} />
+
+      {/* Global Reach - International Presence */}
       <WorldMapConnections/>
 
-   
+      {/* Frequently Asked Questions - Comprehensive Guidance */}
       <FAQ faqs={faqs} />
-
-     
     </div>
   );
 }

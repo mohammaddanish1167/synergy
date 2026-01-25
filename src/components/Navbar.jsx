@@ -1,7 +1,7 @@
 /**
- * Navbar Component - Qualify Learn Theme
- * Clean logo display without boxes or containers
- * Updated: Our Programs button moved before Home
+ * Navbar Component - Synergy Scholars Academia
+ * Premium luxury navigation with glassmorphism and smooth animations
+ * Elite academic branding with sophisticated design
  */
 
 import { useState, useRef, useEffect } from 'react';
@@ -147,8 +147,8 @@ function Navbar() {
         transition={{ duration: 0.45, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-blue-100'
-            : 'bg-white/90 backdrop-blur-lg border-b border-blue-100/70'
+            ? 'bg-white/98 backdrop-blur-xl shadow-luxury border-b border-gray-100'
+            : 'bg-white/95 backdrop-blur-lg border-b border-gray-100/50'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -163,19 +163,22 @@ function Navbar() {
               >
                 {logoError ? (
                   <div className="flex items-center gap-3">
-                    <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
-                      <span className="text-3xl font-bold text-white">QL</span>
+                    <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-luxury">
+                      <span className="text-2xl font-bold text-white" style={{ fontFamily: 'Playfair Display, serif' }}>SSA</span>
                     </div>
-                    <span className="text-3xl font-bold text-blue-800 hidden sm:block">QualifyLearn</span>
+                    <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent hidden sm:block" style={{ fontFamily: 'Playfair Display, serif' }}>Synergy Scholars Academia</span>
                   </div>
                 ) : (
-                  <img 
-                    src={logo} 
-                    alt="Qualify Learn" 
-                    className="h-28 w-auto transition-all duration-300 group-hover:opacity-90"
-                    onError={handleLogoError}
-                    onLoad={() => setLogoError(false)}
-                  />
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src={logo} 
+                      alt="Synergy Scholars Academia" 
+                      className="h-28 w-auto transition-all duration-300 group-hover:opacity-90"
+                      onError={handleLogoError}
+                      onLoad={() => setLogoError(false)}
+                    />
+                    <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent hidden lg:block" style={{ fontFamily: 'Playfair Display, serif' }}>Synergy Scholars Academia</span>
+                  </div>
                 )}
               </motion.div>
             </Link>
@@ -191,10 +194,10 @@ function Navbar() {
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className={`flex items-center gap-2 text-sm font-semibold transition-all duration-300 px-5 py-3 rounded-xl shadow-lg ${
+                  className={`flex items-center gap-2 text-sm font-semibold transition-all duration-300 px-5 py-3 rounded-xl shadow-luxury ${
                     showCoursesMenu
-                      ? 'text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 shadow-xl'
-                      : 'text-white bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600 shadow-lg hover:shadow-xl hover:from-blue-600 hover:via-blue-500 hover:to-blue-700'
+                      ? 'text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 shadow-luxury-lg'
+                      : 'text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 shadow-luxury hover:shadow-luxury-lg hover:from-indigo-700 hover:via-purple-700 hover:to-pink-600'
                   }`}
                 >
                   <div className="relative">
@@ -224,7 +227,7 @@ function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 mt-3 w-[500px] bg-gradient-to-br from-white via-blue-50/30 to-white border border-blue-100/50 rounded-2xl shadow-2xl overflow-hidden z-50 backdrop-blur-xl"
+                      className="absolute top-full left-0 mt-3 w-[500px] bg-gradient-to-br from-white via-indigo-50/30 to-white border border-gray-100/50 rounded-2xl shadow-luxury-lg overflow-hidden z-50 backdrop-blur-xl"
                       onMouseEnter={() => setShowCoursesMenu(true)}
                       onMouseLeave={() => setShowCoursesMenu(false)}
                     >
@@ -237,25 +240,25 @@ function Navbar() {
                       <div className="relative z-10 p-5">
                         {/* Header */}
                         <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
+                            <div className="flex items-center gap-3">
+                            <div className="p-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg">
                               <Zap className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                              <h3 className="text-lg font-bold text-blue-900">Academic Programs</h3>
-                              <p className="text-sm text-blue-600/70">Transform your career with recognized qualifications</p>
+                              <h3 className="text-lg font-bold text-slate-900" style={{ fontFamily: 'Playfair Display, serif' }}>Elite Academic Programs</h3>
+                              <p className="text-sm text-slate-600/70">Transform your career with world-class qualifications</p>
                             </div>
                           </div>
-                          <div className="px-3 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full">
-                            <span className="text-xs font-semibold text-blue-700 flex items-center gap-1">
+                          <div className="px-3 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-full">
+                            <span className="text-xs font-semibold text-indigo-700 flex items-center gap-1">
                               <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                              5 Programs
+                              5 Elite Programs
                             </span>
                           </div>
                         </div>
 
                         {/* Divider */}
-                        <div className="h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent mb-4"></div>
+                        <div className="h-px bg-gradient-to-r from-transparent via-indigo-200/50 to-transparent mb-4"></div>
 
                         {/* Programs Grid */}
                         <div className="grid grid-cols-2 gap-3">
@@ -275,9 +278,9 @@ function Navbar() {
                               >
                                 <motion.div
                                   whileHover={{ scale: 1.02, y: -2 }}
-                                  className={`p-4 rounded-xl border border-blue-100/50 transition-all duration-300 ${
+                                  className={`p-4 rounded-xl border border-gray-100/50 transition-all duration-300 ${
                                     hoveredProgram === program.path
-                                      ? 'bg-white shadow-lg border-blue-200'
+                                      ? 'bg-white shadow-luxury border-indigo-200'
                                       : 'bg-white/80 hover:bg-white'
                                   }`}
                                 >
@@ -291,14 +294,14 @@ function Navbar() {
                                     {/* Content - Fixed full program name display */}
                                     <div className="flex-1">
                                       <div className="flex items-start justify-between mb-1.5">
-                                        <h4 className="font-bold text-blue-900 text-sm group-hover:text-blue-700 pr-2">
+                                        <h4 className="font-bold text-slate-900 text-sm group-hover:text-indigo-700 pr-2">
                                           {program.label}
                                         </h4>
                                         <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${program.color} text-white flex-shrink-0`}>
                                           {program.badge}
                                         </span>
                                       </div>
-                                      <p className="text-xs text-blue-600/70 line-clamp-2">
+                                      <p className="text-xs text-slate-600/70 line-clamp-2">
                                         {program.description}
                                       </p>
                                     </div>
@@ -306,7 +309,7 @@ function Navbar() {
                                   
                                   {/* Animated underline on hover */}
                                   <motion.div
-                                    className="h-0.5 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full mt-3"
+                                    className="h-0.5 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full mt-3"
                                     initial={{ scaleX: 0 }}
                                     animate={{ scaleX: hoveredProgram === program.path ? 1 : 0 }}
                                     transition={{ duration: 0.2 }}
@@ -324,23 +327,23 @@ function Navbar() {
 
               {/* Home Link - Moved after Our Programs */}
               <div className="relative px-2">
-                <Link
-                  to="/"
-                  className={`flex items-center gap-1 text-sm font-semibold transition-colors px-4 py-2.5 rounded-lg ${
-                    isActive('/')
-                      ? 'text-blue-800 bg-blue-50'
-                      : 'text-slate-700 hover:text-blue-700 hover:bg-blue-50/50'
-                  }`}
-                >
-                  Home
-                </Link>
-                {isActive('/') && (
-                  <motion.div
-                    layoutId="active-underline"
-                    className="absolute left-4 right-4 -bottom-1 h-0.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full"
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                  />
-                )}
+                  <Link
+                    to="/"
+                    className={`flex items-center gap-1 text-sm font-semibold transition-colors px-4 py-2.5 rounded-lg ${
+                      isActive('/')
+                        ? 'text-indigo-700 bg-indigo-50/80'
+                        : 'text-slate-700 hover:text-indigo-700 hover:bg-indigo-50/50'
+                    }`}
+                  >
+                    Home
+                  </Link>
+                  {isActive('/') && (
+                    <motion.div
+                      layoutId="active-underline"
+                      className="absolute left-4 right-4 -bottom-1 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full"
+                      transition={{ duration: 0.3, ease: 'easeOut' }}
+                    />
+                  )}
               </div>
               
               {/* Other navigation links */}
@@ -353,8 +356,8 @@ function Navbar() {
                     to={link.path}
                     className={`flex items-center gap-1 text-sm font-semibold transition-colors px-4 py-2.5 rounded-lg ${
                       isActive(link.path)
-                        ? 'text-blue-800 bg-blue-50'
-                        : 'text-slate-700 hover:text-blue-700 hover:bg-blue-50/50'
+                        ? 'text-indigo-700 bg-indigo-50/80'
+                        : 'text-slate-700 hover:text-indigo-700 hover:bg-indigo-50/50'
                     }`}
                   >
                     {link.label}
@@ -362,7 +365,7 @@ function Navbar() {
                   {isActive(link.path) && (
                     <motion.div
                       layoutId="active-underline"
-                      className="absolute left-4 right-4 -bottom-1 h-0.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full"
+                      className="absolute left-4 right-4 -bottom-1 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full"
                       transition={{ duration: 0.3, ease: 'easeOut' }}
                     />
                   )}
@@ -376,22 +379,22 @@ function Navbar() {
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('open-guidance-modal'));
                 }}
-                className="relative ml-2 inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                className="relative ml-2 inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 shadow-luxury hover:shadow-luxury-lg transition-all duration-300 overflow-hidden"
               >
                 {/* Animated background effect */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800"
+                  className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600"
                   animate={{
                     background: [
-                      'linear-gradient(to right, #2563eb, #3b82f6, #2563eb)',
-                      'linear-gradient(to right, #1d4ed8, #2563eb, #1d4ed8)',
-                      'linear-gradient(to right, #2563eb, #3b82f6, #2563eb)',
+                      'linear-gradient(to right, #6366f1, #8b5cf6, #ec4899)',
+                      'linear-gradient(to right, #4f46e5, #7c3aed, #db2777)',
+                      'linear-gradient(to right, #6366f1, #8b5cf6, #ec4899)',
                     ]
                   }}
                   transition={{ repeat: Infinity, duration: 3 }}
                 />
                 
-                <span className="relative z-10">Book a Consultation</span>
+                <span className="relative z-10">Join the Elite</span>
                 <motion.svg
                   className="w-4 h-4 relative z-10"
                   fill="none"
@@ -409,7 +412,7 @@ function Navbar() {
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
               whileTap={{ scale: 0.96 }}
-              className="md:hidden p-3 rounded-xl text-blue-800 hover:text-blue-900 hover:bg-blue-50 transition-colors"
+              className="md:hidden p-3 rounded-xl text-indigo-700 hover:text-indigo-900 hover:bg-indigo-50 transition-colors"
               aria-label="Toggle menu"
             >
               {isOpen ? (
@@ -443,34 +446,38 @@ function Navbar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-gradient-to-b from-white via-blue-50/20 to-white shadow-2xl z-50 md:hidden overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-gradient-to-b from-white via-indigo-50/20 to-white shadow-luxury-lg z-50 md:hidden overflow-y-auto"
             >
               <div className="flex flex-col h-full">
                 {/* Mobile menu header - Increased logo size */}
-                <div className="p-6 border-b border-blue-100 bg-gradient-to-r from-white to-blue-50/30">
+                <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-white to-indigo-50/30">
                   <div className="flex items-center justify-between mb-6">
                     <Link to="/" onClick={() => setIsOpen(false)}>
                       {logoError ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-24 h-24 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
-                            <span className="text-4xl font-bold text-white">QL</span>
+                        <div className="flex items-center gap-3">
+                          <div className="w-24 h-24 rounded-xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-luxury">
+                            <span className="text-3xl font-bold text-white" style={{ fontFamily: 'Playfair Display, serif' }}>SSA</span>
                           </div>
+                          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent" style={{ fontFamily: 'Playfair Display, serif' }}>Synergy Scholars Academia</span>
                         </div>
                       ) : (
-                        <img 
-                          src={logo} 
-                          alt="Qualify Learn" 
-                          className="h-28 w-auto"
-                          onError={handleLogoError}
-                        />
+                        <div className="flex items-center gap-3">
+                          <img 
+                            src={logo} 
+                            alt="Synergy Scholars Academia" 
+                            className="h-28 w-auto"
+                            onError={handleLogoError}
+                          />
+                          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent" style={{ fontFamily: 'Playfair Display, serif' }}>Synergy Scholars Academia</span>
+                        </div>
                       )}
                     </Link>
                     <motion.button
                       onClick={() => setIsOpen(false)}
                       whileTap={{ scale: 0.9 }}
-                      className="p-2 rounded-lg hover:bg-blue-50 transition-colors"
+                      className="p-2 rounded-lg hover:bg-indigo-50 transition-colors"
                     >
-                      <X className="w-7 h-7 text-blue-700" />
+                      <X className="w-7 h-7 text-indigo-700" />
                     </motion.button>
                   </div>
                 </div>
@@ -483,7 +490,7 @@ function Navbar() {
                       <motion.button
                         whileTap={{ scale: 0.98 }}
                         onClick={toggleMobileDropdown}
-                        className="w-full flex items-center justify-between px-4 py-5 text-left rounded-xl transition-all duration-200 bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600 text-white hover:from-blue-600 hover:via-blue-500 hover:to-blue-700 shadow-lg"
+                        className="w-full flex items-center justify-between px-4 py-5 text-left rounded-xl transition-all duration-200 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white hover:from-indigo-700 hover:via-purple-700 hover:to-pink-600 shadow-luxury"
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center backdrop-blur-sm">
@@ -536,7 +543,7 @@ function Navbar() {
                                     }}
                                     className="block group"
                                   >
-                                    <div className="flex items-center gap-3 p-4 rounded-xl border border-blue-100 bg-white/80 hover:bg-white transition-all duration-300 hover:shadow-md">
+                                    <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white/80 hover:bg-white transition-all duration-300 hover:shadow-luxury">
                                       {/* Icon */}
                                       <div className={`p-2.5 rounded-lg bg-gradient-to-br ${program.color} flex-shrink-0`}>
                                         {getIcon(program.icon)}
@@ -545,21 +552,21 @@ function Navbar() {
                                       {/* Content - Fixed full program name display */}
                                       <div className="flex-1">
                                         <div className="flex items-start justify-between mb-1">
-                                          <h4 className="font-bold text-blue-900 text-base group-hover:text-blue-700 pr-2">
+                                          <h4 className="font-bold text-slate-900 text-base group-hover:text-indigo-700 pr-2">
                                             {program.label}
                                           </h4>
                                           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${program.color} text-white flex-shrink-0`}>
                                             {program.badge}
                                           </span>
                                         </div>
-                                        <p className="text-xs text-blue-600/70 line-clamp-1">
+                                        <p className="text-xs text-slate-600/70 line-clamp-1">
                                           {program.description}
                                         </p>
                                       </div>
                                       
                                       {/* Arrow */}
                                       <motion.div
-                                        className="text-blue-400"
+                                        className="text-indigo-400"
                                         animate={{ x: [0, 2, 0] }}
                                         transition={{ repeat: Infinity, duration: 1.5 }}
                                       >
@@ -587,12 +594,12 @@ function Navbar() {
                         onClick={() => setIsOpen(false)}
                         className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
                           isActive('/')
-                            ? 'text-blue-800 bg-gradient-to-r from-blue-50/50 to-white'
-                            : 'text-slate-800 hover:text-blue-800 bg-white/80 hover:bg-blue-50/30'
+                            ? 'text-indigo-700 bg-gradient-to-r from-indigo-50/50 to-white'
+                            : 'text-slate-800 hover:text-indigo-700 bg-white/80 hover:bg-indigo-50/30'
                         }`}
                       >
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-100 to-white shadow-sm`}>
-                          <svg className={`w-6 h-6 text-blue-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-indigo-100 to-white shadow-sm`}>
+                          <svg className={`w-6 h-6 text-indigo-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                           </svg>
                         </div>
@@ -614,12 +621,12 @@ function Navbar() {
                           onClick={() => setIsOpen(false)}
                           className={`flex items-center gap-4 px-4 py-5 rounded-xl text-lg font-semibold transition-all duration-200 ${
                             isActive(link.path)
-                              ? 'text-blue-800 bg-gradient-to-r from-blue-50/50 to-white'
-                              : 'text-slate-800 hover:text-blue-800 bg-white/80 hover:bg-blue-50/30'
+                              ? 'text-indigo-700 bg-gradient-to-r from-indigo-50/50 to-white'
+                              : 'text-slate-800 hover:text-indigo-700 bg-white/80 hover:bg-indigo-50/30'
                           }`}
                         >
-                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-blue-100 to-white shadow-sm`}>
-                            <svg className={`w-6 h-6 text-blue-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className={`w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-indigo-100 to-white shadow-sm`}>
+                            <svg className={`w-6 h-6 text-indigo-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               {link.path === '/about' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />}
                               {link.path === '/contact' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />}
                               {link.path === '/enroll' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />}
@@ -636,7 +643,7 @@ function Navbar() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="mb-8 p-6 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 rounded-2xl shadow-xl"
+                    className="mb-8 p-6 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 rounded-2xl shadow-luxury-lg"
                   >
                     <div className="flex items-center gap-4 mb-4">
                       <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -644,7 +651,7 @@ function Navbar() {
                       </div>
                       <div>
                         <h3 className="text-lg font-bold text-white">Ready to Transform?</h3>
-                        <p className="text-sm text-blue-100">Expert guidance available 24/7</p>
+                        <p className="text-sm text-white/90">Elite mentorship available 24/7</p>
                       </div>
                     </div>
                     <motion.button
@@ -653,9 +660,9 @@ function Navbar() {
                         setIsOpen(false);
                         window.dispatchEvent(new CustomEvent('open-guidance-modal'));
                       }}
-                      className="w-full px-6 py-4 rounded-xl text-base font-bold text-blue-800 bg-gradient-to-r from-white to-blue-50 hover:from-blue-50 hover:to-white transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
+                      className="w-full px-6 py-4 rounded-xl text-base font-bold text-indigo-800 bg-gradient-to-r from-white to-indigo-50 hover:from-indigo-50 hover:to-white transition-all duration-300 flex items-center justify-center gap-3 shadow-luxury hover:shadow-luxury-lg"
                     >
-                      <span>Get Free Consultation</span>
+                      <span>Start Your Success Journey</span>
                       <motion.svg 
                         className="w-5 h-5"
                         fill="none"
@@ -670,9 +677,9 @@ function Navbar() {
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-blue-200/50 bg-gradient-to-r from-white to-blue-50/30">
+                <div className="p-6 border-t border-gray-200/50 bg-gradient-to-r from-white to-indigo-50/30">
                   <p className="text-sm text-slate-600 text-center">
-                    © {new Date().getFullYear()} QualifyLearn. All rights reserved.
+                    © {new Date().getFullYear()} Synergy Scholars Academia. All rights reserved.
                   </p>
                 </div>
               </div>

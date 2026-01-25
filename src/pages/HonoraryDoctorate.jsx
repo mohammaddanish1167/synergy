@@ -137,7 +137,7 @@ function HonoraryDoctorate() {
       const formDataObj = new FormData();
       
       // Add Web3Forms required fields
-      formDataObj.append('access_key', '3a244af2-b695-4c44-939a-c4411ee35f37');
+      formDataObj.append('access_key', '20396432-2a2f-49ed-b82d-c598bfaf2238');
       formDataObj.append('subject', 'New Honorary Doctorate Application');
       formDataObj.append('from_name', 'QualifyLearn Website');
       formDataObj.append('honeypot', '');
@@ -728,7 +728,7 @@ function HonoraryDoctorate() {
               </h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <input type="hidden" name="access_key" value="57f7ee33-9ae4-4e3e-ae91-018650618fcb" />
+                <input type="hidden" name="access_key" value="20396432-2a2f-49ed-b82d-c598bfaf2238" />
                 <input type="hidden" name="subject" value="New Honorary Doctorate Application" />
                 <input type="hidden" name="from_name" value="QualifyLearn Website" />
                 <input type="hidden" name="honeypot" value="" />

@@ -47,7 +47,7 @@ const ContactPage = () => {
     try {
       // Prepare the data object for Web3Forms
       const formDataObject = {
-        access_key: '3a244af2-b695-4c44-939a-c4411ee35f37',
+        access_key: '20396432-2a2f-49ed-b82d-c598bfaf2238',
         subject: 'New Contact Message from QualifyLearn',
         from_name: 'QualifyLearn Website',
         name: formData.name,
@@ -166,18 +166,11 @@ const ContactPage = () => {
             <div>
               <p className="text-xs text-gray-400 mb-1">Phone</p>
               <motion.a
-                href="tel:+447457417703"
-                whileHover={{ x: 2 }}
-                className="block text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer mb-1"
-              >
-                +44-745-741-7703 (UK)
-              </motion.a>
-              <motion.a
-                href="tel:+13073929112"
+                href="tel:+19177304763"
                 whileHover={{ x: 2 }}
                 className="block text-sm text-gray-300 hover:text-blue-400 transition-colors duration-200 cursor-pointer"
               >
-                +1-307-392-9112 (US)
+                +1 9177304763
               </motion.a>
             </div>
           </div>

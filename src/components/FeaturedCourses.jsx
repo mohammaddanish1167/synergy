@@ -35,10 +35,10 @@ function FeaturedPrograms() {
     {
       id: 'honorary-doctorate',
       title: 'Honorary Doctorate',
-      subtitle: 'Lifetime Achievement Recognition',
-      description: 'Global recognition for exceptional professional achievements.',
+      subtitle: 'Distinguished Lifetime Recognition',
+      description: 'Prestigious global acknowledgment for extraordinary professional accomplishments and lasting impact.',
       icon: Award,
-      gradient: 'from-blue-700 to-blue-900',
+      gradient: 'from-indigo-600 to-indigo-800',
       duration: 'Prestigious Honor',
       students: '500+ Awarded',
       path: '/honorary-doctorate',
@@ -48,10 +48,10 @@ function FeaturedPrograms() {
     {
       id: 'honorary-professorship',
       title: 'Honorary Professorship',
-      subtitle: 'Academic Distinction',
-      description: 'Distinguished academic recognition for education contributions.',
+      subtitle: 'Academic Excellence Recognition',
+      description: 'Elite academic distinction honoring exceptional contributions to education and scholarly advancement.',
       icon: GraduationCap,
-      gradient: 'from-purple-700 to-purple-900',
+      gradient: 'from-purple-600 to-purple-800',
       duration: 'Academic Honor',
       students: '300+ Appointed',
       path: '/honorary-professorship',
@@ -61,10 +61,10 @@ function FeaturedPrograms() {
     {
       id: 'phd',
       title: 'PhD Programs',
-      subtitle: 'Research Doctorate',
-      description: 'Rigorous research programs developing original expertise.',
+      subtitle: 'Advanced Research Doctorate',
+      description: 'Comprehensive research-intensive programs cultivating original expertise and scholarly innovation.',
       icon: Book,
-      gradient: 'from-emerald-700 to-emerald-900',
+      gradient: 'from-emerald-600 to-emerald-800',
       duration: '3-6 Years',
       students: '2,000+ Graduates',
       path: '/phd',
@@ -74,10 +74,10 @@ function FeaturedPrograms() {
     {
       id: 'mba',
       title: 'MBA',
-      subtitle: 'Executive Leadership',
-      description: 'Business leadership for senior management roles.',
+      subtitle: 'Strategic Executive Leadership',
+      description: 'Advanced business leadership programs designed for senior management and C-suite positions.',
       icon: Briefcase,
-      gradient: 'from-amber-700 to-amber-900',
+      gradient: 'from-amber-600 to-amber-800',
       duration: '1-2 Years',
       students: '5,000+ Graduates',
       path: '/mba',
@@ -87,10 +87,10 @@ function FeaturedPrograms() {
     {
       id: 'dba',
       title: 'DBA',
-      subtitle: 'Executive Doctorate',
-      description: 'Advanced business research with practical application.',
+      subtitle: 'Executive Doctoral Excellence',
+      description: 'Prestigious executive doctorate combining advanced business research with strategic practical application.',
       icon: Globe,
-      gradient: 'from-rose-700 to-rose-900',
+      gradient: 'from-pink-600 to-rose-700',
       duration: '3-4 Years',
       students: '800+ Graduates',
       path: '/dba',
@@ -185,32 +185,32 @@ function FeaturedPrograms() {
   }, [isMobile]);
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-blue-50/30 overflow-hidden">
+    <section className="py-16 bg-gradient-to-b from-white via-indigo-50/20 to-purple-50/20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* Header */}
         <div className="text-center mb-16">
           <motion.div
-            className="inline-flex items-center gap-3 mb-6 px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full border"
+            className="inline-flex items-center gap-3 mb-6 px-6 py-3 bg-gradient-to-r from-indigo-100/80 to-purple-100/80 rounded-full border border-indigo-200/50 shadow-luxury"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <Sparkles className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-semibold text-blue-700 uppercase tracking-wider">
-              Academic Excellence
+            <Sparkles className="w-4 h-4 text-indigo-600" />
+            <span className="text-sm font-semibold text-indigo-700 uppercase tracking-wider">
+              Elite Academic Excellence
             </span>
-            <Sparkles className="w-4 h-4 text-blue-600" />
+            <Sparkles className="w-4 h-4 text-indigo-600" />
           </motion.div>
 
-          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
             Prestigious{' '}
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient">
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent animate-gradient">
               Programs
             </span>
           </h2>
 
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Globally recognized academic pathways with continuous innovation
+          <p className="text-xl text-slate-700 max-w-2xl mx-auto">
+            World-class academic pathways designed for extraordinary career outcomes and elite recognition
           </p>
         </div>
 
@@ -238,7 +238,7 @@ function FeaturedPrograms() {
                 >
                   <div
                     onClick={() => navigate(program.path)}
-                    className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border cursor-pointer h-full overflow-hidden"
+                    className="bg-white rounded-2xl shadow-luxury hover:shadow-luxury-lg transition-all duration-300 border border-gray-100 cursor-pointer h-full overflow-hidden"
                   >
                     {/* Top colored section - keep white text here */}
                     <div className={`h-36 bg-gradient-to-r ${program.gradient} relative`}>
@@ -260,17 +260,17 @@ function FeaturedPrograms() {
                       <div className="space-y-2 mb-6">
                         {program.highlights.map((h, i) => (
                           <div key={i} className="flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                            <span className="text-sm text-gray-800">{h}</span>
+                            <CheckCircle className="w-4 h-4 text-indigo-600 flex-shrink-0" />
+                            <span className="text-sm text-slate-800">{h}</span>
                           </div>
                         ))}
                       </div>
 
-                      <div className="flex justify-between items-center border-t pt-4">
-                        <span className="text-sm text-gray-700 font-medium">{program.students}</span>
-                        <div className="flex items-center gap-2 text-blue-600 font-medium group">
-                          <span className="text-gray-800">Explore</span>
-                          <ArrowRight className="w-4 h-4 text-gray-800 group-hover:translate-x-1 transition-transform" />
+                        <div className="flex justify-between items-center border-t pt-4">
+                        <span className="text-sm text-slate-700 font-medium">{program.students}</span>
+                        <div className="flex items-center gap-2 text-indigo-600 font-medium group">
+                          <span className="text-slate-800">Explore</span>
+                          <ArrowRight className="w-4 h-4 text-slate-800 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </div>
