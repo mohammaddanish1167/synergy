@@ -195,7 +195,7 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
         },
         body: JSON.stringify({
           ...baseData,
-          access_key: '20396432-2a2f-49ed-b82d-c598bfaf2238'
+          access_key: '39abe0c3-8f53-46e1-831e-74da0d049d2d'
         })
       });
 
@@ -207,7 +207,7 @@ function GuidanceModal({ open, onClose, defaultCourse = '' }) {
         },
         body: JSON.stringify({
           ...baseData,
-          access_key: '20396432-2a2f-49ed-b82d-c598bfaf2238'
+          access_key: '39abe0c3-8f53-46e1-831e-74da0d049d2d'
         })
       });
 

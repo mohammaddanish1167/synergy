@@ -163,9 +163,7 @@ function Navbar() {
               >
                 {logoError ? (
                   <div className="flex items-center gap-3">
-                    <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-luxury">
-                      <span className="text-2xl font-bold text-white" style={{ fontFamily: 'Playfair Display, serif' }}>SSA</span>
-                    </div>
+                   
                     <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent hidden sm:block" style={{ fontFamily: 'Playfair Display, serif' }}>Synergy Scholars Academia</span>
                   </div>
                 ) : (
@@ -177,7 +175,7 @@ function Navbar() {
                       onError={handleLogoError}
                       onLoad={() => setLogoError(false)}
                     />
-                    <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent hidden lg:block" style={{ fontFamily: 'Playfair Display, serif' }}>Synergy Scholars Academia</span>
+                    
                   </div>
                 )}
               </motion.div>

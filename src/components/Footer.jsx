@@ -14,17 +14,17 @@ function Footer() {
     {
       name: 'Instagram',
       icon: <Instagram className="w-5 h-5" />,
-      url: 'https://www.instagram.com/qualifylearn/?hl=en'
+      url: 'https://www.instagram.com/synergy_scholars_academia?utm_source=qr&igsh=MXBvbW1xc2dhN3FybQ=='
     },
     {
       name: 'Facebook',
       icon: <Facebook className="w-5 h-5" />,
-      url: 'https://www.facebook.com/p/QualifyLearn-61566245874078/'
+      url: 'http://facebook.com/people/Synergy-Scholars-Academia/61587252902623/?rdid=RihUW1LnqgnQ63gT&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17RbbMokyK%2F'
     },
     {
       name: 'LinkedIn',
       icon: <Linkedin className="w-5 h-5" />,
-      url: 'https://www.linkedin.com/company/104800214/admin/dashboard/'
+      url: ''
     }
   ];
 

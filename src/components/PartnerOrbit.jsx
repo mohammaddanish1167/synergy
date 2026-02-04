@@ -357,7 +357,7 @@ export default function UniversityPartnerships() {
                 whileTap={{ scale: 0.95 }}
                 onMouseEnter={() => setHoveredPartner(partner)}
                 onMouseLeave={() => setHoveredPartner(null)}
-                onClick={() => handlePartnerClick(partner)}
+                
               >
                 {/* Card with gradient border */}
                 <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${partner.color} p-[2px]`}>
@@ -406,7 +406,7 @@ export default function UniversityPartnerships() {
                     {partner.name}
                   </motion.h3>
 
-                  {/* Status indicator with pulse */}
+                  {/* Status indicator with pulse 
                   <motion.div
                     className="mt-4"
                     animate={{
@@ -422,22 +422,9 @@ export default function UniversityPartnerships() {
                       View More
                       <ChevronRight className="w-4 h-4" />
                     </span>
-                  </motion.div>
+                  </motion.div>*/}
 
-                  {/* URL Preview on Hover */}
-                  {hoveredPartner?.id === partner.id && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute bottom-4 left-4 right-4 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200"
-                    >
-                      <p className="text-xs text-gray-600 truncate font-mono">
-                        {partner.link.replace('https://', '')}
-                      </p>
-                    </motion.div>
-                  )}
-
+                  
                   {/* Hover effect */}
                   <motion.div
                     className="absolute inset-0 rounded-3xl bg-gradient-to-br from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200"

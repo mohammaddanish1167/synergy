@@ -383,7 +383,7 @@ function Payment() {
                     )}
                   </motion.button>
 
-                  {/* Credit Card Option */}
+                  {/* Credit Card Option
                   <motion.button
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
@@ -410,7 +410,7 @@ function Payment() {
                       <ChevronRight className={`w-4 h-4 transition-colors ${paymentMethod === 'Stripe' ? 'text-slate-800' : 'text-slate-400'
                         }`} />
                     )}
-                  </motion.button>
+                  </motion.button> */}
                 </div>
 
                 {/* Payment Amount Display - UPDATED TO SHOW ORIGINAL CURRENCY */}

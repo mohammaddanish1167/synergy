@@ -154,9 +154,9 @@ function DBA() {
       const formDataObj = new FormData();
       
       // Add Web3Forms required fields
-      formDataObj.append('access_key', '20396432-2a2f-49ed-b82d-c598bfaf2238');
+      formDataObj.append('access_key', '39abe0c3-8f53-46e1-831e-74da0d049d2d');
       formDataObj.append('subject', 'New DBA Application');
-      formDataObj.append('from_name', 'QualifyLearn Website');
+      formDataObj.append('from_name', 'Website');
       formDataObj.append('honeypot', '');
       formDataObj.append('botcheck', '');
       
