@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import {
   Lock, Shield, CreditCard, CheckCircle, XCircle, ArrowLeft,
   Sparkles, Calendar, Clock, Award, Zap, AlertCircle,
-  Loader2, User, Mail, Phone, Globe, DollarSign, ChevronRight
+  Loader2, User, Mail, Phone, Globe, DollarSign, ChevronRight,
+  HelpCircle, Briefcase, GraduationCap, Target, BarChart
 } from 'lucide-react';
 
 /* ✅ BACKEND URL (NO ENV, NO FALLBACK) */
@@ -27,22 +28,14 @@ async function safeJson(res) {
 // Helper function to get currency symbol
 const getCurrencySymbol = (currencyCode) => {
   switch (currencyCode?.toUpperCase()) {
-    case 'USD':
-      return '$';
-    case 'GBP':
-      return '£';
-    case 'EUR':
-      return '€';
-    case 'JPY':
-      return '¥';
-    case 'INR':
-      return '₹';
-    case 'CAD':
-      return 'CA$';
-    case 'AUD':
-      return 'A$';
-    default:
-      return currencyCode ? `${currencyCode} ` : '';
+    case 'USD': return '$';
+    case 'GBP': return '£';
+    case 'EUR': return '€';
+    case 'JPY': return '¥';
+    case 'INR': return '₹';
+    case 'CAD': return 'CA$';
+    case 'AUD': return 'A$';
+    default: return currencyCode ? `${currencyCode} ` : '';
   }
 };
 
@@ -72,14 +65,15 @@ function Payment() {
   const country = query.get('country') || '';
 
   const courseDetails = {
-    'Honorary Doctorate': { icon: <Award className="w-5 h-5" />, color: 'from-blue-500 to-cyan-500' },
-    'Honorary Professorship': { icon: <Award className="w-5 h-5" />, color: 'from-purple-500 to-pink-500' },
-    'PhD Program': { icon: <Sparkles className="w-5 h-5" />, color: 'from-emerald-500 to-green-500' },
-    'MBA (Master)': { icon: <Zap className="w-5 h-5" />, color: 'from-amber-500 to-orange-500' },
-    'DBA Program': { icon: <CreditCard className="w-5 h-5" />, color: 'from-rose-500 to-pink-500' },
+    'Honorary Doctorate': { icon: Award, color: 'text-indigo-600', bgColor: 'bg-indigo-50' },
+    'Honorary Professorship': { icon: Award, color: 'text-purple-600', bgColor: 'bg-purple-50' },
+    'PhD Program': { icon: GraduationCap, color: 'text-emerald-600', bgColor: 'bg-emerald-50' },
+    'MBA': { icon: Briefcase, color: 'text-amber-600', bgColor: 'bg-amber-50' },
+    'DBA Program': { icon: Target, color: 'text-rose-600', bgColor: 'bg-rose-50' },
   };
 
   const courseDetail = courseDetails[course] || courseDetails['Honorary Doctorate'];
+  const Icon = courseDetail.icon;
 
   /* ================= PAYPAL RETURN ================= */
   useEffect(() => {
@@ -122,7 +116,7 @@ function Payment() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           amount: price, 
-          currency: currency,  // Changed from 'USD' to use original currency
+          currency: currency,
           course, 
           name, 
           email, 
@@ -150,7 +144,6 @@ function Payment() {
       setPaymentMethod('Stripe');
       setMessage('');
 
-      // Convert currency code to Stripe format (lowercase)
       const stripeCurrency = currency.toLowerCase();
       
       const res = await fetch(`${API_BASE_URL}/api/stripe/create-checkout-session`, {
@@ -159,7 +152,7 @@ function Payment() {
         body: JSON.stringify({ 
           course, 
           price, 
-          currency: stripeCurrency,  // Use original currency
+          currency: stripeCurrency,
           name, 
           email, 
           phone, 
@@ -179,307 +172,249 @@ function Payment() {
     }
   };
 
-  /* ================= UI ================= */
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="grid lg:grid-cols-3 gap-8"
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        {/* Back button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 mb-6 transition-colors"
         >
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </button>
+
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* Left Column - Order Summary */}
           <div className="lg:col-span-2">
-            <div className="mb-6">
-              <button
-                onClick={() => navigate(-1)}
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-600 mb-4"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back
-              </button>
-
-              <div className="mb-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-sm">
-                    <Lock className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h1 className="text-2xl font-bold text-slate-900">Payment</h1>
-                    <p className="text-slate-500 text-sm">Complete your enrollment securely</p>
-                  </div>
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 md:p-8">
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                  <Lock className="w-6 h-6 text-indigo-600" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Complete payment</h1>
+                  <p className="text-sm text-gray-600 mt-1">Secure checkout for your enrollment</p>
                 </div>
               </div>
-            </div>
 
-            {/* Order Summary Card */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
-              <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                  <CheckCircle className="w-3 h-3 text-blue-600" />
-                </div>
-                Order Details
-              </h2>
-
+              {/* Order Details */}
               <div className="space-y-6">
-                {/* User Details */}
+                {/* User Info */}
                 {name && (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
+                  <div className="bg-gray-50 rounded-xl p-5">
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">Payer information</h3>
+                    <div className="space-y-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-                          <User className="w-4 h-4 text-blue-600" />
+                        <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                          <User className="w-4 h-4 text-indigo-600" />
                         </div>
                         <div>
-                          <p className="text-sm text-slate-500">Paying as</p>
-                          <p className="font-medium text-slate-900">{name}</p>
+                          <p className="text-xs text-gray-500">Name</p>
+                          <p className="text-sm font-medium text-gray-900">{name}</p>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3 pl-12">
-                      <div>
-                        <p className="text-xs text-slate-400 mb-1">Email</p>
-                        <p className="text-sm text-slate-700">{email}</p>
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                          <Mail className="w-4 h-4 text-indigo-600" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Email</p>
+                          <p className="text-sm font-medium text-gray-900">{email}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-xs text-slate-400 mb-1">Phone</p>
-                        <p className="text-sm text-slate-700">{phone}</p>
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                          <Phone className="w-4 h-4 text-indigo-600" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Phone</p>
+                          <p className="text-sm font-medium text-gray-900">{phone}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* Course Details */}
-                <div className="border-t border-slate-100 pt-6">
+                {/* Course Info */}
+                <div className="bg-indigo-50 rounded-xl p-5 border border-indigo-100">
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${courseDetail.color} flex items-center justify-center shadow-sm`}>
-                      {courseDetail.icon}
+                    <div className={`w-12 h-12 ${courseDetail.bgColor} rounded-xl flex items-center justify-center`}>
+                      <Icon className={`w-6 h-6 ${courseDetail.color}`} />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="font-bold text-slate-900">{course}</h3>
-                      <div className="flex items-center gap-3 mt-2">
-                        <div className="flex items-center gap-1 text-sm text-slate-500">
-                          <Calendar className="w-3 h-3" />
-                          <span>{month} {date}</span>
-                        </div>
-                        <div className="flex items-center gap-1 text-sm text-slate-500">
-                          <Clock className="w-3 h-3" />
-                          <span>12 months</span>
-                        </div>
-                      </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">{course}</h3>
+                      <p className="text-xs text-gray-600 mt-1">Program enrollment</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Pricing Summary - UPDATED TO SHOW ORIGINAL CURRENCY ONLY */}
-                <div className="border-t border-slate-100 pt-6">
-                  <h3 className="text-sm font-semibold text-slate-900 mb-4">Payment Summary</h3>
+                {/* Payment Summary */}
+                <div className="border-t border-gray-200 pt-6">
+                  <h3 className="text-sm font-medium text-gray-700 mb-4">Payment summary</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Program Fee</span>
-                      <div className="text-right">
-                        <span className="text-slate-900 font-medium">
-                          {getCurrencySymbol(currency)}{price}
-                        </span>
-                        <div className="text-xs text-slate-400 mt-1">{currency}</div>
-                      </div>
+                      <span className="text-sm text-gray-600">Program fee</span>
+                      <span className="text-sm font-medium text-gray-900">
+                        {getCurrencySymbol(currency)}{price}
+                      </span>
                     </div>
-                   
-                    <div className="border-t border-slate-200 pt-3">
+                    <div className="border-t border-gray-200 pt-3">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-slate-900">Total</span>
+                        <span className="font-medium text-gray-900">Total</span>
                         <div className="text-right">
-                          <div className="text-xl font-bold text-slate-900">
+                          <span className="text-xl font-bold text-gray-900">
                             {getCurrencySymbol(currency)}{price}
-                          </div>
-                          <div className="text-xs text-slate-500">One-time payment</div>
+                          </span>
+                          <p className="text-xs text-gray-500 mt-1">One-time payment</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Payment Security */}
-            <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-100">
-              <div className="flex-shrink-0">
-                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
-                  <Shield className="w-5 h-5 text-blue-600" />
+                {/* Security Note */}
+                <div className="flex items-center gap-3 p-4 bg-green-50 rounded-xl border border-green-100">
+                  <Shield className="w-5 h-5 text-green-600 flex-shrink-0" />
+                  <p className="text-xs text-gray-700">
+                    <span className="font-medium text-gray-900">Secure payment</span> · All transactions are encrypted and protected
+                  </p>
                 </div>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-slate-900">Secure Payment</p>
-                <p className="text-xs text-slate-600">Your payment is encrypted and secure</p>
               </div>
             </div>
           </div>
 
           {/* Right Column - Payment Methods */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              {/* Status Message */}
-              {message && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`mb-4 p-4 rounded-xl flex items-start gap-3 ${status === 'success'
-                    ? 'bg-emerald-50 border border-emerald-200'
-                    : status === 'error'
-                      ? 'bg-red-50 border border-red-200'
-                      : 'bg-blue-50 border border-blue-200'
-                    }`}
-                >
+          <div className="lg:col-span-1 space-y-4">
+            {/* Status Message */}
+            {message && (
+              <div className={`bg-white rounded-xl border p-4 ${
+                status === 'success' ? 'border-green-200' : 
+                status === 'error' ? 'border-red-200' : 'border-blue-200'
+              }`}>
+                <div className="flex items-start gap-3">
                   {status === 'success' ? (
-                    <CheckCircle className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   ) : status === 'error' ? (
-                    <XCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+                    <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                   ) : (
-                    <AlertCircle className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                   )}
-                  <div className="flex-1">
-                    <p className={`text-sm font-medium ${status === 'success' ? 'text-emerald-800' :
-                      status === 'error' ? 'text-red-800' :
-                        'text-blue-800'
-                      }`}>
-                      {message}
-                    </p>
-                  </div>
-                </motion.div>
-              )}
+                  <p className="text-sm text-gray-700">{message}</p>
+                </div>
+              </div>
+            )}
 
-              {/* Payment Methods Card */}
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                <h2 className="text-lg font-bold text-slate-900 mb-6">Choose Payment Method</h2>
+            {/* Payment Methods Card */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Select payment method</h2>
 
-                <div className="space-y-3">
-                  {/* PayPal Option */}
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    onClick={handlePayPal}
-                    disabled={loading}
-                    className={`w-full p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group ${paymentMethod === 'PayPal'
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
-                      } ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${paymentMethod === 'PayPal' ? 'bg-blue-100' : 'bg-slate-100'
-                        }`}>
-                        <div className="text-blue-600 font-bold text-sm">PP</div>
+              <div className="space-y-3">
+                {/* PayPal */}
+                <button
+                  onClick={handlePayPal}
+                  disabled={loading}
+                  className={`w-full p-4 rounded-xl border transition-all ${
+                    paymentMethod === 'PayPal' 
+                      ? 'border-indigo-300 bg-indigo-50' 
+                      : 'border-gray-200 hover:border-indigo-200 hover:bg-gray-50'
+                  } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                        <span className="text-indigo-600 font-bold text-sm">PP</span>
                       </div>
                       <div className="text-left">
-                        <div className="font-medium text-slate-900">PayPal</div>
-                        <div className="text-xs text-slate-500">Pay securely with PayPal</div>
+                        <p className="font-medium text-gray-900">PayPal</p>
+                        <p className="text-xs text-gray-500">Pay securely with PayPal</p>
                       </div>
                     </div>
                     {loading && paymentMethod === 'PayPal' ? (
-                      <Loader2 className="w-4 h-4 text-blue-600 animate-spin" />
+                      <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
                     ) : (
-                      <ChevronRight className={`w-4 h-4 transition-colors ${paymentMethod === 'PayPal' ? 'text-blue-600' : 'text-slate-400'
-                        }`} />
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
                     )}
-                  </motion.button>
+                  </div>
+                </button>
 
-                  {/* Credit Card Option
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    onClick={handleStripe}
-                    disabled={loading}
-                    className={`w-full p-4 rounded-xl border transition-all duration-200 flex items-center justify-between group ${paymentMethod === 'Stripe'
-                      ? 'border-slate-800 bg-slate-50'
-                      : 'border-slate-200 hover:border-slate-800 hover:bg-slate-50/50'
-                      } ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${paymentMethod === 'Stripe' ? 'bg-slate-100' : 'bg-slate-100'
-                        }`}>
-                        <CreditCard className="w-5 h-5 text-slate-700" />
+                {/* Credit Card */}
+                <button
+                  onClick={handleStripe}
+                  disabled={loading}
+                  className={`w-full p-4 rounded-xl border transition-all ${
+                    paymentMethod === 'Stripe' 
+                      ? 'border-indigo-300 bg-indigo-50' 
+                      : 'border-gray-200 hover:border-indigo-200 hover:bg-gray-50'
+                  } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                        <CreditCard className="w-5 h-5 text-indigo-600" />
                       </div>
                       <div className="text-left">
-                        <div className="font-medium text-slate-900">Credit/Debit Card</div>
-                        <div className="text-xs text-slate-500">Visa, Mastercard, Amex</div>
+                        <p className="font-medium text-gray-900">Credit / Debit Card</p>
+                        <p className="text-xs text-gray-500">Visa, Mastercard, Amex</p>
                       </div>
                     </div>
                     {loading && paymentMethod === 'Stripe' ? (
-                      <Loader2 className="w-4 h-4 text-slate-600 animate-spin" />
+                      <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
                     ) : (
-                      <ChevronRight className={`w-4 h-4 transition-colors ${paymentMethod === 'Stripe' ? 'text-slate-800' : 'text-slate-400'
-                        }`} />
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
                     )}
-                  </motion.button> */}
-                </div>
-
-                {/* Payment Amount Display - UPDATED TO SHOW ORIGINAL CURRENCY */}
-                <div className="mt-8 pt-6 border-t border-slate-100">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-slate-600">Amount to pay</span>
-                    <span className="text-lg font-bold text-slate-900">
-                      {getCurrencySymbol(currency)}{price}
-                    </span>
                   </div>
-                  <p className="text-xs text-slate-400 text-center">
-                    You'll be redirected to the secure payment page
-                  </p>
-                </div>
-
-                {/* Security Info */}
-                <div className="mt-6 pt-6 border-t border-slate-100">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
-                        <Lock className="w-3 h-3 text-emerald-600" />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-600">
-                        <span className="font-medium text-slate-900">Secure payment</span> · 256-bit SSL encryption · Your payment details are protected
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Terms */}
-                <div className="mt-6">
-                  <p className="text-xs text-slate-400 text-center">
-                    By proceeding, you agree to our{' '}
-                    <a href="/terms" className="text-blue-600 hover:text-blue-700">
-                      Terms
-                    </a>{' '}
-                    and{' '}
-                    <a href="/privacy" className="text-blue-600 hover:text-blue-700">
-                      Privacy Policy
-                    </a>
-                  </p>
-                </div>
+                </button>
               </div>
 
-              {/* Support Section */}
-              <div className="mt-4 p-4 bg-white rounded-xl border border-slate-200">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
-                      <Mail className="w-3 h-3 text-blue-600" />
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">Need help?</p>
-                    <p className="text-xs text-slate-500 mb-2">Our team is here to assist you</p>
-                    <button
-                      onClick={() => window.location.href = 'mailto:support@qualifylearn.com'}
-                      className="text-xs text-blue-600 hover:text-blue-700 font-medium"
-                    >
-                      Contact support →
-                    </button>
-                  </div>
+              {/* Amount Display */}
+              <div className="mt-6 pt-4 border-t border-gray-200">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Amount due</span>
+                  <span className="text-lg font-bold text-gray-900">
+                    {getCurrencySymbol(currency)}{price}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-500 mt-2 text-center">
+                  You'll be redirected to the secure payment page
+                </p>
+              </div>
+
+              {/* Security Badge */}
+              <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
+                <Lock className="w-3 h-3" />
+                <span>256-bit SSL encryption</span>
+              </div>
+
+              {/* Terms */}
+              <p className="mt-4 text-xs text-gray-400 text-center">
+                By proceeding, you agree to our{' '}
+                <a href="/terms" className="text-indigo-600 hover:text-indigo-700">Terms</a>
+                {' '}and{' '}
+                <a href="/privacy" className="text-indigo-600 hover:text-indigo-700">Privacy Policy</a>
+              </p>
+            </div>
+
+            {/* Support Card */}
+            <div className="bg-white rounded-xl border border-gray-200 p-5">
+              <div className="flex items-start gap-3">
+                <HelpCircle className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-medium text-gray-900 mb-1">Need assistance?</h3>
+                  <p className="text-xs text-gray-600 mb-2">Our support team is here to help</p>
+                  <a
+                    href="mailto:support@qualifylearn.com"
+                    className="text-xs text-indigo-600 hover:text-indigo-700 font-medium inline-flex items-center gap-1"
+                  >
+                    Contact support
+                    <ChevronRight className="w-3 h-3" />
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

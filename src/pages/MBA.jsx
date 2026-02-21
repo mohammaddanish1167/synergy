@@ -3,7 +3,6 @@ import {
   Award, 
   Globe, 
   Users, 
-  Trophy, 
   CheckCircle, 
   GraduationCap, 
   Star,
@@ -12,60 +11,31 @@ import {
   Target,
   Book,
   Lightbulb,
-  Heart,
   Sparkles,
   ChevronRight,
   Calendar,
   Clock,
-  Building,
-  FileCheck,
-  UserCheck,
-  BookOpen,
-  ShieldCheck,
   Briefcase,
   Zap,
-  Cpu,
   ArrowRight,
-  CalendarDays,
   Crown,
-  Globe2,
   Brain,
   TrendingUp,
-  Users2,
   BadgeCheck,
-  Stethoscope,
   Rocket,
-  TargetIcon,
   BarChart3,
   BookMarked,
-  FileCheck as FileCheckIcon,
   Search,
   Mic,
-  Newspaper,
-  Layers,
-  ClipboardCheck,
-  BookText,
-  School,
-  AwardIcon,
-  MessageSquare,
-  BookHeart,
-  UsersRound,
-  TrophyIcon,
-  TrendingUp as TrendingUpIcon,
-  LineChart,
-  Settings,
-  Target as TargetIcon2,
-  BookOpen as BookOpenIcon,
-  BarChart as BarChartIcon,
-  Briefcase as BriefcaseIcon,
-  Globe as GlobeIcon,
+  Upload,
+  X,
+  FileCheck,
   DollarSign,
   PieChart,
   Network,
-  TrendingUp as ChartTrendingUp,
-  Upload,
-  File,
-  X
+  Download,
+  Plus,
+  Minus
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 
@@ -84,59 +54,48 @@ function MBA() {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success' or 'error'
+  const [submitStatus, setSubmitStatus] = useState(null);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [openFaq, setOpenFaq] = useState(null);
   const fileInputRef = useRef(null);
 
   const programStats = [
-    { icon: <BriefcaseIcon className="w-5 h-5" />, number: '2,500+', label: 'MBA Graduates', color: 'from-blue-500 to-cyan-500' },
-    { icon: <ChartTrendingUp className="w-5 h-5" />, number: '92%', label: 'Placement Rate', color: 'from-emerald-500 to-green-500' },
-    { icon: <DollarSign className="w-5 h-5" />, number: '45%', label: 'Average Salary Hike', color: 'from-purple-500 to-pink-500' },
-    { icon: <GlobeIcon className="w-5 h-5" />, number: '60+', label: 'Countries', color: 'from-amber-500 to-orange-500' },
+    { icon: Briefcase, number: '2,500+', label: 'MBA Graduates' },
+    { icon: TrendingUp, number: '92%', label: 'Placement Rate' },
+    { icon: DollarSign, number: '45%', label: 'Salary Hike' },
+    { icon: Globe, number: '60+', label: 'Countries' },
   ];
 
   const programHighlights = [
     {
-      icon: <BarChartIcon className="w-6 h-6" />,
+      icon: BarChart3,
       title: 'Industry-Relevant Curriculum',
       description: 'Cutting-edge business concepts aligned with current market demands.',
-      gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',
-      iconColor: 'text-blue-600'
     },
     {
-      icon: <Network className="w-6 h-6" />,
+      icon: Network,
       title: 'Global Business Network',
       description: 'Connect with professionals and alumni across international markets.',
-      gradient: 'bg-gradient-to-br from-emerald-50 to-teal-50',
-      iconColor: 'text-emerald-600'
     },
     {
-      icon: <TargetIcon2 className="w-6 h-6" />,
+      icon: Target,
       title: 'Career-Focused Learning',
       description: 'Practical skills development for immediate workplace application.',
-      gradient: 'bg-gradient-to-br from-purple-50 to-fuchsia-50',
-      iconColor: 'text-purple-600'
     },
     {
-      icon: <PieChart className="w-6 h-6" />,
+      icon: PieChart,
       title: 'Specialized Concentrations',
       description: 'Tailor your MBA with focused tracks in high-demand business areas.',
-      gradient: 'bg-gradient-to-br from-amber-50 to-orange-50',
-      iconColor: 'text-amber-600'
     },
     {
-      icon: <Users2 className="w-6 h-6" />,
+      icon: Users,
       title: 'Expert Faculty',
       description: 'Learn from industry practitioners and academic experts.',
-      gradient: 'bg-gradient-to-br from-rose-50 to-pink-50',
-      iconColor: 'text-rose-600'
     },
     {
-      icon: <Rocket className="w-6 h-6" />,
+      icon: Rocket,
       title: 'Flexible Formats',
       description: 'Full-time, part-time, online, and executive MBA options available.',
-      gradient: 'bg-gradient-to-br from-cyan-50 to-blue-50',
-      iconColor: 'text-cyan-600'
     },
   ];
 
@@ -145,21 +104,18 @@ function MBA() {
       title: 'Full-Time MBA',
       duration: '1-2 years',
       description: 'Intensive program for career switchers and recent graduates',
-      icon: '🎓',
       features: ['Campus immersion', 'Internship opportunities', 'Career services']
     },
     {
       title: 'Executive MBA',
       duration: '18-24 months',
       description: 'Weekend/evening classes for working professionals',
-      icon: '👨‍💼',
       features: ['Minimal work disruption', 'Peer learning', 'Immediate application']
     },
     {
       title: 'Online MBA',
       duration: 'Flexible',
       description: 'Complete flexibility with virtual learning platform',
-      icon: '💻',
       features: ['Anywhere access', 'Self-paced learning', 'Digital networking']
     },
   ];
@@ -175,8 +131,6 @@ function MBA() {
     'International Business',
     'Business Analytics',
     'Healthcare Management',
-    'Digital Transformation',
-    'Sustainable Business'
   ];
 
   const processSteps = [
@@ -184,33 +138,21 @@ function MBA() {
       step: '01',
       title: 'Application & Documentation',
       description: 'Submit academic records, test scores, and professional experience.',
-      icon: <FileText className="w-5 h-5" />,
-      duration: '2-4 weeks',
-      gradient: 'from-blue-400 to-cyan-400'
     },
     {
       step: '02',
       title: 'Admission Review',
       description: 'Comprehensive evaluation by admissions committee.',
-      icon: <Search className="w-5 h-5" />,
-      duration: '3-4 weeks',
-      gradient: 'from-purple-400 to-pink-400'
     },
     {
       step: '03',
       title: 'Interview Process',
       description: 'Personal interviews to assess fit and potential.',
-      icon: <Mic className="w-5 h-5" />,
-      duration: '1-2 weeks',
-      gradient: 'from-emerald-400 to-green-400'
     },
     {
       step: '04',
       title: 'Enrollment & Orientation',
       description: 'Program onboarding and academic preparation.',
-      icon: <BookOpen className="w-5 h-5" />,
-      duration: '2-3 weeks',
-      gradient: 'from-amber-400 to-orange-400'
     },
   ];
 
@@ -218,32 +160,28 @@ function MBA() {
     {
       title: 'Career Advancement',
       description: 'Accelerate your professional growth and leadership potential.',
-      icon: <TrendingUpIcon className="w-5 h-5" />,
-      color: 'text-blue-400'
+      icon: TrendingUp,
     },
     {
       title: 'Leadership Skills',
       description: 'Develop strategic thinking and team management capabilities.',
-      icon: <Crown className="w-5 h-5" />,
-      color: 'text-amber-400'
+      icon: Crown,
     },
     {
       title: 'Global Network',
       description: 'Build lifelong connections with business leaders worldwide.',
-      icon: <Globe2 className="w-5 h-5" />,
-      color: 'text-purple-400'
+      icon: Globe,
     },
     {
       title: 'Business Acumen',
       description: 'Master core business functions and strategic decision-making.',
-      icon: <BarChart3 className="w-5 h-5" />,
-      color: 'text-emerald-400'
+      icon: Brain,
     },
   ];
 
   const eligibilityPoints = [
-    'Bachelor\'s degree from recognized institution',
-    'professional years of work experience (varies by program)',
+    "Bachelor's degree from recognized institution",
+    '2-5 years of work experience (varies by program)',
     'Strong academic background',
     'GMAT/GRE scores (waivers available)',
     'English proficiency for international programs',
@@ -272,51 +210,23 @@ function MBA() {
   const careerOutcomes = [
     {
       title: 'Management Consultant',
-      icon: '📊',
-      avgSalary: '$120,000+',
+      salary: '$120,000+',
       description: 'Advise organizations on strategic challenges'
     },
     {
       title: 'Product Manager',
-      icon: '🚀',
-      avgSalary: '$110,000+',
+      salary: '$110,000+',
       description: 'Lead product development and strategy'
     },
     {
       title: 'Investment Banker',
-      icon: '💼',
-      avgSalary: '$150,000+',
+      salary: '$150,000+',
       description: 'Manage corporate finance and investments'
     },
     {
       title: 'Marketing Director',
-      icon: '🎯',
-      avgSalary: '$130,000+',
+      salary: '$130,000+',
       description: 'Drive brand strategy and market growth'
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: 'Priya Sharma',
-      role: 'MBA Graduate, Senior Product Manager at Google',
-      quote: 'The MBA program transformed my career trajectory, providing both technical skills and strategic mindset needed for tech leadership.',
-      rating: 5,
-      badge: 'TECH LEADER'
-    },
-    {
-      name: 'Michael Rodriguez',
-      role: 'MBA Graduate, Management Consultant at BCG',
-      quote: 'Networking opportunities and case-based learning prepared me perfectly for consulting challenges and client engagements.',
-      rating: 5,
-      badge: 'CONSULTING STAR'
-    },
-    {
-      name: 'Sarah Johnson',
-      role: 'MBA Graduate, VP Finance at JP Morgan',
-      quote: 'Specialized finance track combined with real-world projects gave me the competitive edge in investment banking.',
-      rating: 5,
-      badge: 'FINANCE EXPERT'
     },
   ];
 
@@ -324,47 +234,30 @@ function MBA() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Check file size (5MB max)
       if (file.size > 5 * 1024 * 1024) {
         setSubmitMessage('File size must be less than 5MB');
         setSubmitStatus('error');
         return;
       }
-      
-      // Check file type
-      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
-      const fileExtension = file.name.split('.').pop().toLowerCase();
-      const validExtensions = ['pdf', 'doc', 'docx', 'txt'];
-      
-      if (!validTypes.includes(file.type) && !validExtensions.includes(fileExtension)) {
-        setSubmitMessage('Please upload a PDF, DOC, DOCX, or TXT file');
-        setSubmitStatus('error');
-        return;
-      }
-      
       setSelectedFile(file);
     }
   };
 
-  // Handle remove file
   const handleRemoveFile = () => {
     setSelectedFile(null);
-    // Reset the file input
-    const fileInput = document.getElementById('resume-upload');
-    if (fileInput) {
-      fileInput.value = '';
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
   const formatFileSize = (bytes) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ['Bytes', 'KB', 'MB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -373,7 +266,6 @@ function MBA() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -382,11 +274,7 @@ function MBA() {
 
     try {
       const web3formsData = new FormData();
-      
-      // Add Web3Forms access key
       web3formsData.append('access_key', '20396432-2a2f-49ed-b82d-c598bfaf2238');
-      
-      // Add form data with proper field names
       web3formsData.append('name', formData.name);
       web3formsData.append('phone', formData.phone);
       web3formsData.append('email', formData.email);
@@ -398,7 +286,6 @@ function MBA() {
       web3formsData.append('form_type', 'MBA Program Application');
       web3formsData.append('subject', `New MBA Application from ${formData.name}`);
       
-      // Add file if selected
       if (selectedFile) {
         web3formsData.append('attachment', selectedFile);
       }
@@ -412,9 +299,7 @@ function MBA() {
       
       if (result.success) {
         setSubmitStatus('success');
-        setSubmitMessage('Thank you! Your MBA application has been submitted successfully. Our admissions team will contact you shortly.');
-        
-        // Reset form
+        setSubmitMessage('Your MBA application has been submitted successfully!');
         setSelectedFile(null);
         setFormData({
           name: '',
@@ -426,773 +311,477 @@ function MBA() {
           specialization: '',
           additionalInfo: ''
         });
-        
-        // Reset file input
-        const fileInput = document.getElementById('resume-upload');
-        if (fileInput) {
-          fileInput.value = '';
-        }
       } else {
         throw new Error(result.message || 'Submission failed');
       }
     } catch (error) {
       setSubmitStatus('error');
-      setSubmitMessage(error.message || 'There was an error submitting your application. Please try again.');
+      setSubmitMessage('There was an error submitting your application. Please try again.');
     } finally {
       setIsSubmitting(false);
+      setTimeout(() => {
+        setSubmitStatus(null);
+        setSubmitMessage('');
+      }, 5000);
     }
   };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Enhanced Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900/90 to-purple-900/90">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-3xl" />
-        </div>
-
-        <section className="relative py-24 md:py-32">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center"
-            >
-              {/* Premium Badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 backdrop-blur-lg border border-white/20 mb-8"
-              >
-                <Sparkles className="w-5 h-5 text-yellow-300" />
-                <span className="text-sm font-semibold text-white tracking-wide">PREMIUM BUSINESS EDUCATION</span>
-                <div className="w-2 h-2 rounded-full bg-yellow-400 animate-ping" />
-              </motion.div>
-
-              {/* Main Title */}
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
-                <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent leading-tight">
-                  Master of Business
-                </span>
-                <br />
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent leading-tight">
-                  Administration (MBA)
-                </span>
-              </h1>
-
-              {/* Subtitle */}
-              <p className="mt-8 text-xl md:text-2xl text-blue-100/90 max-w-4xl mx-auto font-light leading-relaxed">
-                Transform your career with comprehensive business education, leadership development, 
-                and strategic thinking for today's dynamic global marketplace.
-              </p>
-
-              {/* Stats Row */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
-              >
-                {programStats.map((stat, index) => (
-                  <div key={stat.label} className="text-center">
-                    <div className={`text-3xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                      {stat.number}
-                    </div>
-                    <div className="text-sm text-blue-200/80 mt-1">{stat.label}</div>
-                  </div>
-                ))}
-              </motion.div>
-
-              {/* Enhanced CTA Buttons */}
-              <div className="mt-16 flex flex-col sm:flex-row justify-center items-center gap-6">
-                <motion.a
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="#application"
-                  className="group relative px-10 py-5 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 overflow-hidden"
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-3">
-                    <GraduationCap className="w-5 h-5" />
-                    Begin MBA Journey
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                </motion.a>
-              </div>
-
-              {/* Trust Badge */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                className="mt-12 flex items-center justify-center gap-4 text-sm text-blue-200/80"
-              >
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-green-400" />
-                  <span>Globally Accredited</span>
-                </div>
-                <div className="w-1 h-1 rounded-full bg-blue-400/50" />
-                <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-cyan-400" />
-                  <span>60+ Countries</span>
-                </div>
-                <div className="w-1 h-1 rounded-full bg-blue-400/50" />
-                <div className="flex items-center gap-2">
-                  <Award className="w-4 h-4 text-yellow-400" />
-                  <span>92% Placement Rate</span>
-                </div>
-              </motion.div>
-            </motion.div>
+      {/* Notification Toast */}
+      {submitStatus && (
+        <div className="fixed top-4 right-4 z-50 max-w-md">
+          <div className={`bg-white rounded-xl shadow-lg border p-4 flex items-start gap-3 ${
+            submitStatus === 'success' ? 'border-green-200' : 'border-red-200'
+          }`}>
+            {submitStatus === 'success' ? (
+              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+            ) : (
+              <span className="text-red-500 text-lg">⚠️</span>
+            )}
+            <p className="text-sm text-gray-800">{submitMessage}</p>
           </div>
-        </section>
-      </div>
-      {/* Program Formats Section */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-          </motion.div>
-          {/* Specialization Tracks */}
-          <div>
-            <h3 className="text-2xl font-bold text-slate-900 text-center mb-8">Specialization Tracks</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {specializationTracks.map((track, index) => (
-                <motion.div
-                  key={track}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.03 }}
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  className="bg-white rounded-xl p-4 shadow-lg border border-slate-100 hover:border-blue-200 hover:shadow-xl transition-all duration-300 cursor-pointer group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-cyan-50 text-blue-600 group-hover:from-blue-100 group-hover:to-cyan-100 transition-all duration-300">
-                      {index % 4 === 0 ? <BarChartIcon className="w-4 h-4" /> : 
-                       index % 4 === 1 ? <TargetIcon2 className="w-4 h-4" /> : 
-                       index % 4 === 2 ? <Network className="w-4 h-4" /> : 
-                       <PieChart className="w-4 h-4" />}
-                    </div>
-                    <span className="text-sm font-medium text-slate-800 group-hover:text-blue-700 transition-colors">
-                      {track}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <section className="pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center px-3 py-1 bg-indigo-50 rounded-full mb-6">
+            <GraduationCap className="w-4 h-4 text-indigo-600 mr-2" />
+            <span className="text-xs font-medium text-indigo-700">Master of Business Administration</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+            Transform your career with
+            <span className="text-indigo-600"> business leadership</span>
+          </h1>
+          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Comprehensive business education, leadership development, and strategic thinking 
+            for today's dynamic global marketplace.
+          </p>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {programStats.map((stat, idx) => {
+              const Icon = stat.icon;
+              return (
+                <div key={idx} className="bg-gray-50 rounded-xl p-4 text-center">
+                  <Icon className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
+                  <div className="text-lg font-semibold text-gray-900">{stat.number}</div>
+                  <div className="text-xs text-gray-600">{stat.label}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Program Highlights */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Program <span className="text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text">Excellence</span>
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Distinguished features that set our MBA program apart in business education.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {programHighlights.map((highlight, index) => (
-              <motion.div
-                key={highlight.title}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.2 } }}
-                className="relative group"
-              >
-                <div className={`absolute inset-0 ${highlight.gradient} rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-slate-100 group-hover:shadow-2xl transition-all duration-300">
-                  <div className={`inline-flex p-4 rounded-2xl ${highlight.gradient} ${highlight.iconColor} mb-6`}>
-                    {highlight.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-4">{highlight.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{highlight.description}</p>
+      {/* Program Formats */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Program formats</h2>
+            <p className="text-gray-600">Choose the format that fits your career goals</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {programFormats.map((format, idx) => (
+              <div key={idx} className="bg-white rounded-xl p-6 border border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{format.title}</h3>
+                <div className="inline-block px-3 py-1 bg-indigo-50 rounded-full text-xs font-medium text-indigo-600 mb-3">
+                  {format.duration}
                 </div>
-              </motion.div>
+                <p className="text-sm text-gray-600 mb-4">{format.description}</p>
+                <ul className="space-y-2">
+                  {format.features.map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-xs text-gray-600">
+                      <CheckCircle className="w-3 h-3 text-indigo-600" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Career Outcomes */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Transformative <span className="text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">Career Paths</span>
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Launch your career with prestigious roles and competitive compensation.
-            </p>
-          </motion.div>
+      {/* Specialization Tracks */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Specialization tracks</h2>
+            <p className="text-gray-600">Tailor your MBA to your career aspirations</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {specializationTracks.map((track, idx) => (
+              <div key={idx} className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-center hover:border-indigo-300 hover:text-indigo-600 transition-colors cursor-pointer">
+                <span className="text-xs font-medium text-gray-700">{track}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {careerOutcomes.map((outcome, index) => (
-              <motion.div
-                key={outcome.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-8 text-center border border-slate-100 hover:border-blue-200 transition-all duration-300 group shadow-lg hover:shadow-xl"
-              >
-                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">{outcome.icon}</div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">{outcome.title}</h3>
-                <div className="text-lg font-bold text-emerald-600 mb-3">{outcome.avgSalary}</div>
-                <p className="text-slate-600 text-sm">{outcome.description}</p>
-              </motion.div>
+      {/* Program Highlights */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Program excellence</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Distinguished features that set our MBA program apart
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {programHighlights.map((highlight, idx) => {
+              const Icon = highlight.icon;
+              return (
+                <div key={idx} className="bg-white rounded-xl p-6 border border-gray-200 hover:border-indigo-200 hover:shadow-md transition-all">
+                  <div className="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-indigo-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{highlight.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{highlight.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Career Outcomes */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Career outcomes</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Launch your career with prestigious roles and competitive compensation
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {careerOutcomes.map((outcome, idx) => (
+              <div key={idx} className="bg-white rounded-xl p-6 border border-gray-200 text-center">
+                <h3 className="font-semibold text-gray-900 mb-2">{outcome.title}</h3>
+                <div className="text-lg font-bold text-indigo-600 mb-3">{outcome.salary}</div>
+                <p className="text-xs text-gray-600">{outcome.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Admission Process */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Admission <span className="text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">Journey</span>
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Streamlined process from application to enrollment.
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Admission journey</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Streamlined process from application to enrollment
             </p>
-          </motion.div>
+          </div>
 
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-0 right-0 top-1/2 h-1 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 hidden lg:block" />
-            <div className="absolute left-0 right-0 top-1/2 h-1 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 blur-sm opacity-50 hidden lg:block" />
-
-            <div className="grid lg:grid-cols-4 gap-8">
-              {processSteps.map((step, index) => (
-                <motion.div
-                  key={step.step}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="relative"
-                >
-                  {/* Timeline Node */}
-                  
-                  <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-slate-100 hover:border-blue-200 transition-all duration-300 group">
-                    <div className={`absolute -top-4 -left-4 w-14 h-14 rounded-2xl bg-gradient-to-r ${step.gradient} flex items-center justify-center text-white font-bold text-xl shadow-lg`}>
-                      {step.step}
-                    </div>
-
-                    <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${step.gradient} bg-opacity-10 text-blue-600 mb-6`}>
-                      {step.icon}
-                    </div>
-
-                    <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
-                    <p className="text-slate-600 mb-6 leading-relaxed">{step.description}</p>
-
-                    <div className="flex items-center justify-between">
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+          <div className="grid md:grid-cols-4 gap-6">
+            {processSteps.map((step, idx) => (
+              <div key={idx} className="relative">
+                <div className="bg-white rounded-xl p-6 border border-gray-200">
+                  <div className="text-2xl font-bold text-indigo-600 mb-3">{step.step}</div>
+                  <h3 className="font-semibold text-gray-900 mb-2">{step.title}</h3>
+                  <p className="text-sm text-gray-600">{step.description}</p>
+                </div>
+                {idx < processSteps.length - 1 && (
+                  <ChevronRight className="hidden md:block absolute -right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Application Form Section */}
-      <section id="application" className="py-20 bg-gradient-to-b from-blue-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="application" className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-3xl p-8 shadow-2xl border border-slate-100"
-            >
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">
-                Apply for <span className="text-blue-600">MBA Program</span>
-              </h2>
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Apply for MBA program</h2>
               
-              {/* Submission Status Messages */}
-              {submitStatus === 'success' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-xl"
-                >
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-6 h-6 text-emerald-600" />
-                    <p className="text-emerald-700 font-medium">{submitMessage}</p>
-                  </div>
-                </motion.div>
-              )}
-              
-              {submitStatus === 'error' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-gradient-to-r from-rose-50 to-red-50 border border-rose-200 rounded-xl"
-                >
-                  <div className="flex items-center gap-3">
-                    <X className="w-6 h-6 text-rose-600" />
-                    <p className="text-rose-700 font-medium">{submitMessage}</p>
-                  </div>
-                </motion.div>
-              )}
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Web3Forms Hidden Inputs */}
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <input type="hidden" name="access_key" value="20396432-2a2f-49ed-b82d-c598bfaf2238" />
-                <input type="hidden" name="subject" value="MBA Program Application" />
-                
-                <div className="grid md:grid-cols-2 gap-6">
+                <input type="checkbox" name="botcheck" className="hidden" />
+
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Full name *</label>
                     <input 
                       type="text" 
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
-                      placeholder="Your full name"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                      placeholder="Your name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
                     <input 
                       type="tel" 
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
-                      placeholder="Your phone number"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                      placeholder="Your phone"
                     />
                   </div>
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
                   <input 
                     type="email" 
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
-                    placeholder="Your email address"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                    placeholder="your@email.com"
                   />
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Current Position</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Current position</label>
                   <input 
                     type="text" 
                     name="position"
                     value={formData.position}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                     placeholder="Your current job title"
                   />
                 </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Program Format *</label>
-                  <select 
-                    name="program"
-                    value={formData.program}
-                    onChange={handleInputChange}
-                    required 
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
-                  >
-                    <option value="">Select program format</option>
-                    <option value="Full-Time MBA">Full-Time MBA</option>
-                    <option value="Executive MBA">Executive MBA</option>
-                    <option value="Online MBA">Online MBA</option>
-                  </select>
-                </div>
-                
-                <div className="grid md:grid-cols-2 gap-6">
+
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Years of Experience</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Program *</label>
+                    <select 
+                      name="program"
+                      value={formData.program}
+                      onChange={handleInputChange}
+                      required 
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm bg-white"
+                    >
+                      <option value="">Select program</option>
+                      <option value="Full-Time MBA">Full-Time MBA</option>
+                      <option value="Executive MBA">Executive MBA</option>
+                      <option value="Online MBA">Online MBA</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Experience</label>
                     <select 
                       name="experience"
                       value={formData.experience}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm bg-white"
                     >
-                      <option value="">Select experience range</option>
+                      <option value="">Select years</option>
                       <option value="0-2 years">0-2 years</option>
                       <option value="2-5 years">2-5 years</option>
                       <option value="5-10 years">5-10 years</option>
                       <option value="10+ years">10+ years</option>
                     </select>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Specialization Interest</label>
-                    <select 
-                      name="specialization"
-                      value={formData.specialization}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900"
-                    >
-                      <option value="">Select specialization</option>
-                      <option value="Finance">Finance</option>
-                      <option value="Marketing">Marketing</option>
-                      <option value="Strategy">Strategy</option>
-                      <option value="Business Analytics">Business Analytics</option>
-                    </select>
-                  </div>
                 </div>
 
-                {/* Resume Upload Section */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Upload Resume/CV (Optional)
-                  </label>
-                  
-                  <motion.div
-                    whileHover={{ scale: 1.01 }}
-                    className="relative group"
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Specialization interest</label>
+                  <select 
+                    name="specialization"
+                    value={formData.specialization}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm bg-white"
                   >
-                    <input
-                      type="file"
-                      id="resume-upload"
-                      onChange={handleFileChange}
-                      className="hidden"
-                      accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    />
-                    
-                    {!selectedFile ? (
-                      <label
-                        htmlFor="resume-upload"
-                        className="flex flex-col items-center justify-center w-full h-40 px-4 transition-all duration-300 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-dashed border-blue-300 rounded-2xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 group-hover:shadow-lg"
-                      >
-                        <div className="p-4 mb-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
-                          <Upload className="w-8 h-8" />
-                        </div>
-                        <div className="text-center">
-                          <p className="text-lg font-semibold text-slate-800 mb-1">
-                            Click to upload Resume/CV (Optional)
-                          </p>
-                          <p className="text-sm text-slate-600 mb-2">
-                            or drag and drop
-                          </p>
-                          <p className="text-xs text-slate-500">
-                            PDF, DOC, DOCX, TXT (Max 5MB)
-                          </p>
-                        </div>
-                      </label>
-                    ) : (
-                      <div className="w-full p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-emerald-300 rounded-2xl">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center gap-4">
-                            <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 text-white">
-                              <FileCheck className="w-6 h-6" />
-                            </div>
-                            <div>
-                              <h3 className="font-semibold text-slate-800 truncate max-w-xs">{selectedFile.name}</h3>
-                              <p className="text-sm text-slate-600">{formatFileSize(selectedFile.size)}</p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={handleRemoveFile}
-                            className="p-2 hover:bg-red-50 rounded-full transition-colors"
-                            aria-label="Remove file"
-                          >
-                            <X className="w-5 h-5 text-red-500" />
-                          </button>
-                        </div>
-                        <div className="w-full bg-emerald-100 rounded-full h-2">
-                          <div className="bg-gradient-to-r from-emerald-500 to-green-500 h-2 rounded-full w-full"></div>
-                        </div>
-                        <p className="text-xs text-emerald-600 mt-2 flex items-center gap-1">
-                          <CheckCircle className="w-3 h-3" />
-                          File uploaded successfully
-                        </p>
-                      </div>
-                    )}
-                  </motion.div>
-                  
-                  <p className="mt-2 text-xs text-slate-500">
-                    Recommended: Include detailed academic and professional experience
-                  </p>
+                    <option value="">Select specialization</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Strategy">Strategy</option>
+                    <option value="Business Analytics">Business Analytics</option>
+                  </select>
                 </div>
 
-                {/* Additional Information */}
+                {/* Resume Upload */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Additional Information (Optional)
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Resume/CV <span className="font-normal text-gray-500">(Optional, PDF up to 5MB)</span>
                   </label>
-                  <textarea
+                  
+                  {!selectedFile ? (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-300 transition-colors">
+                      <input
+                        type="file"
+                        id="resume-upload"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        className="hidden"
+                        accept=".pdf,.doc,.docx"
+                      />
+                      <label htmlFor="resume-upload" className="cursor-pointer block">
+                        <Upload className="w-6 h-6 text-gray-400 mx-auto mb-2" />
+                        <span className="text-sm text-gray-600">
+                          Click to upload or drag and drop
+                        </span>
+                      </label>
+                    </div>
+                  ) : (
+                    <div className="border border-green-200 bg-green-50 rounded-lg p-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <FileCheck className="w-4 h-4 text-green-600" />
+                          <span className="text-sm text-gray-700 truncate max-w-[200px]">{selectedFile.name}</span>
+                          <span className="text-xs text-gray-500">({formatFileSize(selectedFile.size)})</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleRemoveFile}
+                          className="p-1 hover:bg-red-100 rounded-full transition-colors"
+                        >
+                          <X className="w-4 h-4 text-red-500" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Additional information</label>
+                  <textarea 
                     name="additionalInfo"
                     value={formData.additionalInfo}
                     onChange={handleInputChange}
-                    rows="4"
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-slate-900 placeholder:text-slate-400"
-                    placeholder="Tell us about your career goals, achievements, or any specific questions..."
+                    rows={3}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm resize-none"
+                    placeholder="Tell us about your career goals..."
                   />
                 </div>
-                
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+
+                <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 ${
-                    isSubmitting ? 'opacity-80 cursor-not-allowed' : ''
-                  }`}
+                  className="w-full py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
                       Submitting...
                     </>
                   ) : (
                     <>
-                      <GraduationCap className="w-5 h-5" />
-                      Submit MBA Application
+                      Submit Application
+                      <ArrowRight className="w-4 h-4" />
                     </>
                   )}
-                </motion.button>
-                
-                {/* Note about Web3Forms */}
-                <p className="text-xs text-slate-500 text-center mt-4">
-                  Your application will be securely processed via Web3Forms and delivered to our admissions team.
-                </p>
+                </button>
               </form>
-            </motion.div>
+            </div>
 
-            {/* Eligibility & Information */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl font-bold text-slate-900 mb-8">
-                Program Eligibility
-              </h2>
-              <p className="text-lg text-slate-600 mb-8">
-                Our MBA program seeks ambitious professionals with strong academic backgrounds and leadership potential.
-              </p>
+            {/* Right column - Info */}
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Program eligibility</h2>
               
-              <div className="space-y-4 mb-12">
-                {eligibilityPoints.map((point, index) => (
-                  <motion.div
-                    key={point}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 hover:shadow-md transition-shadow duration-300"
-                  >
-                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-slate-800 font-medium">{point}</span>
-                  </motion.div>
+              <div className="space-y-3 mb-8">
+                {eligibilityPoints.map((point, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">{point}</span>
+                  </div>
                 ))}
               </div>
 
-              {/* Benefits Overview */}
-              <div className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-3xl p-8 text-white">
-                <h3 className="text-2xl font-bold mb-6">Why Choose Our MBA?</h3>
-                <div className="space-y-6">
-                  {benefits.map((benefit, index) => (
-                    <div key={benefit.title} className="flex items-start gap-4">
-                      <div className={`p-2 rounded-lg ${benefit.color} bg-white/10`}>
-                        {benefit.icon}
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Why choose our MBA?</h3>
+              <div className="space-y-4">
+                {benefits.map((benefit, idx) => {
+                  const Icon = benefit.icon;
+                  return (
+                    <div key={idx} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                      <div className="p-2 bg-indigo-100 rounded-lg">
+                        <Icon className="w-4 h-4 text-indigo-600" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-lg mb-1">{benefit.title}</h4>
-                        <p className="text-blue-100/80 text-sm">{benefit.description}</p>
+                        <h4 className="font-semibold text-gray-900 text-sm mb-1">{benefit.title}</h4>
+                        <p className="text-xs text-gray-600">{benefit.description}</p>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Full Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900/95 to-purple-900/95">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-semibold mb-6">
-              <TrendingUpIcon className="w-5 h-5" />
-              CAREER TRANSFORMATION
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Transformative <span className="text-transparent bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text">Benefits</span>
-            </h2>
-            <p className="text-xl text-blue-100/80 max-w-3xl mx-auto">
-              Elevate your professional trajectory with comprehensive business education.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.2 } }}
-                className="relative group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/0 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative bg-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300">
-                  <div className={`inline-flex p-4 rounded-2xl bg-white/10 ${benefit.color} mb-6`}>
-                    {benefit.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-4">{benefit.title}</h3>
-                  <p className="text-blue-100/70 leading-relaxed">{benefit.description}</p>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Alumni <span className="text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text">Success Stories</span>
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Hear from MBA graduates who transformed their careers with our program.
-            </p>
-          </motion.div>
+      {/* FAQ Section */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently asked questions</h2>
+            <p className="text-gray-600">Quick answers about our MBA program</p>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.2 }}
-                className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-xl border border-slate-100"
-              >
-                <div className="flex items-center gap-1 mb-6">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-slate-600 italic text-lg mb-8 leading-relaxed">"{testimonial.quote}"</p>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-lg">{testimonial.name}</h4>
-                  <p className="text-slate-500 text-sm mb-2">{testimonial.role}</p>
-                  <span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
-                    {testimonial.badge}
-                  </span>
-                </div>
-              </motion.div>
+          <div className="space-y-3">
+            {faqs.map((faq, idx) => (
+              <div key={idx} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full px-6 py-4 flex items-center justify-between text-left"
+                >
+                  <span className="font-medium text-gray-900 text-sm">{faq.question}</span>
+                  {openFaq === idx ? (
+                    <Minus className="w-4 h-4 text-indigo-600" />
+                  ) : (
+                    <Plus className="w-4 h-4 text-gray-400" />
+                  )}
+                </button>
+                {openFaq === idx && (
+                  <div className="px-6 pb-4">
+                    <p className="text-gray-600 text-sm">{faq.answer}</p>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 via-cyan-50/50 to-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative"
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="inline-flex p-3 bg-indigo-100 rounded-xl mb-6">
+            <GraduationCap className="w-6 h-6 text-indigo-600" />
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to accelerate your career?</h2>
+          <p className="text-lg text-gray-600 mb-8">
+            Join ambitious professionals transforming their leadership capabilities.
+          </p>
+          <a
+            href="#application"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
           >
-            {/* Background Elements */}
-            <div className="absolute -top-32 -left-32 w-64 h-64 bg-blue-200/30 rounded-full blur-3xl" />
-            <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-purple-200/30 rounded-full blur-3xl" />
-
-            <div className="relative bg-white rounded-3xl p-12 shadow-2xl border border-slate-100 overflow-hidden">
-              {/* Pattern Overlay */}
-              <div className="absolute inset-0 opacity-5">
-                <div className="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:20px_20px]" />
-              </div>
-
-              <div className="relative text-center">
-                <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white mb-8">
-                  <GraduationCap className="w-10 h-10" />
-                </div>
-                
-                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-                  Ready to Accelerate Your <span className="text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text">Business Career?</span>
-                </h2>
-                
-                <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-                  Join ambitious professionals transforming their leadership capabilities and career trajectories through comprehensive business education.
-                </p>
-
-                <div className="flex flex-col sm:flex-row justify-center gap-6">
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="#application"
-                    className="group relative px-12 py-5 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-3">
-                      <GraduationCap className="w-6 h-6" />
-                      Begin MBA Application
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                  </motion.a>
-                </div>
-
-                <p className="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  Next intake begins • Limited seats available
-                </p>
-              </div>
-            </div>
-          </motion.div>
+            Begin Application
+            <ArrowRight className="w-4 h-4" />
+          </a>
+          <p className="mt-4 text-xs text-gray-500 flex items-center justify-center gap-2">
+            <Clock className="w-3 h-3" />
+            Next intake begins soon • Limited seats available
+          </p>
         </div>
       </section>
     </div>
