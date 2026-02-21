@@ -91,206 +91,132 @@ function ApplicationProcess() {
   }, [steps.length]);
 
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-b from-gray-50/50 via-white to-gray-50/30">
-      {/* Premium Background Effects */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          animate={{ x: [0, 100, 0], y: [0, -50, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ x: [0, -100, 0], y: [0, 50, 0] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear", delay: 2 }}
-          className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 rounded-full blur-3xl"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/60 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-grid-gray-900/[0.01] bg-[size:60px_60px]" />
+    <section className="relative py-24 lg:py-32 bg-slate-50">
+      {/* Clean, minimal background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-emerald-50/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-indigo-50/50 to-transparent" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-20 md:mb-28">
+        {/* Minimal section header */}
+        <div className="max-w-3xl mx-auto text-center mb-20 lg:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            whileHover={{ scale: 1.05 }}
-            className="inline-flex items-center gap-3 px-6 py-3.5 bg-white/90 backdrop-blur-xl border border-gray-200/80 rounded-2xl mb-10 shadow-2xl shadow-violet-500/5 hover:shadow-violet-500/10 transition-all duration-300"
+            viewport={{ once: true }}
+            className="mb-6"
           >
-            <div className="relative">
-              <Sparkles className="w-5 h-5 text-violet-600" />
-              <div className="absolute inset-0 w-5 h-5 text-violet-600/40 animate-ping" />
-            </div>
-            <span className="text-sm font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent tracking-wide">
-              ELITE APPLICATION PATHWAY
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium">
+              <Sparkles className="w-4 h-4" />
+              Application Process
             </span>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="space-y-6"
+            transition={{ delay: 0.1 }}
+            className="text-4xl lg:text-5xl font-light tracking-tight text-slate-900 mb-6"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              <span className="text-gray-900">Simplified</span>
-              <br />
-              <span className="relative">
-                <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
-                  Admission Excellence
-                </span>
-                <motion.div
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  transition={{ delay: 0.3, duration: 1 }}
-                  className="absolute -bottom-3 left-0 h-1 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 rounded-full"
-                />
-              </span>
-            </h1>
+            Your journey to
+            <span className="block font-medium mt-2 text-emerald-600">academic excellence</span>
+          </motion.h2>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
-            >
-              A refined four-step pathway designed to streamline your journey toward academic distinction with dedicated expert guidance
-            </motion.p>
-          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-slate-600 leading-relaxed"
+          >
+            A refined four-step pathway designed to streamline your journey toward academic distinction with dedicated expert guidance
+          </motion.p>
         </div>
 
-        {/* Process Steps - Desktop */}
+        {/* Desktop Layout - Vertical Timeline */}
         <div className="hidden lg:block">
-          <div className="relative">
-            {/* Animated Connecting Line */}
-            <div className="absolute left-16 right-16 top-1/2 h-0.5 bg-gradient-to-r from-blue-200/50 via-violet-200/50 to-fuchsia-200/50 transform -translate-y-1/2 rounded-full">
-              <motion.div
-                className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-500 rounded-full"
-                animate={{
-                  width: ["0%", "100%"],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "easeInOut"
-                }}
-              />
-            </div>
+          <div className="relative max-w-5xl mx-auto">
+            {/* Center line */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-emerald-200 via-indigo-200 to-emerald-200" />
 
-            {/* Steps Grid */}
-            <div className="grid grid-cols-4 gap-8 relative z-10">
-              {steps.map((step, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
-                  whileHover={{ y: -10 }}
-                  onMouseEnter={() => setHoveredStep(index)}
-                  onMouseLeave={() => setHoveredStep(null)}
-                  className="relative"
-                >
-                  {/* Step Number & Icon */}
+            {/* Steps */}
+            <div className="space-y-16">
+              {steps.map((step, index) => {
+                const isEven = index % 2 === 0;
+                return (
                   <motion.div
-                    className="absolute -top-14 left-1/2 transform -translate-x-1/2"
-                    animate={{
-                      scale: activeIndex === index ? [1, 1.15, 1] : hoveredStep === index ? 1.1 : 1,
-                    }}
-                    transition={{ duration: 0.3 }}
+                    key={index}
+                    initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                    className={`relative flex items-center ${isEven ? 'flex-row' : 'flex-row-reverse'}`}
+                    onMouseEnter={() => setHoveredStep(index)}
+                    onMouseLeave={() => setHoveredStep(null)}
                   >
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-br blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className={`relative w-20 h-20 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-2xl shadow-current/30`}>
-                        <step.icon className="w-8 h-8 text-white" />
-                      </div>
-                      <motion.div
-                        className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white border-2 border-gray-900 flex items-center justify-center"
-                        animate={{ scale: activeIndex === index ? [1, 1.2, 1] : 1 }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        <span className="text-xs font-bold text-gray-900">{index + 1}</span>
-                      </motion.div>
-                    </div>
-                  </motion.div>
+                    {/* Content */}
+                    <div className={`w-5/12 ${isEven ? 'pr-12 text-right' : 'pl-12'}`}>
+                      <div className="relative group">
+                        {/* Card */}
+                        <div className={`bg-white rounded-2xl border border-slate-200/80 p-8 shadow-sm hover:shadow-xl transition-all duration-300 ${hoveredStep === index ? 'scale-[1.02] border-emerald-200' : ''}`}>
+                          {/* Duration badge */}
+                          <div className={`inline-flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl mb-6 ${isEven ? 'ml-auto' : ''}`}>
+                            <Clock className="w-4 h-4 text-slate-400" />
+                            <span className="text-sm font-medium text-slate-600">{step.duration}</span>
+                          </div>
 
-                  {/* Step Card */}
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-br blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-200/50 overflow-hidden shadow-xl hover:shadow-2xl hover:border-gray-300/50 transition-all duration-300">
-                      {/* Header */}
-                      <div className="p-8 border-b border-gray-200/30">
-                        <div className="text-center space-y-4">
-                          <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                          <h3 className="text-2xl font-semibold text-slate-900 mb-3">
                             {step.title}
                           </h3>
-                          <p className="text-gray-600 leading-relaxed">{step.subtitle}</p>
-                          
-                          {/* Duration Badge */}
-                          <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-50/80 rounded-xl border border-gray-200/50">
-                            <Clock className="w-4 h-4 text-gray-500" />
-                            <span className="text-sm font-semibold text-gray-700">{step.duration}</span>
+                          <p className="text-slate-600 mb-6 leading-relaxed">
+                            {step.subtitle}
+                          </p>
+
+                          {/* Details list */}
+                          <div className="space-y-3">
+                            {step.details.map((detail, idx) => (
+                              <div key={idx} className="flex items-start gap-3">
+                                <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-slate-600">{detail}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Step indicator */}
+                          <div className={`mt-6 pt-6 border-t border-slate-100 flex items-center gap-2 ${isEven ? 'justify-end' : ''}`}>
+                            <span className="text-xs font-medium text-slate-400">Step {index + 1}</span>
+                            <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                            <div className="w-2 h-2 rounded-full bg-indigo-400" />
+                            <div className="w-2 h-2 rounded-full bg-emerald-400" />
                           </div>
                         </div>
                       </div>
-
-                      {/* Details */}
-                      <div className="p-8">
-                        <div className="space-y-5">
-                          {step.details.map((detail, idx) => (
-                            <motion.div
-                              key={idx}
-                              initial={{ opacity: 0, x: -10 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: idx * 0.1 }}
-                              className="flex items-start gap-4 group/item"
-                            >
-                              <motion.div
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                className={`w-7 h-7 rounded-lg ${step.iconBg} flex items-center justify-center flex-shrink-0 shadow-sm`}
-                              >
-                                <CheckCircle className="w-4 h-4" style={{ color: step.color }} />
-                              </motion.div>
-                              <span className="text-gray-700 leading-relaxed group-hover/item:text-gray-900 transition-colors duration-300">
-                                {detail}
-                              </span>
-                            </motion.div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Step Indicator */}
-                      <div className="px-8 py-6 border-t border-gray-200/30 bg-gradient-to-r from-gray-50/50 to-white/50">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium text-gray-600">STEP {index + 1} OF {steps.length}</span>
-                          <motion.div
-                            className="flex items-center gap-1"
-                            animate={{
-                              opacity: activeIndex === index ? [0.5, 1, 0.5] : hoveredStep === index ? 1 : 0.5,
-                            }}
-                            transition={{ duration: 1.5, repeat: activeIndex === index ? Infinity : 0 }}
-                          >
-                            <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${step.gradient}`} />
-                            <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${step.gradient}`} />
-                            <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${step.gradient}`} />
-                          </motion.div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+
+                    {/* Center marker */}
+                    <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
+                      <motion.div
+                        animate={{
+                          scale: activeIndex === index ? [1, 1.2, 1] : hoveredStep === index ? 1.1 : 1,
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg ${hoveredStep === index ? 'shadow-emerald-200' : ''}`}
+                      >
+                        <step.icon className="w-7 h-7 text-white" />
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
 
-        {/* Process Steps - Mobile */}
+        {/* Mobile Layout - Card Grid */}
         <div className="lg:hidden">
-          <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {steps.map((step, index) => (
               <motion.div
                 key={index}
@@ -298,103 +224,98 @@ function ApplicationProcess() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="relative group"
+                className="group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-200/50 overflow-hidden shadow-xl hover:shadow-2xl hover:border-gray-300/50 transition-all duration-300">
-                  {/* Step Header */}
-                  <div className={`p-8 ${step.iconBg} border-b border-gray-200/30`}>
-                    <div className="flex items-start gap-6">
-                      <motion.div
-                        animate={{ rotate: [0, 360] }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}
-                      >
-                        <step.icon className="w-7 h-7 text-white" />
-                      </motion.div>
-                      
-                      <div className="flex-1 space-y-4">
-                        <div className="flex items-start justify-between">
-                          <h3 className="text-2xl font-bold text-gray-900">{step.title}</h3>
-                          <span className="text-sm font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                            Step {index + 1}
-                          </span>
-                        </div>
-                        <p className="text-gray-600">{step.subtitle}</p>
-                        
-                        {/* Duration */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/90 rounded-xl border border-gray-200/50 shadow-sm">
-                          <Clock className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm font-semibold text-gray-700">{step.duration}</span>
-                        </div>
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-emerald-200">
+                  {/* Header */}
+                  <div className="flex items-start gap-4 mb-5">
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-md flex-shrink-0`}>
+                      <step.icon className="w-6 h-6 text-white" />
+                    </div>
+                    
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-1">
+                        <h3 className="text-lg font-semibold text-slate-900">{step.title}</h3>
+                        <span className="text-xs font-medium text-slate-400 bg-slate-100 px-2 py-1 rounded-md">
+                          {index + 1}/4
+                        </span>
+                      </div>
+                      <div className="inline-flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                        <span className="text-xs text-slate-500">{step.duration}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Step Details */}
-                  <div className="p-8">
-                    <div className="space-y-5">
-                      {step.details.map((detail, idx) => (
-                        <div key={idx} className="flex items-start gap-4">
-                          <div className={`w-7 h-7 rounded-lg ${step.iconBg} flex items-center justify-center flex-shrink-0 shadow-sm`}>
-                            <CheckCircle className="w-4 h-4" style={{ color: step.color }} />
-                          </div>
-                          <span className="text-gray-700 leading-relaxed">{detail}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <p className="text-sm text-slate-600 mb-4">
+                    {step.subtitle}
+                  </p>
+
+                  {/* Details preview */}
+                  <div className="space-y-2 mb-4">
+                    {step.details.slice(0, 2).map((detail, idx) => (
+                      <div key={idx} className="flex items-start gap-2">
+                        <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-xs text-slate-600">{detail}</span>
+                      </div>
+                    ))}
+                    {step.details.length > 2 && (
+                      <div className="text-xs text-slate-400 pl-6">
+                        +{step.details.length - 2} more
+                      </div>
+                    )}
                   </div>
 
-                  {/* Active Indicator */}
-                  {activeIndex === index && (
-                    <motion.div
-                      className="h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-500"
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  )}
+                  {/* Progress indicator */}
+                  <div className="flex items-center gap-1.5 pt-4 border-t border-slate-100">
+                    <div className={`h-1.5 flex-1 rounded-full bg-emerald-100 ${activeIndex === index ? 'bg-emerald-400' : ''}`} />
+                    <div className={`h-1.5 flex-1 rounded-full bg-indigo-100 ${activeIndex === index ? 'bg-indigo-400' : ''}`} />
+                    <div className={`h-1.5 flex-1 rounded-full bg-emerald-100 ${activeIndex === index ? 'bg-emerald-400' : ''}`} />
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
 
-        {/* Progress Indicator */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          whileInView={{ opacity: 1, scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5 }}
-          className="relative h-2 bg-gradient-to-r from-blue-200/30 via-violet-200/30 to-fuchsia-200/30 rounded-full max-w-md mx-auto mt-20"
-        >
-          <motion.div
-            className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-500 rounded-full"
-            animate={{
-              width: ["0%", "100%"],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-          />
-        </motion.div>
+        {/* Progress bar */}
+        <div className="max-w-md mx-auto mt-16 lg:mt-24">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-slate-500">Overall Progress</span>
+            <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-gradient-to-r from-emerald-400 to-indigo-400 rounded-full"
+                animate={{
+                  width: [`${(activeIndex / steps.length) * 100}%`]
+                }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
+            <span className="text-sm font-medium text-slate-700">
+              {Math.round(((activeIndex + 1) / steps.length) * 100)}%
+            </span>
+          </div>
+        </div>
 
-        {/* CTA Section */}
+        {/* CTA - Minimal */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-24"
+          className="text-center mt-20 lg:mt-24"
         >
-          <div className="inline-flex items-center gap-3 px-8 py-4 bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-200/50 shadow-xl">
-            <UserCheck className="w-6 h-6 text-violet-600" />
-            <span className="text-lg font-semibold text-gray-900">Ready to begin your application?</span>
-            <button className="group flex items-center gap-2 ml-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-violet-700 transition-all duration-300">
-              Start Now
+          <div className="inline-flex flex-col sm:flex-row items-center gap-6 p-8 bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
+                <UserCheck className="w-6 h-6 text-emerald-600" />
+              </div>
+              <div className="text-left">
+                <span className="block text-sm text-slate-500 mb-1">Ready to begin?</span>
+                <span className="text-lg font-semibold text-slate-900">Start your application today</span>
+              </div>
+            </div>
+            <button className="group flex items-center gap-2 px-8 py-4 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md">
+              Get Started
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>

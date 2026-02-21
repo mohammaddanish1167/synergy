@@ -1,7 +1,5 @@
 /**
- * Layout Component
- * Wraps all pages with consistent Navbar and Footer
- * Provides consistent structure across the application
+ * Layout Component - Redesigned with Clean SaaS Structure
  */
 
 import { useEffect, useState } from 'react';
@@ -35,30 +33,38 @@ function Layout() {
 
   // Scroll to top on route change
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); // Changed to instant for better UX
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-white via-blue-50 to-slate-100">
-      {/* Navigation bar at the top */}
-      <Navbar />
+    <div className="min-h-screen flex flex-col bg-white">
+      {/* Skip to main content link for accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white p-4 rounded-lg border border-slate-200 z-50"
+      >
+        Skip to main content
+      </a>
       
-      {/* Modal for guidance form */}
+      {/* Navigation */}
+      <Navbar />
+
+      {/* Modal */}
       <GuidanceModal
         open={openGuidance}
         onClose={() => setOpenGuidance(false)}
         defaultCourse={defaultCourse}
       />
 
-      {/* Main content area - Outlet renders the current route's page */}
-      {/* Fixed: Changed from pt-36 to pt-24 to match navbar height (h-24) */}
-      <main className="flex-grow pt-24">
+      {/* Main content */}
+      <main id="main-content" className="flex-grow pt-24">
         <Outlet />
       </main>
-      
+
+      {/* Floating actions */}
       <FloatingActions />
-      
-      {/* Footer at the bottom */}
+
+      {/* Footer */}
       <Footer />
     </div>
   );

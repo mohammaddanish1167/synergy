@@ -262,95 +262,40 @@ export default function HiringPartners() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="relative overflow-hidden py-6 group"
+      className="relative overflow-hidden py-4 group"
     >
       {/* Gradient overlays */}
       <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white via-white to-transparent z-20 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white via-white to-transparent z-20 pointer-events-none" />
 
-      {/* Animated shine effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-100/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 opacity-0 group-hover:opacity-100" />
-
-      <div ref={refProp} className="flex will-change-transform gap-8 px-4">
+      <div ref={refProp} className="flex will-change-transform gap-6 px-4">
         {[...companies, ...companies].map((c, i) => {
           const key = c.name.toLowerCase().replace(/ /g, '');
           const logoUrl = loadedLogos[key] || fallbackLogos[key];
 
           return (
             <div key={`${c.name}-${i}`} className="flex-shrink-0">
-              <motion.div
-                className="w-48 h-28 flex items-center justify-center bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 group/item relative overflow-hidden"
-                whileHover={{
-                  scale: 1.05,
-                  y: -4,
-                  borderColor: "#3b82f6",
-                  boxShadow: "0 20px 40px rgba(59, 130, 246, 0.15)"
-                }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: i * 0.01 }}
-              >
-                {/* Background pattern */}
-                <div className="absolute inset-0 opacity-5">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,#3b82f6_1px,transparent_0)] bg-[length:20px_20px]" />
-                </div>
-
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-hover/item:opacity-100 transition-opacity duration-500" />
-
-                {/* Logo container */}
-                <div className="relative z-10 p-6 flex items-center justify-center w-full h-full">
+              <div className="w-44 h-24 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:border-slate-300 transition-colors duration-200">
+                <div className="p-4 flex items-center justify-center w-full h-full">
                   {logoUrl ? (
                     <img
                       src={logoUrl}
                       alt={c.name}
                       crossOrigin="anonymous"
-                      className="h-12 w-auto max-w-[160px] object-contain filter grayscale group-hover/item:grayscale-0 group-hover/item:contrast-110 transition-all duration-500"
+                      className="h-8 w-auto max-w-[120px] object-contain opacity-70 hover:opacity-100 transition-opacity duration-200"
                       loading="lazy"
                       onError={(e) => {
                         const fallback = fallbackLogos[key];
                         if (fallback && e.target.src !== fallback) {
                           e.target.src = fallback;
-                        } else {
-                          e.target.style.display = 'none';
-                          const parent = e.target.parentElement;
-                          if (parent) {
-                            parent.innerHTML = `
-                              <div class="flex flex-col items-center gap-3">
-                                <Building2 class="w-10 h-10 text-blue-600" />
-                                <span class="text-slate-800 text-sm font-semibold px-3 py-1.5 text-center bg-slate-100 rounded-lg">${c.name}</span>
-                              </div>
-                            `;
-                          }
                         }
                       }}
                     />
                   ) : (
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 animate-pulse" />
-                      <div className="h-3 w-24 bg-slate-200 rounded animate-pulse" />
-                    </div>
+                    <div className="text-sm text-slate-400">{c.name}</div>
                   )}
                 </div>
-
-                {/* Company name badge */}
-                <motion.div
-                  className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover/item:opacity-100 transition-all duration-300"
-                  initial={{ y: 10 }}
-                  whileHover={{ y: 0 }}
-                >
-                  <span className="text-xs font-semibold text-slate-700 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-slate-200 shadow-sm whitespace-nowrap">
-                    {c.name}
-                  </span>
-                </motion.div>
-
-                {/* Verified badge */}
-                <div className="absolute top-2 right-2 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                  <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
-                    <CheckCircle className="w-3 h-3 text-white" />
-                  </div>
-                </div>
-              </motion.div>
+              </div>
             </div>
           );
         })}
@@ -358,169 +303,146 @@ export default function HiringPartners() {
     </motion.div>
   );
 
+  const stats = [
+    { icon: Globe, value: "50+", label: "Global Companies" },
+    { icon: Users, value: "10K+", label: "Placements" },
+    { icon: Trophy, value: "95%", label: "Success Rate" },
+    { icon: TrendingUp, value: "4.9★", label: "Rating" },
+  ];
+
   return (
-    <section className="bg-gradient-to-b from-slate-50 to-white py-24 overflow-hidden relative">
-      {/* Animated background elements */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+    <section className="bg-white py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header */}
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-medium">
+              <ShieldCheck className="w-4 h-4" />
+              Trusted by Industry Leaders
+            </span>
+          </motion.div>
 
-      {/* Floating elements */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-100/30 to-cyan-100/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-100/20 to-pink-100/20 rounded-full blur-3xl" />
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-light text-slate-900 mb-6"
+          >
+            Our Graduates Work At
+            <span className="block font-medium mt-2 text-slate-700">
+              World's Top Companies
+            </span>
+          </motion.h2>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* HEADING */}
-        <motion.div
-          className="text-center mb-20 space-y-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 mb-4">
-            <ShieldCheck className="w-5 h-5 text-blue-600" />
-            <span className="text-sm font-semibold text-blue-700 tracking-wide">TRUSTED BY INDUSTRY LEADERS</span>
-            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-          </div>
-
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
-            Our Graduates Work At <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent">World's Top Companies</span>
-          </h2>
-
-          <p className="text-slate-600 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-slate-500 leading-relaxed"
+          >
             From Silicon Valley giants to Fortune 500 enterprises, our alumni are making significant impacts
-            at the most innovative companies shaping the future of technology and business.
-          </p>
-        </motion.div>
+            at the most innovative companies.
+          </motion.p>
+        </div>
 
-        {/* MARQUEES */}
-        <div className="space-y-8 mb-20">
+        {/* Marquee rows */}
+        <div className="space-y-6 mb-20">
           <Marquee companies={row1Companies} refProp={row1Ref} index={0} />
           <Marquee companies={row2Companies} refProp={row2Ref} index={1} />
           <Marquee companies={row3Companies} refProp={row3Ref} index={2} />
         </div>
 
-        {/* STATS SECTION */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: <Globe className="w-6 h-6" />,
-                value: "50+",
-                label: "Global Companies",
-                description: "Across 6 continents",
-                gradient: "from-blue-500 to-cyan-500",
-                delay: 0
-              },
-              {
-                icon: <Users className="w-6 h-6" />,
-                value: "10K+",
-                label: "Placements",
-                description: "Successful career transitions",
-                gradient: "from-purple-500 to-pink-500",
-                delay: 0.1
-              },
-              {
-                icon: <Trophy className="w-6 h-6" />,
-                value: "95%",
-                label: "Success Rate",
-                description: "Employer satisfaction",
-                gradient: "from-emerald-500 to-green-500",
-                delay: 0.2
-              },
-              {
-                icon: <TrendingUp className="w-6 h-6" />,
-                value: "4.9★",
-                label: "Rating",
-                description: "Average employer feedback",
-                gradient: "from-amber-500 to-orange-500",
-                delay: 0.3
-              },
-            ].map((stat, index) => (
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
+          {stats.map((stat, index) => {
+            const Icon = stat.icon;
+            return (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: stat.delay }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="relative group"
+                transition={{ delay: 0.3 + index * 0.1 }}
+                className="bg-slate-50 rounded-xl p-6 text-center"
               >
-                <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500">
-                  <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${stat.gradient} text-white mb-6 shadow-lg`}>
-                    {stat.icon}
-                  </div>
-                  <div className="text-5xl font-bold text-slate-900 mb-2">{stat.value}</div>
-                  <div className="text-xl font-semibold text-slate-800 mb-3">{stat.label}</div>
-                  <div className="text-slate-600">{stat.description}</div>
-
-                  {/* Animated line */}
-                  <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-700 mt-6" />
+                <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center mx-auto mb-3">
+                  <Icon className="w-4 h-4 text-slate-600" />
                 </div>
+                <div className="text-2xl font-semibold text-slate-900 mb-1">{stat.value}</div>
+                <div className="text-sm text-slate-500">{stat.label}</div>
               </motion.div>
-            ))}
-          </div>
-        </motion.div>
+            );
+          })}
+        </div>
 
-        {/* SUCCESS STORIES */}
+        {/* Success Stories */}
         <motion.div
-          className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-3xl p-8 md:p-12 mb-12 border border-blue-100"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ delay: 0.5 }}
+          className="bg-slate-50 rounded-2xl p-8 mb-16"
         >
-          <div className="grid md:grid-cols-3 gap-8 items-center">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <Star className="w-5 h-5 text-amber-500 fill-amber-500" />
-                <span className="text-sm font-semibold text-blue-700">SUCCESS STORIES</span>
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-3">
+                <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  Success Stories
+                </span>
               </div>
-              <h3 className="text-3xl font-bold text-slate-900 mb-4">
+              <h3 className="text-2xl font-semibold text-slate-900 mb-3">
                 Join Our Network of High-Achieving Professionals
               </h3>
-              <p className="text-slate-700 mb-6 text-lg">
+              <p className="text-slate-500 mb-4">
                 Our graduates secure positions at top-tier companies with an average salary
-                increase of 45% within 6 months of course completion.
+                increase of 45% within 6 months.
               </p>
               <div className="flex flex-wrap gap-4">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-emerald-500" />
-                  <span className="text-slate-700">Guaranteed interview opportunities</span>
+                  <span className="text-sm text-slate-600">Guaranteed interviews</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-emerald-500" />
-                  <span className="text-slate-700">1-on-1 career mentoring</span>
+                  <span className="text-sm text-slate-600">1-on-1 career mentoring</span>
                 </div>
               </div>
             </div>
-
+            
+            <div className="flex-shrink-0">
+              <div className="flex -space-x-2">
+                {[1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="w-12 h-12 rounded-full bg-slate-200 border-2 border-white"
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
 
-        {/* TRUST BADGES */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-8 items-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <div className="flex items-center gap-2 text-slate-600">
-            <ShieldCheck className="w-5 h-5 text-blue-500" />
+        {/* Trust Badges */}
+        <div className="flex flex-wrap justify-center gap-6 items-center text-sm text-slate-400">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4" />
             <span>Verified employment data</span>
           </div>
           <div className="w-1 h-1 rounded-full bg-slate-300" />
-          <div className="flex items-center gap-2 text-slate-600">
-            <Target className="w-5 h-5 text-emerald-500" />
+          <div className="flex items-center gap-2">
+            <Target className="w-4 h-4" />
             <span>Industry-aligned curriculum</span>
           </div>
           <div className="w-1 h-1 rounded-full bg-slate-300" />
-          <div className="flex items-center gap-2 text-slate-600">
-            <Zap className="w-5 h-5 text-amber-500" />
+          <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4" />
             <span>Fast-track career growth</span>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

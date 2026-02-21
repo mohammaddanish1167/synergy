@@ -1,19 +1,16 @@
 /**
- * Testimonials Component - Real Trustpilot Reviews
- * Dark theme matching the Hiring Partners aesthetic
- * Using real Trustpilot reviews from testimonials.js
+ * Testimonials Component - Redesigned with Clean SaaS Aesthetic
  */
 
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useEffect, useState } from 'react';
-import { Star, Quote, GraduationCap, Award, Calendar, MapPin, Globe, CheckCircle } from 'lucide-react';
+import { useEffect } from 'react';
+import { Star, Quote, GraduationCap, Calendar, MapPin, CheckCircle } from 'lucide-react';
 
 // Import your real testimonials data
 import { testimonials as realTestimonials } from '../data/testimonials.js';
 
 function Testimonials() {
-  const [activeIndex, setActiveIndex] = useState(0);
   const controls = useAnimation();
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -50,15 +47,10 @@ function Testimonials() {
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
-      <motion.div
+      <Star
         key={i}
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ delay: i * 0.1 }}
-        className={`${i < rating ? 'text-amber-400' : 'text-gray-300'}`}
-      >
-        <Star className="w-5 h-5 fill-current" />
-      </motion.div>
+        className={`w-4 h-4 ${i < rating ? 'text-amber-400 fill-amber-400' : 'text-slate-200'}`}
+      />
     ));
   };
 
@@ -73,115 +65,69 @@ function Testimonials() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
+        staggerChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
-      y: 0,
       opacity: 1,
+      y: 0,
       transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12
+        duration: 0.5
       }
     }
   };
 
   return (
-    <section className="relative min-h-screen py-20 lg:py-32 overflow-hidden bg-gradient-to-br from-white via-indigo-50/10 to-purple-50/10">
-      {/* Light Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(99,102,241,0.05)_0%,transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(139,92,246,0.05)_0%,transparent_50%)]" />
-        
-        {/* Particle Field */}
-        {Array.from({ length: 30 }).map((_, i) => (
-          <motion.div
-            key={`particle-${i}`}
-            className="absolute w-[1px] h-[1px] bg-indigo-300/30 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0.1, 0.8, 0.1],
-              scale: [1, 1.5, 1]
-            }}
-            transition={{
-              duration: 2 + Math.random() * 3,
-              repeat: Infinity,
-              delay: i * 0.1,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
+    <section className="bg-white py-24 overflow-hidden">
+      {/* Simple background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 to-white -z-10" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header - Dark Theme */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          className="text-center mb-16"
-        >
-          {/* Trustpilot Verified Badge */}
+        
+        {/* Header */}
+        <div className="max-w-3xl mx-auto text-center mb-16">
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-indigo-100/80 to-purple-100/80 backdrop-blur-xl rounded-full border border-indigo-200/50 shadow-luxury mb-6"
+            className="mb-4"
           >
-            <motion.div
-              animate={{
-                rotate: [0, 360]
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            >
-              <CheckCircle className="w-4 h-4 text-indigo-600" />
-            </motion.div>
-            <span className="text-sm font-semibold text-indigo-700 uppercase tracking-wider">
-              VERIFIED TESTIMONIALS
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-medium">
+              <CheckCircle className="w-4 h-4" />
+              Verified Testimonials
             </span>
-            <div className="text-xs text-indigo-600/70">• 4.8/5 Rating</div>
           </motion.div>
-          
+
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6"
-            style={{ fontFamily: 'Playfair Display, serif' }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-light text-slate-900 mb-6"
           >
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
-              Transformative
-            </span>{' '}
-            <span className="text-slate-900">Outcomes</span>
+            Transformative
+            <span className="block font-medium mt-2 text-slate-700">
+              Outcomes
+            </span>
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-slate-700 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg text-slate-500 leading-relaxed"
           >
-            Discover how distinguished professionals achieved remarkable career transformations through 
-            Synergy Scholars Academia's world-class programs and personalized mentorship.
+            Discover how distinguished professionals achieved remarkable career transformations through
+            our world-class programs and personalized mentorship.
           </motion.p>
-        </motion.div>
+        </div>
 
-        {/* Real Testimonials Grid - Using Trustpilot Data */}
+        {/* Testimonials Grid */}
         <div ref={ref}>
           <motion.div
             variants={containerVariants}
@@ -193,299 +139,127 @@ function Testimonials() {
               <motion.div
                 key={testimonial.id}
                 variants={itemVariants}
-                whileHover={{ 
-                  y: -12,
-                  scale: 1.02,
-                  transition: { duration: 0.3 }
-                }}
-                onMouseEnter={() => setActiveIndex(index)}
-                className="group relative"
+                className="group"
               >
-                {/* Card Container - Light Glass Morphism */}
-                <div className="relative h-full bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-200/50 p-6 shadow-luxury hover:shadow-luxury-lg transition-all duration-300 overflow-hidden">
+                {/* Card */}
+                <div className="h-full bg-white border border-slate-200 rounded-xl p-6 hover:border-slate-300 hover:shadow-sm transition-all duration-200">
                   
-                  {/* Animated Background Gradient */}
-                  <motion.div
-                    className={`absolute inset-0 bg-gradient-to-br ${getProgramColor(testimonial.course)} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
-                    initial={false}
-                  />
-                  
-                  {/* Quote Icon */}
-                  <motion.div
-                    className="absolute top-6 right-6 text-indigo-200 group-hover:text-indigo-400 transition-colors duration-300"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Quote className="w-12 h-12" />
-                  </motion.div>
-
-                  {/* Student Info with Real Data */}
-                  <div className="flex items-center mb-6">
-                    <div className="relative">
-                      {/* Profile Image with Country Flag Border */}
-                      <div className={`p-0.5 rounded-full bg-gradient-to-r ${getProgramColor(testimonial.course)}`}>
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      {/* Avatar */}
+                      <div className="relative">
                         <img
                           src={testimonial.image}
                           alt={testimonial.name}
-                          className="w-16 h-16 rounded-full object-cover border-4 border-white"
+                          className="w-12 h-12 rounded-full object-cover border-2 border-white"
                           onError={(e) => {
                             e.target.onerror = null;
                             const initials = testimonial.name.split(' ').map(n => n[0]).join('').toUpperCase();
-                            e.target.src = `https://ui-avatars.com/api/?name=${initials}&background=0f172a&color=60a5fa&bold=true`;
+                            e.target.src = `https://ui-avatars.com/api/?name=${initials}&background=0f172a&color=fff&bold=true`;
                           }}
                         />
                       </div>
-                      {/* Country Badge */}
-                      <div className="absolute -bottom-1 -right-1 px-1.5 py-0.5 bg-white rounded text-xs font-medium text-slate-700 border border-gray-200 shadow-sm">
-                        {testimonial.location}
+                      
+                      <div>
+                        <h4 className="text-sm font-semibold text-slate-900">{testimonial.name}</h4>
+                        <div className="flex items-center gap-1 text-xs text-slate-500 mt-0.5">
+                          <GraduationCap className="w-3 h-3" />
+                          <span className="truncate max-w-[120px]">{testimonial.course}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="ml-4">
-                      <h4 className="text-lg font-bold text-slate-900">{testimonial.name}</h4>
-                      <div className="flex items-center gap-2 text-sm text-slate-600">
-                        <GraduationCap className="w-4 h-4 text-indigo-600" />
-                        <span>{testimonial.course}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
-                        <span>{testimonial.reviewsCount}</span>
-                        <span>•</span>
-                        <span>{testimonial.date}</span>
-                      </div>
-                    </div>
+                    
+                    {/* Quote icon */}
+                    <Quote className="w-8 h-8 text-slate-200" />
                   </div>
 
                   {/* Rating */}
-                  <div className="flex items-center gap-1 mb-4">
+                  <div className="flex items-center gap-1 mb-3">
                     {renderStars(testimonial.rating)}
-                    <span className="ml-2 text-sm font-medium text-slate-700">
-                      {testimonial.rating}.0/5.0
+                    <span className="ml-2 text-xs text-slate-400">
+                      {testimonial.rating}.0
                     </span>
-                    <div className="ml-auto text-xs text-indigo-600 font-medium flex items-center gap-1">
-                      <CheckCircle className="w-3 h-3" />
-                      Verified
-                    </div>
                   </div>
 
                   {/* Testimonial Text */}
-                  <p className="text-slate-700 mb-6 leading-relaxed relative z-10 italic">
+                  <p className="text-sm text-slate-600 mb-4 line-clamp-3">
                     "{testimonial.text}"
                   </p>
 
-                  {/* Program Details */}
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${getProgramColor(testimonial.course)}`} />
-                      <span className="text-sm font-semibold text-slate-700">
-                        {testimonial.course}
-                      </span>
+                  {/* Meta Info */}
+                  <div className="flex items-center justify-between text-xs text-slate-400 pt-4 border-t border-slate-100">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      <span>{testimonial.date}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
-                      <Globe className="w-4 h-4" />
-                      {getCountryName(testimonial.location)}
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      <span>{getCountryName(testimonial.location)}</span>
                     </div>
-                  </div>
-
-                  {/* Success Metrics */}
-                  <div className="grid grid-cols-3 gap-3 pt-6 border-t border-gray-200">
-                    <div className="text-center">
-                      <div className="flex justify-center mb-1">
-                        <Award className="w-4 h-4 text-indigo-600" />
-                      </div>
-                      <div className="text-sm font-semibold text-slate-900">
-                        {testimonial.course.includes('PhD') ? 'PhD' : testimonial.course.includes('DBA') ? 'DBA' : 'Program'}
-                      </div>
-                      <div className="text-xs text-slate-600">Achieved</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="flex justify-center mb-1">
-                        <Calendar className="w-4 h-4 text-purple-600" />
-                      </div>
-                      <div className="text-sm font-semibold text-slate-900">
-                        {testimonial.date.includes('days') ? 'Recent' : testimonial.date.includes('2025') ? '2025' : 'Verified'}
-                      </div>
-                      <div className="text-xs text-slate-600">Review</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="flex justify-center mb-1">
-                        <MapPin className="w-4 h-4 text-pink-600" />
-                      </div>
-                      <div className="text-sm font-semibold text-slate-900">
-                        {getCountryName(testimonial.location)}
-                      </div>
-                      <div className="text-xs text-slate-600">Location</div>
+                    <div className="flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3 text-emerald-500" />
+                      <span className="text-emerald-600">Verified</span>
                     </div>
                   </div>
-
-                  {/* Hover Glow Effect */}
-                  <motion.div
-                    className="absolute inset-0 rounded-2xl"
-                    animate={activeIndex === index ? {
-                      boxShadow: `inset 0 0 0 1px rgba(59, 130, 246, 0.3), 0 0 40px ${getProgramColor(testimonial.course).split(' ')[1].replace('from-', 'rgba(59,130,246,0.1)')}`
-                    } : {}}
-                    transition={{ duration: 0.3 }}
-                  />
-
-                  {/* Verified Badge */}
-                  {testimonial.useful && (
-                    <div className="absolute top-3 left-3">
-                      <div className="flex items-center gap-1 px-2 py-1 bg-indigo-100/80 rounded-lg backdrop-blur-sm border border-indigo-200/50">
-                        <Star className="w-3 h-3 text-indigo-600" />
-                        <span className="text-xs text-indigo-700 font-medium">Verified</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
 
-        {/* Real Statistics Section - Based on Trustpilot */}
+        {/* Stats Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.6 }}
-          className="mt-20"
+          transition={{ delay: 0.4 }}
+          className="mt-16"
         >
-          <div className="bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-200/50 p-8 shadow-luxury-lg">
+          <div className="bg-slate-50 rounded-xl p-8 border border-slate-200">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { 
-                  value: '4.8/5', 
-                  label: 'Excellence Rating', 
-                  icon: '⭐', 
-                  color: 'text-indigo-600',
-                  description: 'Based on 150+ reviews'
-                },
-                { 
-                  value: '98%', 
-                  label: 'Satisfaction Rate', 
-                  icon: '🎯', 
-                  color: 'text-purple-600',
-                  description: 'Highly satisfied scholars'
-                },
-                { 
-                  value: '75+', 
-                  label: 'Global Reach', 
-                  icon: '🌍', 
-                  color: 'text-pink-600',
-                  description: 'Countries served'
-                },
-                { 
-                  value: 'Elite', 
-                  label: 'Program Quality', 
-                  icon: '🎓', 
-                  color: 'text-indigo-600',
-                  description: 'World-class standards'
-                },
+                { value: '4.8/5', label: 'Overall Rating', sub: '150+ reviews' },
+                { value: '98%', label: 'Satisfaction', sub: 'Highly satisfied' },
+                { value: '75+', label: 'Countries', sub: 'Global reach' },
+                { value: 'Elite', label: 'Quality', sub: 'World-class' },
               ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.7 + index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="text-center"
-                >
-                  <div className={`text-3xl mb-2 ${stat.color}`}>{stat.icon}</div>
-                  <div className="text-3xl font-bold text-slate-900 mb-1">{stat.value}</div>
-                  <div className="text-sm text-slate-700 font-medium mb-1">{stat.label}</div>
-                  <div className="text-xs text-slate-600">{stat.description}</div>
-                </motion.div>
+                <div key={index} className="text-center">
+                  <div className="text-2xl font-light text-slate-900 mb-1">{stat.value}</div>
+                  <div className="text-xs font-medium text-slate-500 mb-0.5">{stat.label}</div>
+                  <div className="text-[10px] text-slate-400">{stat.sub}</div>
+                </div>
               ))}
             </div>
           </div>
         </motion.div>
 
-        {/* Navigation Dots for Mobile */}
-        <div className="flex justify-center gap-2 mt-8 md:hidden">
-          {realTestimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                const element = document.getElementById(`testimonial-${index}`);
-                element?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              }}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                activeIndex === index 
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 w-6' 
-                  : 'bg-gray-300'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* CTA Section - Trustpilot Verification */}
+        {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.8 }}
-          className="mt-20 text-center"
+          transition={{ delay: 0.5 }}
+          className="mt-16 text-center"
         >
-          <div className="inline-block max-w-2xl">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <CheckCircle className="w-6 h-6 text-indigo-600" />
-              <h3 className="text-2xl font-bold text-slate-900" style={{ fontFamily: 'Playfair Display, serif' }}>
-                Verified by Distinguished Professionals
-              </h3>
-            </div>
-            <p className="text-slate-700 mb-6">
-              Join thousands of accomplished professionals who chose Synergy Scholars Academia for their transformative academic journey. 
-              Explore our comprehensive collection of verified success stories.
+          <div className="max-w-xl mx-auto">
+            <h3 className="text-xl font-light text-slate-900 mb-3">
+              Join our community of distinguished professionals
+            </h3>
+            <p className="text-sm text-slate-500 mb-6">
+              Explore our collection of verified success stories from around the world.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white font-semibold rounded-lg shadow-luxury-lg hover:shadow-luxury-lg transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <CheckCircle className="w-5 h-5" />
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button className="px-6 py-3 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors">
                 View All Testimonials
-              </motion.button>
-              <motion.a
-                href="/contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 bg-white text-slate-900 font-semibold rounded-lg border-2 border-indigo-200 hover:border-indigo-400 transition-all duration-300 flex items-center justify-center gap-2 shadow-luxury"
-              >
-                <span className="text-indigo-600">⭐</span>
+              </button>
+              <button className="px-6 py-3 bg-white text-slate-700 text-sm font-medium rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors">
                 Share Your Story
-              </motion.a>
+              </button>
             </div>
           </div>
         </motion.div>
       </div>
-
-      {/* Floating Elements - Light Theme */}
-      <motion.div
-        className="absolute top-40 right-10 w-3 h-3 bg-indigo-300/40 rounded-full hidden md:block"
-        animate={{
-          y: [0, -20, 0],
-          opacity: [0.3, 0.8, 0.3]
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 3,
-          ease: "easeInOut"
-        }}
-      />
-      <motion.div
-        className="absolute bottom-40 left-10 w-4 h-4 bg-purple-300/40 rounded-full hidden md:block"
-        animate={{
-          y: [0, 20, 0],
-          opacity: [0.3, 0.8, 0.3]
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 4,
-          ease: "easeInOut",
-          delay: 1
-        }}
-      />
     </section>
   );
 }

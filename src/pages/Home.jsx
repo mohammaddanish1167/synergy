@@ -41,8 +41,7 @@ function Home() {
       {/* Success Stories - Transformative Outcomes */}
       <Testimonials testimonials={testimonials} />
 
-      {/* Global Reach - International Presence */}
-      <WorldMapConnections/>
+
 
       {/* Frequently Asked Questions - Comprehensive Guidance */}
       <FAQ faqs={faqs} />

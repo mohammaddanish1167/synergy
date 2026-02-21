@@ -1,215 +1,83 @@
-/**
- * Premium Footer Component - Synergy Scholars Academia
- * Luxury design with elite academic branding and comprehensive information
- */
-
 import { Link } from 'react-router-dom';
 import logoImage from '../assets/logo.png';
-import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
 
-function Footer() {
-  const currentYear = 2025;
-
-  const socialLinks = [
-    {
-      name: 'Instagram',
-      icon: <Instagram className="w-5 h-5" />,
-      url: 'https://www.instagram.com/synergy_scholars_academia?utm_source=qr&igsh=MXBvbW1xc2dhN3FybQ=='
-    },
-    {
-      name: 'Facebook',
-      icon: <Facebook className="w-5 h-5" />,
-      url: 'http://facebook.com/people/Synergy-Scholars-Academia/61587252902623/?rdid=RihUW1LnqgnQ63gT&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17RbbMokyK%2F'
-    },
-    {
-      name: 'LinkedIn',
-      icon: <Linkedin className="w-5 h-5" />,
-      url: ''
-    }
-  ];
+function FooterCentered() {
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-b from-slate-50 via-white to-cream-50 text-slate-700 border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-        {/* Main Footer Grid - 4 columns layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-
-          {/* Column 1: Brand Logo and Description - ENLARGED LOGO */}
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <div className="flex items-center mb-4">
-                <img
-                  src={logoImage}
-                  alt="Synergy Scholars Academia Logo"
-                  className="h-48 w-auto brightness-110 contrast-125 object-contain max-w-full"
-                />
-              </div>
-              <div className="mb-4">
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                  Synergy Scholars Academia
-                </h3>
-              </div>
-
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Synergy Scholars Academia represents the pinnacle of elite education, where academic excellence meets transformative mentorship. 
-                We empower ambitious professionals to achieve extraordinary career outcomes through world-class programs, personalized guidance, 
-                and a commitment to unparalleled excellence.
-              </p>
-
-              <div className="flex gap-4 pt-2">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-slate-600 hover:text-indigo-700 transition transform hover:scale-110"
-                    aria-label={social.name}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Column 2: Quick Links */}
-          <div className="space-y-6">
-            <h3 className="text-slate-900 font-bold text-lg uppercase tracking-wide mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Quick Links
-            </h3>
-            <div className="space-y-4">
-              {[
-                { label: 'Home', to: '/' },
-                { label: 'About Us', to: '/about' },
-                { label: 'Contact Us', to: '/contact' }
-              ].map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.to}
-                  className="text-slate-600 hover:text-indigo-700 text-base block transition hover:translate-x-2 hover:font-medium"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Column 3: Programs */}
-          <div className="space-y-6">
-            <h3 className="text-slate-900 font-bold text-lg uppercase tracking-wide mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Elite Programs
-            </h3>
-            <div className="space-y-4">
-              {[
-                { name: 'Honorary Doctorate', slug: 'honorary-doctorate' },
-                { name: 'Honorary Professorship', slug: 'honorary-professorship' },
-                { name: 'PhD Programs', slug: 'phd' },
-                { name: 'MBA Programs', slug: 'mba' },
-                { name: 'DBA Programs', slug: 'dba' }
-              ].map((course) => (
-                <Link
-                  key={course.slug}
-                  to={`/${course.slug}`}
-                  className="text-slate-600 hover:text-indigo-700 text-base block transition hover:translate-x-2 hover:font-medium"
-                >
-                  {course.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Column 4: Contact Information */}
-          <div className="space-y-6">
-            <h3 className="text-slate-900 font-bold text-lg uppercase tracking-wide mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Contact Info
-            </h3>
-
-            <div className="space-y-6">
-              
-              {/* UK Office */}
-              <div className="space-y-2">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-slate-800 text-sm">UNITED KINGDOM</p>
-                    <p className="text-slate-600 text-sm leading-relaxed mt-1">
-                      Synergy Scholars Academia Limited<br />
-                      124 City Road, London<br />
-                      EC1V 2NX
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* US Office */}
-              <div className="space-y-2">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-slate-800 text-sm">UNITED STATES</p>
-                    <p className="text-slate-600 text-sm leading-relaxed mt-1">
-                      Synergy Scholars Academia LLC<br />
-                      30 N Gould St Ste R<br />
-                      Sheridan WY 82801
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Contact Details */}
-              <div className="space-y-4 pt-4 border-t border-gray-200/50">
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-indigo-600 flex-shrink-0" />
-                  <div>
-                    <a href="tel:+19177304763" className="text-slate-600 hover:text-indigo-700 text-sm transition block">
-                      +1 9177304763
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-indigo-600 flex-shrink-0" />
-                  <a href="mailto:info@synergyscholars.com" className="text-slate-600 hover:text-indigo-700 text-sm transition">
-                    info@synergyscholars.com
-                  </a>
-                </div>
-              </div>
-
-              {/* Contact CTA */}
-              <div className="pt-4">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 text-sm font-medium hover:gap-3 transition-all"
-                >
-                  Need assistance? Contact our elite team →
-                </Link>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Divider */}
-        <div className="border-t border-gray-200 mb-8"></div>
-
-        {/* Bottom Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <p className="text-slate-600 text-sm">
-            &copy; {currentYear} Synergy Scholars Academia. All rights reserved.
+    <footer className="bg-white border-t border-slate-200">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+        {/* Centered brand */}
+        <div className="text-center mb-12">
+          <img src={logoImage} alt="Synergy Scholars" className="h-16 w-auto mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-slate-900 mb-3">Synergy Scholars Academia</h3>
+          <p className="text-sm text-slate-500 max-w-2xl mx-auto">
+            Empowering ambitious professionals to achieve extraordinary career outcomes through world-class programs and personalized guidance.
           </p>
+        </div>
 
-          <div className="flex flex-wrap gap-6 text-sm justify-end">
-            <Link to="/privacy-policy" className="text-slate-600 hover:text-indigo-700 transition hover:font-medium">Privacy Policy</Link>
-            <Link to="/terms-and-conditions" className="text-slate-600 hover:text-indigo-700 transition hover:font-medium">Terms & Conditions</Link>
-            <Link to="/refund-policy" className="text-slate-600 hover:text-indigo-700 transition hover:font-medium">Refund Policy</Link>
+        {/* Social links */}
+        <div className="flex justify-center gap-3 mb-12">
+          <a href="https://www.instagram.com/synergy_scholars_academia" target="_blank" rel="noopener noreferrer" 
+             className="w-10 h-10 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors flex items-center justify-center">
+            <Instagram className="w-4 h-4" />
+          </a>
+          <a href="http://facebook.com/people/Synergy-Scholars-Academia/61587252902623/" target="_blank" rel="noopener noreferrer"
+             className="w-10 h-10 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors flex items-center justify-center">
+            <Facebook className="w-4 h-4" />
+          </a>
+          <a href="#" className="w-10 h-10 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors flex items-center justify-center">
+            <Linkedin className="w-4 h-4" />
+          </a>
+        </div>
+
+        {/* Links in rows */}
+        <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 mb-12">
+          <Link to="/" className="text-sm text-slate-500 hover:text-slate-900">Home</Link>
+          <Link to="/about" className="text-sm text-slate-500 hover:text-slate-900">About</Link>
+          <Link to="/contact" className="text-sm text-slate-500 hover:text-slate-900">Contact</Link>
+          <Link to="/honorary-doctorate" className="text-sm text-slate-500 hover:text-slate-900">Honorary Doctorate</Link>
+          <Link to="/phd" className="text-sm text-slate-500 hover:text-slate-900">PhD</Link>
+          <Link to="/mba" className="text-sm text-slate-500 hover:text-slate-900">MBA</Link>
+          <Link to="/dba" className="text-sm text-slate-500 hover:text-slate-900">DBA</Link>
+        </div>
+
+        {/* Contact info */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12">
+          <div className="text-center">
+            <MapPin className="w-5 h-5 text-slate-400 mx-auto mb-2" />
+            <p className="text-xs text-slate-500">UK Office</p>
+            <p className="text-sm text-slate-700">124 City Road, London EC1V 2NX</p>
+          </div>
+          <div className="text-center">
+            <MapPin className="w-5 h-5 text-slate-400 mx-auto mb-2" />
+            <p className="text-xs text-slate-500">US Office</p>
+            <p className="text-sm text-slate-700">30 N Gould St, Sheridan WY 82801</p>
+          </div>
+          <div className="text-center">
+            <Phone className="w-5 h-5 text-slate-400 mx-auto mb-2" />
+            <p className="text-xs text-slate-500">Contact</p>
+            <p className="text-sm text-slate-700">+1 (917) 730-4763</p>
+            <p className="text-sm text-slate-700">info@synergyscholars.com</p>
           </div>
         </div>
 
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-slate-200 text-center">
+          <p className="text-xs text-slate-400 mb-4">
+            © {currentYear} Synergy Scholars Academia. All rights reserved.
+          </p>
+          <div className="flex justify-center gap-6">
+            <Link to="/privacy-policy" className="text-xs text-slate-400 hover:text-slate-600">Privacy</Link>
+            <Link to="/terms-and-conditions" className="text-xs text-slate-400 hover:text-slate-600">Terms</Link>
+            <Link to="/refund-policy" className="text-xs text-slate-400 hover:text-slate-600">Refund</Link>
+          </div>
+        </div>
       </div>
     </footer>
   );
 }
 
-export default Footer;
+export default FooterCentered;
