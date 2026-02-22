@@ -38,8 +38,9 @@ function Home() {
       {/* Hiring Partners - Career Connections */}
       <HiringPartners />
 
-      {/* Success Stories - Transformative Outcomes */}
+      {/* Success Stories - Transformative Outcomes 
       <Testimonials testimonials={testimonials} />
+      */}
 
 
 

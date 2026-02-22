@@ -281,8 +281,9 @@ function About() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Testimonials 
       <Testimonials />
+      */}
 
       {/* Simple footer */}
       <footer className="border-t border-gray-100 py-8 px-4 sm:px-6 lg:px-8">

@@ -339,7 +339,7 @@ function Payment() {
                   </div>
                 </button>
 
-                {/* Credit Card */}
+                {/* Credit Card 
                 <button
                   onClick={handleStripe}
                   disabled={loading}
@@ -365,7 +365,7 @@ function Payment() {
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     )}
                   </div>
-                </button>
+                </button>*/}
               </div>
 
               {/* Amount Display */}
