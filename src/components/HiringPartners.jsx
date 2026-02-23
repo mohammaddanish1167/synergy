@@ -70,7 +70,6 @@ const row1Companies = Object.entries({
   Tesla: "tesla",
   NVIDIA: "nvidia",
   Intel: "intel",
-  Samsung: "samsung",
   Oracle: "oracle",
   Cisco: "cisco",
 }).map(([name, key]) => ({ name, logo: companyLogos[key] }));
@@ -85,8 +84,6 @@ const row2Companies = Object.entries({
   LinkedIn: "linkedin",
   PayPal: "paypal",
   Stripe: "stripe",
-  
- 
 }).map(([name, key]) => ({ name, logo: companyLogos[key] }));
 
 const row3Companies = Object.entries({
