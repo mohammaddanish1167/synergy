@@ -22,18 +22,19 @@ function Home() {
     <div className="min-h-screen bg-gradient-to-br from-white via-indigo-50/5 to-purple-50/5">
       {/* Hero Section - Premium Introduction */}
       <Hero />
+      {/* Partner Institutions - Global Network */}
+      <PartnerOrbit />
 
       {/* Featured Programs - Elite Academic Pathways */}
       <FeaturedCourses/>
 
-      {/* Why Choose Us - Distinguished Advantages */}
-      <WhyChooseUs/>
+      
 
       {/* Application Process - Streamlined Journey */}
       <ApplicationProcess/>
-
-      {/* Partner Institutions - Global Network */}
-      <PartnerOrbit />
+    {/* Why Choose Us - Distinguished Advantages */}
+      <WhyChooseUs/>
+      
 
       {/* Hiring Partners - Career Connections */}
       <HiringPartners />

@@ -77,36 +77,36 @@ function Navbar() {
       path: '/honorary-doctorate', 
       label: 'Honorary Doctorate',
       icon: Award,
-      badge: 'Prestige',
-      description: 'Lifetime achievement recognition'
+      
+      
     },
     { 
       path: '/honorary-professorship', 
       label: 'Honorary Professorship',
       icon: UserCircle,
-      badge: 'Excellence',
-      description: 'Academic distinction'
+      
+      
     },
     { 
       path: '/phd', 
       label: 'PhD Program',
       icon: BookOpen,
-      badge: 'Research',
-      description: 'Doctoral research degrees'
+      
+      
     },
     { 
       path: '/mba', 
       label: 'MBA (Master)',
       icon: Briefcase,
-      badge: 'Leadership',
-      description: 'Business administration'
+      
+      
     },
     { 
       path: '/dba', 
       label: 'DBA Program',
       icon: TrendingUp,
-      badge: 'Executive',
-      description: 'Doctor of Business Admin'
+      
+     
     },
   ];
 
