@@ -17,7 +17,7 @@ function FloatingActionsSimple() {
       >
         {/* WhatsApp button */}
         <motion.a
-          href={`https://wa.me/19177304763?text=Hi%20QualifyLearn%2C%20I%20need%20guidance.`}
+          href={`https://wa.me/447451252032?text=Hi%2C%20I%20need%20guidance.`}
           target="_blank"
           rel="noreferrer"
           whileHover={{ scale: 1.05 }}

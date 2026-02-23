@@ -292,7 +292,7 @@ function About() {
             <div className="w-6 h-6 bg-indigo-600 rounded flex items-center justify-center">
               <span className="text-white font-bold text-xs">S</span>
             </div>
-            <span className="text-sm text-gray-600">© 2024 Synergy Scholars. All rights reserved.</span>
+            <span className="text-sm text-gray-600">© 2024 Synergy Scholars Academia. All rights reserved.</span>
           </div>
           <div className="flex space-x-6">
             <a href="#" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">Privacy</a>

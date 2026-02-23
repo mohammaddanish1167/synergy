@@ -518,6 +518,15 @@ function PhD() {
                     <Phone className="w-4 h-4" />
                     +1 917 730 4763
                   </a>
+                  <a
+                    href="https://wa.me/447451252032"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-3 text-sm text-gray-600 hover:text-indigo-600 transition-colors"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    +44 7451 252032 (WhatsApp)
+                  </a>
                 </div>
               </div>
             </div>

@@ -145,13 +145,13 @@ function Navbar() {
                 ) : (
                   <img 
                     src={logo} 
-                    alt="Synergy Scholars" 
+                    alt="Synergy Scholars Academia" 
                     className="h-10 w-auto"
                     onError={handleLogoError}
                   />
                 )}
                 <span className="text-sm font-medium text-slate-700 hidden sm:block">
-                  Synergy Scholars
+                  Synergy Scholars Academia
                 </span>
               </div>
             </Link>
@@ -234,13 +234,6 @@ function Navbar() {
                 </Link>
               ))}
 
-              {/* CTA Button */}
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent('open-guidance-modal'))}
-                className="ml-2 px-5 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors"
-              >
-                Get Guidance
-              </button>
             </div>
 
             {/* Mobile menu button */}
@@ -291,7 +284,7 @@ function Navbar() {
                           <span className="text-lg font-semibold text-slate-600">SSA</span>
                         </div>
                       ) : (
-                        <img src={logo} alt="Synergy Scholars" className="h-10 w-auto" />
+                        <img src={logo} alt="Synergy Scholars Academia" className="h-10 w-auto" />
                       )}
                       <span className="text-sm font-medium text-slate-700">Menu</span>
                     </div>
@@ -371,24 +364,12 @@ function Navbar() {
                     </Link>
                   ))}
 
-                  {/* CTA */}
-                  <div className="mt-4 pt-4 border-t border-slate-200">
-                    <button
-                      onClick={() => {
-                        setIsOpen(false);
-                        window.dispatchEvent(new CustomEvent('open-guidance-modal'));
-                      }}
-                      className="w-full px-4 py-3 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors"
-                    >
-                      Get Free Guidance
-                    </button>
-                  </div>
                 </div>
 
                 {/* Footer */}
                 <div className="p-4 border-t border-slate-200">
                   <p className="text-xs text-center text-slate-400">
-                    © {new Date().getFullYear()} Synergy Scholars
+                    © {new Date().getFullYear()} Synergy Scholars Academia
                   </p>
                 </div>
               </div>

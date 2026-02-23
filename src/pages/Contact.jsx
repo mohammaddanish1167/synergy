@@ -63,8 +63,8 @@ const ContactPage = () => {
     try {
       const formDataObject = {
         access_key: '39abe0c3-8f53-46e1-831e-74da0d049d2d',
-        subject: 'New Contact Message from Synergy Scholars',
-        from_name: 'Synergy Scholars Website',
+        subject: 'New Contact Message from Synergy Scholars Academia',
+        from_name: 'Synergy Scholars Academia Website',
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -208,6 +208,23 @@ const ContactPage = () => {
                       <p className="text-xs text-gray-500 mb-1">Phone</p>
                       <a href="tel:+19177304763" className="text-sm text-gray-900 hover:text-indigo-600 transition-colors">
                         +1 917 730 4763
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <MessageSquare className="w-4 h-4 text-indigo-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">WhatsApp</p>
+                      <a
+                        href="https://wa.me/447451252032"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sm text-gray-900 hover:text-indigo-600 transition-colors"
+                      >
+                        +44 7451 252032
                       </a>
                     </div>
                   </div>
@@ -399,7 +416,7 @@ const ContactPage = () => {
                       className="mt-1 w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                     />
                     <label htmlFor="consent" className="text-sm text-gray-600">
-                      I agree to receive communications from Synergy Scholars and understand that my information is protected by privacy policy. <span className="text-red-500">*</span>
+                      I agree to receive communications from Synergy Scholars Academia and understand that my information is protected by privacy policy. <span className="text-red-500">*</span>
                     </label>
                   </div>
 
@@ -490,7 +507,7 @@ const ContactPage = () => {
             <div className="w-6 h-6 bg-indigo-600 rounded flex items-center justify-center">
               <span className="text-white font-bold text-xs">S</span>
             </div>
-            <span className="text-sm text-gray-600">© 2024 Synergy Scholars. All rights reserved.</span>
+            <span className="text-sm text-gray-600">© 2024 Synergy Scholars Academia. All rights reserved.</span>
           </div>
           <div className="flex space-x-6">
             <a href="#" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">Privacy</a>

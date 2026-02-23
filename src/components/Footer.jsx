@@ -11,7 +11,7 @@ function FooterCentered() {
         
         {/* Centered brand */}
         <div className="text-center mb-12">
-          <img src={logoImage} alt="Synergy Scholars" className="h-16 w-auto mx-auto mb-4" />
+          <img src={logoImage} alt="Synergy Scholars Academia" className="h-16 w-auto mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-slate-900 mb-3">Synergy Scholars Academia</h3>
           <p className="text-sm text-slate-500 max-w-2xl mx-auto">
             Empowering ambitious professionals to achieve extraordinary career outcomes through world-class programs and personalized guidance.
@@ -60,6 +60,14 @@ function FooterCentered() {
             <Phone className="w-5 h-5 text-slate-400 mx-auto mb-2" />
             <p className="text-xs text-slate-500">Contact</p>
             <p className="text-sm text-slate-700">+1 (917) 730-4763</p>
+            <a
+              href="https://wa.me/447451252032"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm text-slate-700 hover:text-slate-900"
+            >
+              WhatsApp: +44 7451 252032
+            </a>
             <p className="text-sm text-slate-700">info@synergyscholars.com</p>
           </div>
         </div>

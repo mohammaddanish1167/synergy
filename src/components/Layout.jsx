@@ -8,6 +8,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import GuidanceModal from './GuidanceModal';
 import FloatingActions from './FloatingActions';
+import FloatingGuidanceButton from './common/FloatingGuidanceButton';
 
 function Layout() {
   const [openGuidance, setOpenGuidance] = useState(false);
@@ -63,6 +64,7 @@ function Layout() {
 
       {/* Floating actions */}
       <FloatingActions />
+      <FloatingGuidanceButton />
 
       {/* Footer */}
       <Footer />
