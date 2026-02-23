@@ -85,27 +85,11 @@ const row2Companies = Object.entries({
   LinkedIn: "linkedin",
   PayPal: "paypal",
   Stripe: "stripe",
-  Walmart: "walmart",
-  Flipkart: "flipkart",
-  Zomato: "zomato",
-  Swiggy: "swiggy",
+  
+ 
 }).map(([name, key]) => ({ name, logo: companyLogos[key] }));
 
 const row3Companies = Object.entries({
-  Infosys: "infosys",
-  TCS: "tcs",
-  Wipro: "wipro",
-  Accenture: "accenture",
-  Deloitte: "deloitte",
-  EY: "ey",
-  KPMG: "kpmg",
-  Goldman: "goldman",
-  JPMorgan: "jpmorgan",
-  McKinsey: "mckinsey",
-  Capgemini: "capgemini",
-  Cognizant: "cognizant",
-  HCL: "hcl",
-  BYJUS: "byjus",
 }).map(([name, key]) => ({ name, logo: companyLogos[key] }));
 
 /* ================= FALLBACK LOGOS (CDN) ================= */

@@ -77,36 +77,26 @@ function Navbar() {
       path: '/honorary-doctorate', 
       label: 'Honorary Doctorate',
       icon: Award,
-      
-      
     },
     { 
       path: '/honorary-professorship', 
       label: 'Honorary Professorship',
-      icon: UserCircle,
-      
-      
+      icon: UserCircle, 
     },
     { 
       path: '/phd', 
       label: 'PhD Program',
       icon: BookOpen,
-      
-      
     },
     { 
       path: '/mba', 
       label: 'MBA (Master)',
-      icon: Briefcase,
-      
-      
+      icon: Briefcase,  
     },
     { 
       path: '/dba', 
       label: 'DBA Program',
       icon: TrendingUp,
-      
-     
     },
   ];
 

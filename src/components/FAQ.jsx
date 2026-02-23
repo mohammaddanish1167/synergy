@@ -16,7 +16,7 @@ function FAQ() {
   const faqs = [
     {
       id: 1,
-      question: 'How does QualifyLearn help with university selection?',
+      question: 'How does Synergy Scholars Academia help with university selection?',
       answer: 'Our AI-powered matching system analyzes your academic profile, career goals, and personal preferences to recommend the best-fit universities from our database of 500+ global institutions. We provide detailed comparisons, success rates, and alumni outcomes for each recommendation.',
       category: 'admissions',
       icon: <BookOpen className="w-5 h-5" />,
@@ -61,7 +61,7 @@ function FAQ() {
     },
     {
       id: 6,
-      question: 'What makes QualifyLearn different from other consultancies?',
+      question: 'What makes Synergy Scholars Academia different from other consultancies?',
       answer: 'Our unique approach combines AI technology with human expertise, offers 360-degree support from selection to career placement, provides access to 200+ industry mentors, maintains a 98.7% success rate, and offers transparent pricing with a satisfaction guarantee.',
       category: 'general',
       icon: <Users className="w-5 h-5" />,
